@@ -7,7 +7,7 @@
   "mixins": [
   ],
   "client": [
-    "ExampleMixin"
+    "com.nyfaria.nyfspetshop.mixin.ExampleMixin"
   ],
   "injectors": {
     "defaultRequire": 1
