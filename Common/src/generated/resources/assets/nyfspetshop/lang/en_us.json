@@ -1,0 +1,13 @@
+{
+  "block.nyfspetshop.pet_bowl": "Pet Bowl",
+  "entity.nyfspetshop.ball": "Ball",
+  "entity.nyfspetshop.sheltie": "Sheltie",
+  "entity.nyfspetshop.super_mutt": "Super Mutt",
+  "item.nyfspetshop.dog_collar": "Dog Collar",
+  "item.nyfspetshop.tennis_ball": "Tennis Ball",
+  "itemGroup.nyfspetshop": "Nyfs Pet Shop",
+  "movementType.nyfspetshop.follow": "Follow",
+  "movementType.nyfspetshop.stay": "Stay",
+  "movementType.nyfspetshop.wander": "Wander",
+  "player_message.nyfspetshop.movementType": "%s is now commanded to %s"
+}

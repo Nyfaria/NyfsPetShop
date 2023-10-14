@@ -1,13 +1,12 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.nyfaria.nyfsmultiloader.mixin",
+  "package": "com.nyfaria.nyfspetshop.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "${mod_id}.refmap.json",
   "mixins": [
   ],
   "client": [
-    "com.nyfaria.nyfspetshop.mixin.ExampleMixin"
   ],
   "injectors": {
     "defaultRequire": 1

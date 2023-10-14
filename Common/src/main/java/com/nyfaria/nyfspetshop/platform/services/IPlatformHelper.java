@@ -1,5 +1,8 @@
 package com.nyfaria.nyfspetshop.platform.services;
 
+import com.nyfaria.nyfspetshop.entity.enums.MovementType;
+import net.minecraft.network.syncher.EntityDataSerializer;
+
 public interface IPlatformHelper {
 
     /**
@@ -33,4 +36,6 @@ public interface IPlatformHelper {
 
         return isDevelopmentEnvironment() ? "development" : "production";
     }
+
+    EntityDataSerializer<MovementType> getMovementTypeSerializer();
 }

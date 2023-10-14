@@ -1,8 +1,8 @@
 package com.nyfaria.nyfspetshop.init;
 
 import com.google.common.collect.ImmutableSet;
-import com.nyfaria.nyfsmultiloader.registration.RegistrationProvider;
-import com.nyfaria.nyfsmultiloader.registration.RegistryObject;
+import com.nyfaria.nyfspetshop.registration.RegistrationProvider;
+import com.nyfaria.nyfspetshop.registration.RegistryObject;
 import com.nyfaria.nyfspetshop.Constants;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.village.poi.PoiType;

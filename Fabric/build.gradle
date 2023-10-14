@@ -17,12 +17,15 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
     implementation project(":Common")
+    modImplementation "net.tslat.smartbrainlib:SmartBrainLib-fabric-${project.minecraft_version}:${project.sbl_version}"
+    modImplementation "net.tslat.smartbrainlib:SmartBrainLib-common-${project.minecraft_version}:${project.sbl_version}"
+    modImplementation "software.bernie.geckolib:geckolib-fabric-${minecraft_version}:${geckolib_version_fabric}"
 }
 
 loom {
 
-    if (project.hasProperty('common_aws_enabled') && project.findProperty('fabric_aws_enabled').toBoolean()) {
-        accessWidenerPath = project(":Common").file("src/main/resources/mhef.accesswidener")
+    if (project.hasProperty('fabric_aws_enabled') && project.findProperty('fabric_aws_enabled').toBoolean()) {
+        accessWidenerPath = project(":Common").file("src/main/resources/nyfspetshop.accesswidener")
     }
     runs {
         client {

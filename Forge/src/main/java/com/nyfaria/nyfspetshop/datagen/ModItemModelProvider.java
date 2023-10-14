@@ -1,6 +1,8 @@
 package com.nyfaria.nyfspetshop.datagen;
 
 import com.nyfaria.nyfspetshop.Constants;
+import com.nyfaria.nyfspetshop.init.BlockInit;
+import com.nyfaria.nyfspetshop.init.ItemInit;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -9,6 +11,9 @@ import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput generator, ExistingFileHelper existingFileHelper) {
@@ -21,13 +26,17 @@ public class ModItemModelProvider extends ItemModelProvider {
         //         .map(Supplier::get)
         //         .forEach(this::simpleHandHeldModel);
 
-        // Stream.of()
-        //         .map(Supplier::get)
-        //         .forEach(this::simpleGeneratedModel);
+         Stream.of(
+                         ItemInit.TENNIS_BALL
+                 )
+                 .map(Supplier::get)
+                 .forEach(this::simpleGeneratedModel);
 
-        // Stream.of()
-        //         .map(Supplier::get)
-        //         .forEach(this::simpleBlockItemModel);
+         Stream.of(
+                         BlockInit.PET_BOWL
+                 )
+                 .map(Supplier::get)
+                 .forEach(this::simpleBlockItemModel);
     }
 
     protected ItemModelBuilder simpleBlockItemModel(Block block) {

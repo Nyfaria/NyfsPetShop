@@ -1,6 +1,6 @@
 package com.nyfaria.nyfspetshop.datagen;
 
-import com.nyfaria.nyfsmultiloader.registration.RegistryObject;
+import com.nyfaria.nyfspetshop.registration.RegistryObject;
 import com.nyfaria.nyfspetshop.init.BlockInit;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;

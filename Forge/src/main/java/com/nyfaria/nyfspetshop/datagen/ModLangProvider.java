@@ -1,7 +1,7 @@
 package com.nyfaria.nyfspetshop.datagen;
 
 import com.google.common.collect.ImmutableMap;
-import com.nyfaria.nyfsmultiloader.registration.RegistryObject;
+import com.nyfaria.nyfspetshop.registration.RegistryObject;
 import com.nyfaria.nyfspetshop.Constants;
 import com.nyfaria.nyfspetshop.init.BlockInit;
 import com.nyfaria.nyfspetshop.init.EntityInit;
@@ -35,6 +35,10 @@ public class ModLangProvider extends LanguageProvider {
         EntityInit.ENTITIES.getEntries().forEach(this::entityLang);
         BlockInit.BLOCKS.getEntries().forEach(this::blockLang);
         add("itemGroup." + Constants.MODID, Constants.MOD_NAME);
+        add("movementType." + Constants.MODID + ".stay", "Stay");
+        add("movementType." + Constants.MODID + ".follow", "Follow");
+        add("movementType." + Constants.MODID + ".wander", "Wander");
+        add("player_message." + Constants.MODID + ".movementType", "%s is now commanded to %s");
     }
 
     protected void itemLang(RegistryObject<Item> entry) {
