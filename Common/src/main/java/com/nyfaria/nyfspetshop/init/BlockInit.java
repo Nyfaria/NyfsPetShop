@@ -22,7 +22,7 @@ public class BlockInit {
     public static final RegistrationProvider<Block> BLOCKS = RegistrationProvider.get(Registries.BLOCK, Constants.MODID);
     public static final RegistrationProvider<BlockEntityType<?>> BLOCK_ENTITIES = RegistrationProvider.get(Registries.BLOCK_ENTITY_TYPE, Constants.MODID);
 
-    public static final RegistryObject<Block> PET_BOWL = registerBlock("pet_bowl", () -> new PetBowl(Block.Properties.copy(Blocks.RED_WOOL)));
+    public static final RegistryObject<Block> PET_BOWL = registerBlock("pet_bowl", () -> new PetBowl(Block.Properties.copy(Blocks.RED_WOOL).noOcclusion()));
 
 
     public static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
