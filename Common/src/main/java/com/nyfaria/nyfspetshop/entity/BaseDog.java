@@ -1,12 +1,15 @@
 package com.nyfaria.nyfspetshop.entity;
 
 import com.nyfaria.nyfspetshop.entity.ai.FetchBall;
+import com.nyfaria.nyfspetshop.entity.ai.FindWaterBowl;
 import com.nyfaria.nyfspetshop.entity.ai.ModAnimalMakeLove;
 import com.nyfaria.nyfspetshop.entity.ai.ReturnBall;
+import com.nyfaria.nyfspetshop.entity.ai.GoToWaterBowl;
 import com.nyfaria.nyfspetshop.entity.enums.MovementType;
 import com.nyfaria.nyfspetshop.entity.ifaces.Fetcher;
 import com.nyfaria.nyfspetshop.entity.ifaces.Thirsty;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -50,6 +53,7 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty {
 
     public static final EntityDataAccessor<Optional<UUID>> FETCH_TARGET = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.OPTIONAL_UUID);
     public static final EntityDataAccessor<Float> THIRST = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Optional<BlockPos>> FOOD_BOWL_POS = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
 
 
     public BaseDog(EntityType<? extends BasePet> $$0, Level $$1) {
@@ -79,12 +83,14 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(FETCH_TARGET, Optional.empty());
+        this.entityData.define(THIRST, 0.0f);
     }
 
     @Override
     public BrainActivityGroup<? extends BasePet> getCoreTasks() {
         return BrainActivityGroup.coreTasks(
                 new FirstApplicableBehaviour<BaseDog>(
+                        new FindWaterBowl<>(),
                         new FetchBall<>().startCondition(e -> e.getMainHandItem().isEmpty() && ((BasePet) e).getMovementType() != MovementType.STAY),
                         new ReturnBall<>().startCondition(e -> ((BasePet) e).getMovementType() != MovementType.STAY),
                         new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW)),
@@ -101,9 +107,12 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty {
                         new SetPlayerLookTarget<>(),
                         new SetRandomLookTarget<>()
                 ),
+                new FirstApplicableBehaviour<>(
+                        new GoToWaterBowl<>()
+                ),
                 new OneRandomBehaviour<>(
-                        new SetRandomWalkTarget<BaseDog>().speedModifier(1).startCondition(e -> e.getOwner() == null || e.getMovementType() == MovementType.FOLLOW),
-                        new Idle<>().runFor(entity -> entity.getRandom().nextInt(30, 60))
+                        new SetRandomWalkTarget<BaseDog>().speedModifier(1).startCondition(e -> e.getOwner() == null || e.getMovementType() == MovementType.WANDER),
+                        new Idle<BaseDog>().runFor(entity -> entity.getRandom().nextInt(30, 60)).startCondition(e -> e.getMovementType() == MovementType.WANDER)
                 )
         );
     }

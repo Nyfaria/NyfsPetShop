@@ -1,8 +1,10 @@
 package com.nyfaria.nyfspetshop;
 
 import com.nyfaria.nyfspetshop.init.BlockInit;
+import com.nyfaria.nyfspetshop.init.BlockStateInit;
 import com.nyfaria.nyfspetshop.init.EntityInit;
 import com.nyfaria.nyfspetshop.init.ItemInit;
+import com.nyfaria.nyfspetshop.init.MemoryModuleTypeInit;
 import com.nyfaria.nyfspetshop.init.POIInit;
 import com.nyfaria.nyfspetshop.init.VillagerInit;
 
@@ -21,5 +23,7 @@ public class CommonClass {
         EntityInit.loadClass();
         POIInit.loadClass();
         VillagerInit.loadClass();
+        MemoryModuleTypeInit.loadClass();
+        BlockStateInit.loadClass();
     }
 }
