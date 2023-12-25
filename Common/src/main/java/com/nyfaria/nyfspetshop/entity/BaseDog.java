@@ -10,6 +10,7 @@ import com.nyfaria.nyfspetshop.entity.ifaces.Fetcher;
 import com.nyfaria.nyfspetshop.entity.ifaces.Thirsty;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -53,7 +54,6 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty {
 
     public static final EntityDataAccessor<Optional<UUID>> FETCH_TARGET = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.OPTIONAL_UUID);
     public static final EntityDataAccessor<Float> THIRST = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.FLOAT);
-    public static final EntityDataAccessor<Optional<BlockPos>> FOOD_BOWL_POS = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
 
 
     public BaseDog(EntityType<? extends BasePet> $$0, Level $$1) {
@@ -100,6 +100,18 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty {
     }
 
     @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putFloat("thirst", getThirstLevel());
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        setThirstLevel(tag.getFloat("thirst"));
+    }
+
+    @Override
     public BrainActivityGroup<? extends BasePet> getIdleTasks() {
         return BrainActivityGroup.idleTasks(
 
@@ -117,14 +129,7 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty {
         );
     }
 
-//    @Override
-//    public BrainActivityGroup<? extends WolfTwo> getFightTasks() {
-//        return BrainActivityGroup.fightTasks(
-//                new InvalidateAttackTarget<>(),     // Invalidate the attack target if it's no longer applicable
-//                new FirstApplicableBehaviour<>(                                                                                                         // Fire a bow, if holding one
-//                        new AnimatableMeleeAttack<>(0)// Melee attack
-//                ));
-//    }
+
 
 
     @Override

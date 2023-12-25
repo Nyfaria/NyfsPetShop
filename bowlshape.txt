@@ -1,0 +1,13 @@
+public VoxelShape makeShape(){
+	VoxelShape shape = VoxelShapes.empty();
+	shape = VoxelShapes.join(shape, VoxelShapes.box(0.125, 0, 0.125, 0.875, 0.125, 0.875), IBooleanFunction.OR);
+	shape = VoxelShapes.join(shape, VoxelShapes.box(0.75, 0.125, 0.125, 0.875, 0.3125, 0.875), IBooleanFunction.OR);
+	shape = VoxelShapes.join(shape, VoxelShapes.box(0.125, 0.125, 0.125, 0.25, 0.3125, 0.875), IBooleanFunction.OR);
+	shape = VoxelShapes.join(shape, VoxelShapes.box(0.25, 0.125, 0.75, 0.75, 0.3125, 0.875), IBooleanFunction.OR);
+	shape = VoxelShapes.join(shape, VoxelShapes.box(0.25, 0.125, 0.125, 0.75, 0.3125, 0.25), IBooleanFunction.OR);
+	shape = VoxelShapes.join(shape, VoxelShapes.box(0.25, 0.234375, 0.25, 0.75, 0.234375, 0.75), IBooleanFunction.OR);
+	shape = VoxelShapes.join(shape, VoxelShapes.box(0.25, 0.25, 0.25, 0.75, 0.25, 0.75), IBooleanFunction.OR);
+	shape = VoxelShapes.join(shape, VoxelShapes.box(0.25, 0.296875, 0.25, 0.75, 0.296875, 0.75), IBooleanFunction.OR);
+
+	return shape;
+}

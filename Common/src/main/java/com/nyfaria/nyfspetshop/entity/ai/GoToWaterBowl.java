@@ -1,20 +1,21 @@
 package com.nyfaria.nyfspetshop.entity.ai;
 
 import com.mojang.datafixers.util.Pair;
+import com.nyfaria.nyfspetshop.block.PetBowl;
 import com.nyfaria.nyfspetshop.entity.BasePet;
 import com.nyfaria.nyfspetshop.entity.ifaces.Thirsty;
+import com.nyfaria.nyfspetshop.init.BlockStateInit;
 import com.nyfaria.nyfspetshop.init.MemoryModuleTypeInit;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import net.tslat.smartbrainlib.api.core.behaviour.ExtendedBehaviour;
@@ -105,9 +106,15 @@ public class GoToWaterBowl<E extends BasePet & Thirsty> extends ExtendedBehaviou
     protected void stop(E entity) {
         Brain<?> brain = entity.getBrain();
         BlockPos walkTarget = BrainUtils.getMemory(brain, MemoryModuleTypeInit.WATER_BOWL.get()).get();
-        if(hasReachedTarget(entity, walkTarget)){
+        if (hasReachedTarget(entity, walkTarget)) {
             entity.setThirstLevel(entity.getThirstLevel() + 0.2f);
             entity.playSound(SoundEvents.GENERIC_DRINK);
+            BlockState state = entity.level().getBlockState(walkTarget);
+            int fullnessity = state.getValue(BlockStateInit.FULLNESSITY);
+            if (fullnessity <= 1)
+                entity.level().setBlockAndUpdate(walkTarget, state.setValue(BlockStateInit.BOWL_TYPE, PetBowl.Type.EMPTY));
+            else
+                entity.level().setBlockAndUpdate(walkTarget, state.setValue(BlockStateInit.FULLNESSITY, fullnessity - 1));
         }
         if (!entity.getNavigation().isStuck() || !BrainUtils.hasMemory(brain, MemoryModuleTypeInit.WATER_BOWL.get()) || hasReachedTarget(entity, BrainUtils.getMemory(brain, MemoryModuleTypeInit.WATER_BOWL.get()).get()))
             this.cooldownFinishedAt = 0;
