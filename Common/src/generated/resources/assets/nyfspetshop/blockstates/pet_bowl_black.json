@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "bowl_type=empty,fullnessity=0": {
+      "model": "nyfspetshop:block/pet_bowl_empty"
+    },
+    "bowl_type=empty,fullnessity=1": {
+      "model": "nyfspetshop:block/pet_bowl_empty"
+    },
+    "bowl_type=empty,fullnessity=2": {
+      "model": "nyfspetshop:block/pet_bowl_empty"
+    },
+    "bowl_type=empty,fullnessity=3": {
+      "model": "nyfspetshop:block/pet_bowl_empty"
+    },
+    "bowl_type=kibble,fullnessity=0": {
+      "model": "nyfspetshop:block/pet_bowl_empty"
+    },
+    "bowl_type=kibble,fullnessity=1": {
+      "model": "nyfspetshop:block/pet_bowl_kibble_1"
+    },
+    "bowl_type=kibble,fullnessity=2": {
+      "model": "nyfspetshop:block/pet_bowl_kibble_2"
+    },
+    "bowl_type=kibble,fullnessity=3": {
+      "model": "nyfspetshop:block/pet_bowl_kibble_3"
+    },
+    "bowl_type=water,fullnessity=0": {
+      "model": "nyfspetshop:block/pet_bowl_empty"
+    },
+    "bowl_type=water,fullnessity=1": {
+      "model": "nyfspetshop:block/pet_bowl_water_1"
+    },
+    "bowl_type=water,fullnessity=2": {
+      "model": "nyfspetshop:block/pet_bowl_water_2"
+    },
+    "bowl_type=water,fullnessity=3": {
+      "model": "nyfspetshop:block/pet_bowl_water_3"
+    }
+  }
+}

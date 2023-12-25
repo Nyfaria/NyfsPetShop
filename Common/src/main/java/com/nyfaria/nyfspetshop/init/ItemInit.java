@@ -23,7 +23,7 @@ public class ItemInit {
     public static final RegistrationProvider<Item> ITEMS = RegistrationProvider.get(Registries.ITEM, Constants.MODID);
     public static final RegistrationProvider<CreativeModeTab> CREATIVE_MODE_TABS = RegistrationProvider.get(Registries.CREATIVE_MODE_TAB, Constants.MODID);
     public static final RegistryObject<CreativeModeTab> TAB = CREATIVE_MODE_TABS.register(Constants.MODID, () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
-            .icon(() -> new ItemStack(Items.DIRT))
+            .icon(() -> new ItemStack(BlockInit.PET_BOWL.get()))
             .displayItems(
                     (itemDisplayParameters, output) -> {
 //                        ITEMS.getEntries().forEach((registryObject) -> output.accept(new ItemStack(registryObject.get())));
@@ -36,11 +36,13 @@ public class ItemInit {
                                     }
                             );
                         });
+                        BlockInit.pet_bowls.forEach(block->output.accept(block.get()));
                     }).title(Component.translatable("itemGroup." + Constants.MODID + ".tab"))
             .build());
 
     public static final RegistryObject<Item> DOG_COLLAR = registerDogCollar("dog_collar", getItemProperties(Rarity.COMMON));
     public static final RegistryObject<Item> TENNIS_BALL = ITEMS.register("tennis_ball", () -> new BallItem(getItemProperties(Rarity.COMMON).stacksTo(1)));
+    public static final RegistryObject<Item> KIBBLE = ITEMS.register("kibble", () -> new Item(getItemProperties(Rarity.COMMON).stacksTo(16)));
 
     public static RegistryObject<Item> registerDogCollar(String name, Item.Properties properties) {
         RegistryObject<Item> item = ITEMS.register(name, () -> new PetItem(properties));

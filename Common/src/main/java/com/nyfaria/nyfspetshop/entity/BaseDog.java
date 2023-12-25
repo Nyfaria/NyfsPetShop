@@ -1,15 +1,16 @@
 package com.nyfaria.nyfspetshop.entity;
 
+import com.nyfaria.nyfspetshop.block.PetBowl;
 import com.nyfaria.nyfspetshop.entity.ai.FetchBall;
-import com.nyfaria.nyfspetshop.entity.ai.FindWaterBowl;
+import com.nyfaria.nyfspetshop.entity.ai.FindBowl;
+import com.nyfaria.nyfspetshop.entity.ai.GoToBowl;
 import com.nyfaria.nyfspetshop.entity.ai.ModAnimalMakeLove;
 import com.nyfaria.nyfspetshop.entity.ai.ReturnBall;
-import com.nyfaria.nyfspetshop.entity.ai.GoToWaterBowl;
 import com.nyfaria.nyfspetshop.entity.enums.MovementType;
 import com.nyfaria.nyfspetshop.entity.ifaces.Fetcher;
+import com.nyfaria.nyfspetshop.entity.ifaces.Hungry;
 import com.nyfaria.nyfspetshop.entity.ifaces.Thirsty;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -46,7 +47,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class BaseDog extends BasePet implements Fetcher, Thirsty {
+public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
     private static final String MOVE_CONTROLLER = "move_controller";
     private static final String TAIL_CONTROLLER = "tail_controller";
     private static final String EAR_CONTROLLER = "ear_controller";
@@ -54,6 +55,7 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty {
 
     public static final EntityDataAccessor<Optional<UUID>> FETCH_TARGET = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.OPTIONAL_UUID);
     public static final EntityDataAccessor<Float> THIRST = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Float> HUNGER = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.FLOAT);
 
 
     public BaseDog(EntityType<? extends BasePet> $$0, Level $$1) {
@@ -83,18 +85,21 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(FETCH_TARGET, Optional.empty());
-        this.entityData.define(THIRST, 0.0f);
+        this.entityData.define(THIRST, 1.0f);
+        this.entityData.define(HUNGER, 1.0f);
     }
 
     @Override
     public BrainActivityGroup<? extends BasePet> getCoreTasks() {
         return BrainActivityGroup.coreTasks(
                 new FirstApplicableBehaviour<BaseDog>(
-                        new FindWaterBowl<>(),
+                        new FindBowl<BaseDog>(PetBowl.Type.WATER).startCondition(e -> e.getThirstLevel() <= 0.8f),
+                        new FindBowl<BaseDog>(PetBowl.Type.KIBBLE).startCondition(e -> e.getHungerLevel() <= 0.2f),
                         new FetchBall<>().startCondition(e -> e.getMainHandItem().isEmpty() && ((BasePet) e).getMovementType() != MovementType.STAY),
                         new ReturnBall<>().startCondition(e -> ((BasePet) e).getMovementType() != MovementType.STAY),
                         new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW)),
                 new LookAtTarget<BasePet>().runFor(entity -> entity.getRandom().nextIntBetweenInclusive(40, 300)),
+                new GoToBowl<>(),
                 new MoveToWalkTarget<>().startCondition(e -> ((BasePet) e).getMovementType() != MovementType.STAY),
                 new ModAnimalMakeLove<>(getType(), 1.0f).startCondition(e -> ((BasePet) e).getMovementType() != MovementType.STAY));                                                                                    // Move to the current walk target
     }
@@ -103,12 +108,23 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putFloat("thirst", getThirstLevel());
+        tag.putFloat("hunger", getHungerLevel());
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         setThirstLevel(tag.getFloat("thirst"));
+        setHungerLevel(tag.getFloat("hunger"));
+    }
+
+    @Override
+    public void performBowlAction(PetBowl.Type type) {
+        if (type == PetBowl.Type.WATER) {
+            setThirstLevel(getThirstLevel() + 0.2f);
+        } else if (type == PetBowl.Type.KIBBLE) {
+            setHungerLevel(getHungerLevel() + 0.8f);
+        }
     }
 
     @Override
@@ -119,17 +135,12 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty {
                         new SetPlayerLookTarget<>(),
                         new SetRandomLookTarget<>()
                 ),
-                new FirstApplicableBehaviour<>(
-                        new GoToWaterBowl<>()
-                ),
                 new OneRandomBehaviour<>(
                         new SetRandomWalkTarget<BaseDog>().speedModifier(1).startCondition(e -> e.getOwner() == null || e.getMovementType() == MovementType.WANDER),
                         new Idle<BaseDog>().runFor(entity -> entity.getRandom().nextInt(30, 60)).startCondition(e -> e.getMovementType() == MovementType.WANDER)
                 )
         );
     }
-
-
 
 
     @Override
@@ -157,11 +168,12 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty {
     @Override
     public void aiStep() {
         super.aiStep();
-        if(level().isClientSide)return;
-        if(tickCount % 20 == 0 && getRandom().nextFloat() < 0.01){
+        if (level().isClientSide) return;
+        if (tickCount % 20 == 0 && getRandom().nextFloat() < 0.01) {
             triggerAnim(EAR_CONTROLLER, "ear_wiggle");
         }
         tickThirst();
+        tickHunger();
     }
 
     private PlayState earControllerState(AnimationState<BaseDog> baseDogAnimationState) {
@@ -220,6 +232,26 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty {
         if (level().isClientSide) return;
         if (tickCount % 40 == 0 && getThirstLevel() > 0) {
             setThirstLevel(getThirstLevel() - 0.01f);
+        }
+    }
+
+    @Override
+    public float getHungerLevel() {
+        float hungerLevel = this.entityData.get(HUNGER);
+        return hungerLevel;
+    }
+
+    @Override
+    public void setHungerLevel(float hungerLevel) {
+        this.entityData.set(HUNGER, hungerLevel);
+    }
+
+    @Override
+    public void tickHunger() {
+
+        if (level().isClientSide) return;
+        if (tickCount % 40 == 0 && getHungerLevel() > 0) {
+            setHungerLevel(getHungerLevel() - 0.01f);
         }
     }
 }

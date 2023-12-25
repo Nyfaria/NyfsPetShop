@@ -30,7 +30,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         //
         // ).map(Supplier::get)
         //         .forEach(this::simpleBlock);
-        petBowl(BlockInit.PET_BOWL.get());
+        BlockInit.pet_bowls.forEach(
+                block -> petBowl(block.get())
+        );
+//        petBowl(BlockInit.PET_BOWL.get());
     }
 
     protected void simpleCubeBottomTopBlockState(Block block) {
@@ -49,7 +52,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void petBowl(Block block) {
         getVariantBuilder(block).forAllStates(state ->
                 ConfiguredModel.builder()
-                        .modelFile(models().getExistingFile(modLoc("block/" + ((state.getValue(BlockStateInit.FULLNESSITY) == 0 || state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.EMPTY) ? "pet_bowl_empty" : getName(block) + "_" + state.getValue(BlockStateInit.BOWL_TYPE).getSerializedName() + "_" + state.getValue(BlockStateInit.FULLNESSITY)))))
+                        .modelFile(models().getExistingFile(modLoc("block/" + ((state.getValue(BlockStateInit.FULLNESSITY) == 0 || state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.EMPTY) ? "pet_bowl_empty" : "pet_bowl_" + state.getValue(BlockStateInit.BOWL_TYPE).getSerializedName() + "_" + state.getValue(BlockStateInit.FULLNESSITY)))))
                         .build());
     }
 

@@ -24,8 +24,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class GoToWaterBowl<E extends BasePet & Thirsty> extends ExtendedBehaviour<E> {
-    private static final List<Pair<MemoryModuleType<?>, MemoryStatus>> MEMORY_REQUIREMENTS = ObjectArrayList.of(Pair.of(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryStatus.REGISTERED), Pair.of(MemoryModuleType.PATH, MemoryStatus.VALUE_ABSENT), Pair.of(MemoryModuleTypeInit.WATER_BOWL.get(), MemoryStatus.VALUE_PRESENT));
+public class GoToBowl<E extends BasePet> extends ExtendedBehaviour<E> {
+    private static final List<Pair<MemoryModuleType<?>, MemoryStatus>> MEMORY_REQUIREMENTS = ObjectArrayList.of(Pair.of(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryStatus.REGISTERED), Pair.of(MemoryModuleType.PATH, MemoryStatus.VALUE_ABSENT), Pair.of(MemoryModuleTypeInit.BOWL_POS.get(), MemoryStatus.VALUE_PRESENT));
 
     @Nullable
     protected Path path;
@@ -33,7 +33,7 @@ public class GoToWaterBowl<E extends BasePet & Thirsty> extends ExtendedBehaviou
     protected BlockPos lastTargetPos;
     protected float speedModifier;
 
-    public GoToWaterBowl() {
+    public GoToBowl() {
         runFor(entity -> entity.getRandom().nextInt(100) + 150);
         cooldownFor(entity -> entity.getRandom().nextInt(40));
     }
@@ -46,15 +46,17 @@ public class GoToWaterBowl<E extends BasePet & Thirsty> extends ExtendedBehaviou
     @Override
     protected boolean checkExtraStartConditions(ServerLevel level, E entity) {
         Brain<?> brain = entity.getBrain();
-        BlockPos walkTarget = BrainUtils.getMemory(brain, MemoryModuleTypeInit.WATER_BOWL.get()).get();
+        BlockPos walkTarget = BrainUtils.getMemory(brain, MemoryModuleTypeInit.BOWL_POS.get()).get();
 
         if (!hasReachedTarget(entity, walkTarget) && attemptNewPath(entity, walkTarget, false)) {
             this.lastTargetPos = walkTarget;
 
             return true;
+        } else if (hasReachedTarget(entity, walkTarget)){
+            drinkFromBowl(entity, walkTarget);
         }
 
-        BrainUtils.clearMemory(brain, MemoryModuleTypeInit.WATER_BOWL.get());
+        BrainUtils.clearMemory(brain, MemoryModuleTypeInit.BOWL_POS.get());
         BrainUtils.clearMemory(brain, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
 
         return false;
@@ -68,9 +70,9 @@ public class GoToWaterBowl<E extends BasePet & Thirsty> extends ExtendedBehaviou
         if (entity.getNavigation().isDone())
             return false;
 
-        BlockPos walkTarget = BrainUtils.getMemory(entity, MemoryModuleTypeInit.WATER_BOWL.get()).get();
+        BlockPos walkTarget = BrainUtils.getMemory(entity, MemoryModuleTypeInit.BOWL_POS.get()).get();
 
-        return !hasReachedTarget(entity, walkTarget) && entity.getThirstLevel() <= 0.8f;
+        return !hasReachedTarget(entity, walkTarget);
     }
 
     @Override
@@ -90,7 +92,7 @@ public class GoToWaterBowl<E extends BasePet & Thirsty> extends ExtendedBehaviou
         }
 
         if (path != null && this.lastTargetPos != null) {
-            BlockPos walkTarget = BrainUtils.getMemory(brain, MemoryModuleTypeInit.WATER_BOWL.get()).get();
+            BlockPos walkTarget = BrainUtils.getMemory(brain, MemoryModuleTypeInit.BOWL_POS.get()).get();
 
             if (walkTarget.distSqr(this.lastTargetPos) > 4 && attemptNewPath(entity, walkTarget, hasReachedTarget(entity, walkTarget))) {
                 this.lastTargetPos = walkTarget;
@@ -105,24 +107,29 @@ public class GoToWaterBowl<E extends BasePet & Thirsty> extends ExtendedBehaviou
     @Override
     protected void stop(E entity) {
         Brain<?> brain = entity.getBrain();
-        BlockPos walkTarget = BrainUtils.getMemory(brain, MemoryModuleTypeInit.WATER_BOWL.get()).get();
+        BlockPos walkTarget = BrainUtils.getMemory(brain, MemoryModuleTypeInit.BOWL_POS.get()).get();
         if (hasReachedTarget(entity, walkTarget)) {
-            entity.setThirstLevel(entity.getThirstLevel() + 0.2f);
-            entity.playSound(SoundEvents.GENERIC_DRINK);
-            BlockState state = entity.level().getBlockState(walkTarget);
-            int fullnessity = state.getValue(BlockStateInit.FULLNESSITY);
-            if (fullnessity <= 1)
-                entity.level().setBlockAndUpdate(walkTarget, state.setValue(BlockStateInit.BOWL_TYPE, PetBowl.Type.EMPTY));
-            else
-                entity.level().setBlockAndUpdate(walkTarget, state.setValue(BlockStateInit.FULLNESSITY, fullnessity - 1));
+            drinkFromBowl(entity, walkTarget);
         }
-        if (!entity.getNavigation().isStuck() || !BrainUtils.hasMemory(brain, MemoryModuleTypeInit.WATER_BOWL.get()) || hasReachedTarget(entity, BrainUtils.getMemory(brain, MemoryModuleTypeInit.WATER_BOWL.get()).get()))
+        if (!entity.getNavigation().isStuck() || !BrainUtils.hasMemory(brain, MemoryModuleTypeInit.BOWL_POS.get()) || hasReachedTarget(entity, BrainUtils.getMemory(brain, MemoryModuleTypeInit.BOWL_POS.get()).get()))
             this.cooldownFinishedAt = 0;
 
         entity.getNavigation().stop();
-        BrainUtils.clearMemories(brain, MemoryModuleTypeInit.WATER_BOWL.get(), MemoryModuleType.PATH);
+        BrainUtils.clearMemories(brain, MemoryModuleTypeInit.BOWL_POS.get(), MemoryModuleType.PATH);
 
         this.path = null;
+    }
+
+    private static <E extends BasePet> void drinkFromBowl(E entity, BlockPos walkTarget) {
+        BlockState state = entity.level().getBlockState(walkTarget);
+        PetBowl.Type type = state.getValue(BlockStateInit.BOWL_TYPE);
+        entity.performBowlAction(type);
+        entity.playSound(type.getSound());
+        int fullnessity = state.getValue(BlockStateInit.FULLNESSITY);
+        if (fullnessity <= 1)
+            entity.level().setBlockAndUpdate(walkTarget, state.setValue(BlockStateInit.BOWL_TYPE, PetBowl.Type.EMPTY).setValue(BlockStateInit.FULLNESSITY, 0));
+        else
+            entity.level().setBlockAndUpdate(walkTarget, state.setValue(BlockStateInit.FULLNESSITY, fullnessity - 1));
     }
 
     protected boolean attemptNewPath(E entity, BlockPos walkTarget, boolean reachedCurrentTarget) {

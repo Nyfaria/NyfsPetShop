@@ -1,8 +1,10 @@
 package com.nyfaria.nyfspetshop.datagen;
 
 import com.nyfaria.nyfspetshop.Constants;
+import com.nyfaria.nyfspetshop.init.BlockInit;
 import com.nyfaria.nyfspetshop.init.POIInit;
 import com.nyfaria.nyfspetshop.init.TagInit;
+import com.nyfaria.nyfspetshop.registration.RegistryObject;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
@@ -15,6 +17,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
@@ -46,9 +49,15 @@ public class ModTagProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider pProvider) {
+            populateTag(TagInit.PET_BOWLS, BlockInit.pet_bowls);
 
         }
         public  <T extends Block>void populateTag(TagKey<Block> tag, Supplier<?>... items){
+            for (Supplier<?> item : items) {
+                tag(tag).add(ForgeRegistries.BLOCKS.getResourceKey((Block)item.get()).get());
+            }
+        }
+        public  <T extends Block>void populateTag(TagKey<Block> tag, List<RegistryObject<? extends Block>> items){
             for (Supplier<?> item : items) {
                 tag(tag).add(ForgeRegistries.BLOCKS.getResourceKey((Block)item.get()).get());
             }
@@ -62,11 +71,11 @@ public class ModTagProvider {
 
         @Override
         protected void addTags(HolderLookup.Provider pProvider) {
-            populateTag(TagInit.PET_BOWLS, POIInit.PET_BOWL);
+            populateTag(TagInit.PET_BOWLS_POI, POIInit.PET_BOWL);
         }
         public  <T extends Block>void populateTag(TagKey<PoiType> tag, Supplier<? extends PoiType>... items){
             for (Supplier<? extends PoiType> item : items) {
-                tag(tag).add(ForgeRegistries.POI_TYPES.getResourceKey(item.get()).get());
+                tag(tag).add(POIInit.PET_BOWL.getResourceKey());
             }
         }
     }

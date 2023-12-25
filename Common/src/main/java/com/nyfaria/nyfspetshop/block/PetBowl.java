@@ -1,11 +1,16 @@
 package com.nyfaria.nyfspetshop.block;
 
 import com.nyfaria.nyfspetshop.init.BlockStateInit;
+import com.nyfaria.nyfspetshop.init.ItemInit;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
@@ -13,7 +18,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -22,19 +26,34 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PetBowl extends Block {
     private static VoxelShape SHAPE = makeShape();
+    private final DyeColor color;
 
-    public PetBowl(Properties properties) {
+    public PetBowl(DyeColor color, Properties properties) {
         super(properties);
+        this.color = color;
         this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateInit.BOWL_TYPE, Type.EMPTY).setValue(BlockStateInit.FULLNESSITY, 0));
+    }
+
+    public DyeColor getColor() {
+        return color;
     }
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
-        if (state.getValue(BlockStateInit.BOWL_TYPE) == Type.EMPTY) {
-            if (player.getItemInHand(interactionHand).getItem() == Items.WATER_BUCKET) {
+        if (player.getItemInHand(interactionHand).getItem() == Items.WATER_BUCKET) {
+            if (state.getValue(BlockStateInit.BOWL_TYPE) != Type.KIBBLE) {
+                level.playSound(null, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                 level.setBlockAndUpdate(pos, state.setValue(BlockStateInit.BOWL_TYPE, Type.WATER).setValue(BlockStateInit.FULLNESSITY, 3));
                 if (!player.isCreative()) {
-                    player.setItemInHand(interactionHand,new ItemStack(Items.BUCKET));
+                    player.setItemInHand(interactionHand, new ItemStack(Items.BUCKET));
+                }
+            }
+        } else if(player.getItemInHand(interactionHand).getItem() == ItemInit.KIBBLE.get()){
+            if (state.getValue(BlockStateInit.BOWL_TYPE) != Type.WATER) {
+                level.playSound(null, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 0.5F);
+                level.setBlockAndUpdate(pos, state.setValue(BlockStateInit.BOWL_TYPE, Type.KIBBLE).setValue(BlockStateInit.FULLNESSITY, 3));
+                if (!player.isCreative()) {
+                    player.getItemInHand(interactionHand).shrink(1);
                 }
             }
         }
@@ -49,9 +68,10 @@ public class PetBowl extends Block {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> definition) {
-        definition.add(BlockStateInit.BOWL_TYPE,BlockStateInit.FULLNESSITY);
+        definition.add(BlockStateInit.BOWL_TYPE, BlockStateInit.FULLNESSITY);
     }
-    public static VoxelShape makeShape(){
+
+    public static VoxelShape makeShape() {
         VoxelShape shape = Shapes.empty();
         shape = Shapes.join(shape, Shapes.box(0.125, 0, 0.125, 0.875, 0.125, 0.875), BooleanOp.OR);
         shape = Shapes.join(shape, Shapes.box(0.75, 0.125, 0.125, 0.875, 0.3125, 0.875), BooleanOp.OR);
@@ -66,14 +86,20 @@ public class PetBowl extends Block {
     }
 
     public enum Type implements StringRepresentable {
-        KIBBLE("kibble"),
-        WATER("water"),
-        EMPTY("empty");
+        KIBBLE("kibble", SoundEvents.CAT_EAT),
+        WATER("water", SoundEvents.GENERIC_DRINK),
+        EMPTY("empty", null);
 
         private final String name;
+        private final SoundEvent sound;
 
-        Type(String name) {
+        Type(String name, SoundEvent sound) {
             this.name = name;
+            this.sound = sound;
+        }
+
+        public SoundEvent getSound() {
+            return sound;
         }
 
         @Override

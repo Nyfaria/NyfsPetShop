@@ -1,2 +1,17 @@
-// 1.20.1	2023-10-11T15:48:36.6880162	Loot Tables
+// 1.20.1	2023-12-25T11:30:23.2817775	Loot Tables
 8b31e1ca162fd3120631d39a6b4b258e4f0c5c76 data/nyfspetshop/loot_tables/blocks/pet_bowl.json
+3973828d9857808288c1a30f200ed2819410676b data/nyfspetshop/loot_tables/blocks/pet_bowl_black.json
+f830fc1c3213441dbb52f606b43ef1a918aff1e7 data/nyfspetshop/loot_tables/blocks/pet_bowl_blue.json
+37434c696a30769d894cbafbbdbf79f09897f8ed data/nyfspetshop/loot_tables/blocks/pet_bowl_brown.json
+577b965e584753232896be9de79342922536c4e7 data/nyfspetshop/loot_tables/blocks/pet_bowl_cyan.json
+33123df53d5d1ddc53bf28b42ec444ae3e593675 data/nyfspetshop/loot_tables/blocks/pet_bowl_gray.json
+b3a1ca2bd386dd01b9f871ea5dd0ac480c015cb5 data/nyfspetshop/loot_tables/blocks/pet_bowl_green.json
+288a3be93a6340962d27408b69259035034e9b63 data/nyfspetshop/loot_tables/blocks/pet_bowl_light_blue.json
+70004decf1872476c5b26479d79ef4c47d829715 data/nyfspetshop/loot_tables/blocks/pet_bowl_light_gray.json
+5da3a886c751b5456ce02a3b5e3538c11b743834 data/nyfspetshop/loot_tables/blocks/pet_bowl_lime.json
+9d1201cea013188c3e412f4a96ece0ba0ad07574 data/nyfspetshop/loot_tables/blocks/pet_bowl_magenta.json
+b99a8d3dc172f4e21c5369e186735ba4fb201d87 data/nyfspetshop/loot_tables/blocks/pet_bowl_orange.json
+aa9ae4eb7a7b6edb46ffd8f54acbc80bb0d42293 data/nyfspetshop/loot_tables/blocks/pet_bowl_pink.json
+b0c4411798695b23201045fa6311349c04550755 data/nyfspetshop/loot_tables/blocks/pet_bowl_purple.json
+b541139e3c2073cc02c85cd604309ac2a216680d data/nyfspetshop/loot_tables/blocks/pet_bowl_red.json
+ce8f280ae2eabdb2dbee0372143c9bcbf9e74c82 data/nyfspetshop/loot_tables/blocks/pet_bowl_yellow.json

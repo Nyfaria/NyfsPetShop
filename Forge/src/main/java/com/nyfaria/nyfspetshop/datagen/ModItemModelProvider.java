@@ -26,22 +26,24 @@ public class ModItemModelProvider extends ItemModelProvider {
         //         .map(Supplier::get)
         //         .forEach(this::simpleHandHeldModel);
 
-         Stream.of(
-                         ItemInit.TENNIS_BALL
-                 )
-                 .map(Supplier::get)
-                 .forEach(this::simpleGeneratedModel);
+        Stream.of(
+                        ItemInit.TENNIS_BALL
+                )
+                .map(Supplier::get)
+                .forEach(this::simpleGeneratedModel);
 
-         Stream.of(
-                         BlockInit.PET_BOWL
-                 )
-                 .map(Supplier::get)
-                 .forEach(this::simpleBlockItemModel);
+        BlockInit.pet_bowls.stream()
+                .map(Supplier::get)
+                .forEach(this::petBowl);
     }
 
     protected ItemModelBuilder simpleBlockItemModel(Block block) {
         String name = getName(block);
         return withExistingParent(name, modLoc("block/" + name));
+    }
+    protected ItemModelBuilder petBowl(Block block) {
+        String name = getName(block);
+        return withExistingParent(name, modLoc("block/pet_bowl"));
     }
 
     protected ItemModelBuilder simpleGeneratedModel(Item item) {

@@ -1,6 +1,7 @@
 package com.nyfaria.nyfspetshop.entity;
 
 import com.nyfaria.nyfspetshop.Constants;
+import com.nyfaria.nyfspetshop.block.PetBowl;
 import com.nyfaria.nyfspetshop.entity.enums.MovementType;
 import com.nyfaria.nyfspetshop.platform.Services;
 import net.minecraft.nbt.CompoundTag;
@@ -95,4 +96,7 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, (double)0.3F).add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.ATTACK_DAMAGE, 2.0D);
     }
+    public abstract void performBowlAction(PetBowl.Type type);
+
+
 }
