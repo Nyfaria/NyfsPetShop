@@ -1,6 +1,7 @@
 package com.nyfaria.nyfspetshop.item;
 
 import com.nyfaria.nyfspetshop.init.EntityInit;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -122,11 +123,11 @@ public class PetItem extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+
         if (pStack.hasTag()) {
             if (pStack.getTag().contains("entityType")) {
-                pTooltipComponents.add(Component.translatable(BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(pStack.getTag().getString("entityType"))).getDescriptionId()));
+                pTooltipComponents.add(Component.translatable(BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(pStack.getTag().getString("entityType"))).getDescriptionId()).withStyle(ChatFormatting.GRAY));
             }
         }
-
     }
 }

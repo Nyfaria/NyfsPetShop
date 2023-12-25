@@ -21,10 +21,10 @@ public class BallItem extends Item {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         pLevel.playSound((Player)null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.EGG_THROW, SoundSource.PLAYERS, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
         if (!pLevel.isClientSide) {
-            ThrownBall thrownegg = new ThrownBall(pLevel, pPlayer);
-            thrownegg.setItem(itemstack);
-            thrownegg.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 1.5F, 1.0F);
-            pLevel.addFreshEntity(thrownegg);
+            ThrownBall thrownBall = new ThrownBall(pLevel, pPlayer);
+            thrownBall.setItem(itemstack);
+            thrownBall.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 1.5F, 1.0F);
+            pLevel.addFreshEntity(thrownBall);
         }
 
         pPlayer.awardStat(Stats.ITEM_USED.get(this));
