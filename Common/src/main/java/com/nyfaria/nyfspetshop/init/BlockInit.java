@@ -1,6 +1,7 @@
 package com.nyfaria.nyfspetshop.init;
 
 import com.nyfaria.nyfspetshop.Constants;
+import com.nyfaria.nyfspetshop.block.GroomingStation;
 import com.nyfaria.nyfspetshop.block.PetBowl;
 import com.nyfaria.nyfspetshop.registration.RegistrationProvider;
 import com.nyfaria.nyfspetshop.registration.RegistryObject;
@@ -40,6 +41,7 @@ public class BlockInit {
     public static final RegistryObject<Block> PET_BOWL_GREEN = registerPetBowl("pet_bowl_green", () -> new PetBowl(DyeColor.GREEN, Block.Properties.copy(Blocks.GREEN_WOOL).noOcclusion()));
     public static final RegistryObject<Block> PET_BOWL_RED = registerPetBowl("pet_bowl_red", () -> new PetBowl(DyeColor.RED, Block.Properties.copy(Blocks.RED_WOOL).noOcclusion()));
     public static final RegistryObject<Block> PET_BOWL_BLACK = registerPetBowl("pet_bowl_black", () -> new PetBowl(DyeColor.BLACK, Block.Properties.copy(Blocks.BLACK_WOOL).noOcclusion()));
+    public static final RegistryObject<Block> GROOMING_STATION = registerBlock("grooming_station", () -> new GroomingStation(Block.Properties.copy(Blocks.CRAFTING_TABLE).noOcclusion()));
 
     public static <T extends Block> RegistryObject<T> registerPetBowl(String name, Supplier<T> block) {
         RegistryObject<T> reg = registerBlock(name, block, b -> () -> new BlockItem(b.get(), ItemInit.getItemProperties(Rarity.COMMON)));

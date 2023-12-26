@@ -2,3 +2,5 @@ accessWidener	v1	named
 accessible class net/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier
 accessible class net/minecraft/world/entity/npc/VillagerTrades$ItemsForEmeralds
 accessible field net/minecraft/server/level/ServerLevel customSpawners Ljava/util/List;
+accessible class net/minecraft/world/inventory/MenuType$MenuSupplier
+accessible method net/minecraft/world/inventory/MenuType <init> (Lnet/minecraft/world/inventory/MenuType$MenuSupplier;Lnet/minecraft/world/flag/FeatureFlagSet;)V

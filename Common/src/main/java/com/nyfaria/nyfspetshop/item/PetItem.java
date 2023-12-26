@@ -1,5 +1,6 @@
 package com.nyfaria.nyfspetshop.item;
 
+import com.nyfaria.nyfspetshop.entity.BasePet;
 import com.nyfaria.nyfspetshop.init.EntityInit;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.packs.PackSelectionScreen;
@@ -13,6 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.TamableAnimal;
@@ -64,7 +66,7 @@ public class PetItem extends Item {
                         return InteractionResultHolder.fail(itemstack);
                     }
                 } else {
-                    TamableAnimal pet = (TamableAnimal) BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(tag.getString("entityType"))).spawn((ServerLevel) pLevel, pPlayer.blockPosition(), MobSpawnType.MOB_SUMMONED);
+                    BasePet pet = (BasePet) BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(tag.getString("entityType"))).spawn((ServerLevel) pLevel, pPlayer.blockPosition(), MobSpawnType.MOB_SUMMONED);
                     tag.putUUID("owner_uuid", pPlayer.getUUID());
                     tag.putUUID("pet_uuid", pet.getUUID());
                     pet.tame(pPlayer);
@@ -118,6 +120,11 @@ public class PetItem extends Item {
             return InteractionResult.sidedSuccess(pLevel.isClientSide());
         }
         return InteractionResult.PASS;
+    }
+
+    public static <T extends BasePet> T getEntity(ItemStack stack) {
+
+        return null;
     }
 
     @Override

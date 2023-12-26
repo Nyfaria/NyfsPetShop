@@ -39,6 +39,7 @@ public class ModLangProvider extends LanguageProvider {
         add("movementType." + Constants.MODID + ".follow", "Follow");
         add("movementType." + Constants.MODID + ".wander", "Wander");
         add("player_message." + Constants.MODID + ".movementType", "%s is now commanded to %s");
+        add("container." + Constants.MODID + ".grooming", "Grooming Station");
     }
 
     protected void itemLang(RegistryObject<Item> entry) {

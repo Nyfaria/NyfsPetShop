@@ -2,8 +2,11 @@ package com.nyfaria.nyfspetshop.event;
 
 import com.nyfaria.nyfspetshop.Constants;
 import com.nyfaria.nyfspetshop.client.CommonClientClass;
+import com.nyfaria.nyfspetshop.client.GroomingScreen;
 import com.nyfaria.nyfspetshop.init.EntityInit;
+import com.nyfaria.nyfspetshop.init.MenuTypeInit;
 import com.nyfaria.nyfspetshop.registration.RegistryObject;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -13,6 +16,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
@@ -37,6 +41,10 @@ public class ClientModEvents {
                 }
 
         );
+    }
+    @SubscribeEvent
+    public static void onFMLClient(FMLClientSetupEvent event){
+        MenuScreens.register(MenuTypeInit.GROOMING_STATION.get(), GroomingScreen::new);
     }
 
     @SubscribeEvent
