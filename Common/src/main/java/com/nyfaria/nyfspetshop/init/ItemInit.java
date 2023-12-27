@@ -40,7 +40,7 @@ public class ItemInit {
                     }).title(Component.translatable("itemGroup." + Constants.MODID + ".tab"))
             .build());
 
-    public static final RegistryObject<Item> DOG_COLLAR = registerDogCollar("dog_collar", getItemProperties(Rarity.COMMON));
+    public static final RegistryObject<Item> DOG_COLLAR = registerDogCollar("dog_collar", getItemProperties(Rarity.COMMON).stacksTo(1));
     public static final RegistryObject<Item> TENNIS_BALL = ITEMS.register("tennis_ball", () -> new BallItem(getItemProperties(Rarity.COMMON).stacksTo(1)));
     public static final RegistryObject<Item> KIBBLE = ITEMS.register("kibble", () -> new Item(getItemProperties(Rarity.COMMON).stacksTo(16)));
 
