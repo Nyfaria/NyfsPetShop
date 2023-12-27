@@ -33,6 +33,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         BlockInit.pet_bowls.forEach(
                 block -> petBowl(block.get())
         );
+        simpleBlock(BlockInit.GROOMING_STATION.get(),blockSidedModel(BlockInit.GROOMING_STATION.get()));
 //        petBowl(BlockInit.PET_BOWL.get());
     }
 
@@ -43,6 +44,17 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected BlockModelBuilder blockCubeTopModel(Block block) {
         String name = getName(block);
         return models().cubeBottomTop(name, modLoc("block/" + name + "_side"), modLoc("block/" + name + "_bottom"), modLoc("block/" + name + "_top"));
+    }
+    protected BlockModelBuilder blockSidedModel(Block block) {
+        String name = getName(block);
+        return models().cube(name,
+                modLoc("block/" + name + "_bottom"),
+                modLoc("block/" + name + "_top"),
+                modLoc("block/" + name + "_side_1"),
+                modLoc("block/" + name + "_side_2"),
+                modLoc("block/" + name + "_side_3"),
+                modLoc("block/" + name + "_side_4")
+                );
     }
 
     protected void customModelBlock(Block block) {

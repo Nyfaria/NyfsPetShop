@@ -14,13 +14,19 @@ public class CosmeticRegistry {
 
 
     public enum Type {
-        HAT("hat"),
-        COLLAR("collar"),
-        BOOTS("boots");
+        HAT("hat",3),
+        COLLAR("collar",1),
+        BOOTS("boots",4);
         private final String name;
+        private final int woolCost;
 
-        Type(String name) {
+        Type(String name, int woolCost) {
             this.name = name;
+            this.woolCost = woolCost;
+        }
+
+        public int getWoolCost() {
+            return woolCost;
         }
 
         public String getName() {

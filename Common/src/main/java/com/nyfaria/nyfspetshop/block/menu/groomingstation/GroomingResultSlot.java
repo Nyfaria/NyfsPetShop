@@ -4,14 +4,18 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 
 public class GroomingResultSlot extends Slot {
     private int removeCount;
     private final GroomingContainer slots;
-    public GroomingResultSlot(GroomingContainer container, int slot, int xPos, int yPos) {
+    private final GroomingStationMenu parent;
+    public GroomingResultSlot(GroomingStationMenu parent, GroomingContainer container, int slot, int xPos, int yPos) {
         super(container, slot, xPos, yPos);
         this.slots = container;
+        this.parent = parent;
+
     }
 
     @Override
@@ -32,7 +36,15 @@ public class GroomingResultSlot extends Slot {
     public void onTake(Player pPlayer, ItemStack pStack) {
         this.checkTakeAchievements(pStack);
         this.slots.setItem(0, ItemStack.EMPTY);
-        this.slots.setItem(1, ItemStack.EMPTY);
-
+        if(parent.getCurrentType() != null) {
+            if(this.slots.getItem(1).is(Items.SHEARS)){
+                pPlayer.awardStat(Stats.ITEM_USED.get(Items.SHEARS));
+                this.slots.getItem(1).hurtAndBreak(parent.getCurrentType().getWoolCost(), pPlayer, (p_150569_) -> {
+                    p_150569_.broadcastBreakEvent(pPlayer.getUsedItemHand());
+                });
+            } else {
+                this.slots.getItem(1).shrink(parent.getCurrentType().getWoolCost());
+            }
+        }
     }
 }

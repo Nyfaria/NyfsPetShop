@@ -1,5 +1,6 @@
 package com.nyfaria.nyfspetshop.block.menu.groomingstation;
 
+import com.nyfaria.nyfspetshop.init.CosmeticRegistry;
 import com.nyfaria.nyfspetshop.init.MenuTypeInit;
 import com.nyfaria.nyfspetshop.item.PetItem;
 import net.minecraft.tags.BlockTags;
@@ -9,14 +10,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 public class GroomingStationMenu extends AbstractContainerMenu {
     private final Player player;
 
     private final ContainerLevelAccess access;
-    private final GroomingContainer craftSlots = new GroomingContainer();
+    private final GroomingContainer craftSlots;
     private final GroomingResultSlot resultSlots;
+    private CosmeticRegistry.Type currentType;
 
     public GroomingStationMenu(int containerId, Inventory playerInventory) {
         this(containerId, playerInventory, ContainerLevelAccess.NULL);
@@ -24,21 +28,22 @@ public class GroomingStationMenu extends AbstractContainerMenu {
 
     public GroomingStationMenu(int pContainerId, Inventory pPlayerInventory, ContainerLevelAccess pAccess) {
         super(MenuTypeInit.GROOMING_STATION.get(), pContainerId);
+        this.craftSlots = new GroomingContainer(this,pAccess);
         this.access = pAccess;
         this.player = pPlayerInventory.player;
         this.addSlot(new Slot(this.craftSlots, 0, 108+18, 16 ){
             @Override
             public boolean mayPlace(ItemStack pStack) {
-                return pStack.getItem() instanceof PetItem;
+                return pStack.getItem() instanceof PetItem && pStack.getTag().contains("inside") && pStack.getTag().getBoolean("inside");
             }
         });
         this.addSlot(new Slot(this.craftSlots, 1, 108+18, 54 ){
             @Override
             public boolean mayPlace(ItemStack pStack) {
-                return pStack.is(ItemTags.WOOL);
+                return pStack.is(ItemTags.WOOL) || pStack.is(Items.SHEARS) || pStack.getItem() instanceof DyeItem;
             }
         });
-        resultSlots = new GroomingResultSlot(craftSlots, 2, 108+7*18, 35);
+        resultSlots = new GroomingResultSlot(this,craftSlots, 2, 108+7*18, 35);
         this.addSlot(resultSlots);
 
 
@@ -52,6 +57,22 @@ public class GroomingStationMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(pPlayerInventory, k, 108 + k * 18, 142));
         }
 
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public CosmeticRegistry.Type getCurrentType() {
+        return currentType;
+    }
+
+    public void setCurrentType(CosmeticRegistry.Type currentType) {
+        this.currentType = currentType;
+        if(!this.getSlot(1).getItem().isEmpty() && !this.getSlot(0).getItem().isEmpty()){
+            ItemStack stack = PetItem.setCosmetic(this.getSlot(0).getItem().copy(), currentType, this.getSlot(1).getItem(), player.level());
+            this.craftSlots.setItem(2, stack);
+        }
     }
 
     public void removed(Player pPlayer) {
