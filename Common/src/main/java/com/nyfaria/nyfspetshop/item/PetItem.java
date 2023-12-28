@@ -13,6 +13,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.TamableAnimal;
@@ -31,6 +32,7 @@ import org.joml.Vector3f;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class PetItem extends Item {
     public static Map<Item, DyeColor> colorMap = Map.ofEntries(
@@ -75,7 +77,7 @@ public class PetItem extends Item {
                         pet.setHatColor(new Vector3f(1, 1, 1));
                         break;
                     }
-                    if(woolStack.getItem() instanceof DyeItem){
+                    if (woolStack.getItem() instanceof DyeItem) {
                         pet.setHatColor(colorVector);
                         break;
                     }
@@ -138,87 +140,91 @@ public class PetItem extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        if (pUsedHand == InteractionHand.MAIN_HAND) {
-            ItemStack itemstack = pPlayer.getMainHandItem();
-            if (!pLevel.isClientSide() && itemstack.hasTag()) {
-                CompoundTag tag = itemstack.getTag();
-                if (tag.contains("owner_uuid")) {
-                    if (pPlayer.getUUID().equals(itemstack.getTag().getUUID("owner_uuid"))) {
-                        if (tag.contains("inside") && tag.getBoolean("inside")) {
-                            tag.putBoolean("inside", false);
-                            LivingEntity entity = getEntity(itemstack, pLevel);
-                            entity.load(tag.getCompound("petData"));
-                            entity.setPos(pPlayer.getX(), pPlayer.getY(), pPlayer.getZ());
-                            pLevel.addFreshEntity(entity);
-                        } else {
-                            tag.putBoolean("inside", true);
-                            LivingEntity pet = (LivingEntity) ((ServerLevel) pLevel).getEntity(tag.getUUID("pet_uuid"));
-                            if (pet.hasCustomName()) {
-                                itemstack.setHoverName(pet.getCustomName());
+        if (!pLevel.isClientSide) {
+            if (pUsedHand == InteractionHand.MAIN_HAND) {
+                ItemStack itemstack = pPlayer.getMainHandItem();
+                if (!pLevel.isClientSide() && itemstack.hasTag()) {
+                    CompoundTag tag = itemstack.getTag();
+                    if(tag.contains("pet_uuid")) {
+                        if(tag.contains("inside")) {
+                            if (tag.getBoolean("inside")) {
+                                if (tag.contains("owner_uuid") && pPlayer.getUUID().equals(tag.getUUID("owner_uuid"))) {
+                                    spawnExisting(pLevel, pPlayer, tag, itemstack);
+                                }
+                            } else{
+                                recallExisting((ServerLevel) pLevel, tag, itemstack);
                             }
-                            CompoundTag petData = new CompoundTag();
-                            pet.save(petData);
-                            pet.discard();
-                            tag.put("petData", petData);
                         }
                     } else {
-                        return InteractionResultHolder.fail(itemstack);
+                        spawnNew((ServerLevel) pLevel, pPlayer, tag);
                     }
-                } else {
-                    BasePet pet = (BasePet) BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(tag.getString("entityType"))).spawn((ServerLevel) pLevel, pPlayer.blockPosition(), MobSpawnType.MOB_SUMMONED);
-                    tag.putUUID("owner_uuid", pPlayer.getUUID());
-                    tag.putUUID("pet_uuid", pet.getUUID());
-                    pet.tame(pPlayer);
+                    itemstack.setTag(tag);
                 }
-                itemstack.setTag(tag);
+                return InteractionResultHolder.sidedSuccess(itemstack, pLevel.isClientSide());
             }
-            return InteractionResultHolder.sidedSuccess(itemstack, pLevel.isClientSide());
         }
         return InteractionResultHolder.pass(pPlayer.getItemInHand(pUsedHand));
+    }
+
+    private static void spawnNew(ServerLevel pLevel, Player pPlayer, CompoundTag tag) {
+        BasePet pet = (BasePet) BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(tag.getString("entityType"))).spawn(pLevel, pPlayer.blockPosition(), MobSpawnType.MOB_SUMMONED);
+        tag.putUUID("owner_uuid", pPlayer.getUUID());
+        tag.putUUID("pet_uuid", pet.getUUID());
+        tag.putBoolean("inside", false);
+        pet.tame(pPlayer);
+    }
+
+    private static void recallExisting(ServerLevel pLevel, CompoundTag tag, ItemStack itemstack) {
+        tag.putBoolean("inside", true);
+        UUID petUUID = tag.getUUID("pet_uuid");
+        LivingEntity pet = (LivingEntity) pLevel.getEntity(petUUID);
+        if (pet.hasCustomName()) {
+            itemstack.setHoverName(pet.getCustomName());
+        }
+        CompoundTag petData = new CompoundTag();
+        pet.save(petData);
+        pet.remove(Entity.RemovalReason.UNLOADED_WITH_PLAYER);
+        tag.put("petData", petData);
+    }
+
+    private static void spawnExisting(Level pLevel, Player pPlayer, CompoundTag tag, ItemStack itemstack) {
+        tag.putBoolean("inside", false);
+        LivingEntity entity = getEntity(itemstack, pLevel);
+        entity.load(tag.getCompound("petData"));
+        entity.setPos(pPlayer.getX(), pPlayer.getY(), pPlayer.getZ());
+        pLevel.addFreshEntity(entity);
     }
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
         InteractionHand pUsedHand = context.getHand();
         Level pLevel = context.getLevel();
-        Player pPlayer = context.getPlayer();
-        Vec3 spawnPos = context.getClickedPos().relative(context.getClickedFace()).getCenter();
-        if (pUsedHand == InteractionHand.MAIN_HAND) {
-            ItemStack itemstack = pPlayer.getMainHandItem();
-            if (!pLevel.isClientSide() && itemstack.hasTag()) {
-                CompoundTag tag = itemstack.getTag();
-                if (tag.contains("owner_uuid")) {
-                    if (pPlayer.getUUID().equals(itemstack.getTag().getUUID("owner_uuid"))) {
-                        if (tag.contains("inside") && tag.getBoolean("inside")) {
-                            tag.putBoolean("inside", false);
-                            LivingEntity entity = (LivingEntity) BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(itemstack.getTag().getString("entityType"))).create(pLevel);
-                            entity.load(tag.getCompound("petData"));
-                            entity.setPos(spawnPos.x(), spawnPos.y(), spawnPos.z());
-                            pLevel.addFreshEntity(entity);
-                        } else {
-                            tag.putBoolean("inside", true);
-                            LivingEntity pet = (LivingEntity) ((ServerLevel) pLevel).getEntity(tag.getUUID("pet_uuid"));
-                            if (pet.hasCustomName()) {
-                                itemstack.setHoverName(pet.getCustomName());
+        if (!pLevel.isClientSide) {
+            Player pPlayer = context.getPlayer();
+            Vec3 spawnPos = context.getClickedPos().relative(context.getClickedFace()).getCenter();
+            if (pUsedHand == InteractionHand.MAIN_HAND) {
+                ItemStack itemstack = pPlayer.getMainHandItem();
+                if (!pLevel.isClientSide() && itemstack.hasTag()) {
+                    CompoundTag tag = itemstack.getTag();
+                    if(tag.contains("pet_uuid")) {
+                        if(tag.contains("inside")) {
+                            if (tag.getBoolean("inside")) {
+                                if (tag.contains("owner_uuid") && pPlayer.getUUID().equals(tag.getUUID("owner_uuid"))) {
+                                    spawnExisting(pLevel, pPlayer, tag, itemstack);
+                                }
+                            } else{
+                                recallExisting((ServerLevel) pLevel, tag, itemstack);
                             }
-                            pet.save(tag.getCompound("petData"));
-                            pet.discard();
                         }
                     } else {
-                        return InteractionResult.FAIL;
+                        spawnNew((ServerLevel) pLevel, pPlayer, tag);
                     }
-                } else {
-                    TamableAnimal pet = (TamableAnimal) BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(tag.getString("entityType"))).spawn((ServerLevel) pLevel, BlockPos.containing(spawnPos), MobSpawnType.MOB_SUMMONED);
-                    tag.putUUID("owner_uuid", pPlayer.getUUID());
-                    tag.putUUID("pet_uuid", pet.getUUID());
-                    tag.putString("inside", "false");
-                    pet.tame(pPlayer);
+                    itemstack.setTag(tag);
                 }
-                itemstack.setTag(tag);
+                return InteractionResult.sidedSuccess(pLevel.isClientSide());
             }
-            return InteractionResult.sidedSuccess(pLevel.isClientSide());
         }
-        return InteractionResult.PASS;
+        return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 
     public static <T extends BasePet> T getEntity(ItemStack stack, Level pLevel) {

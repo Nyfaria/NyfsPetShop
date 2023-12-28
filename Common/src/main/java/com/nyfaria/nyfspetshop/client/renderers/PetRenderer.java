@@ -50,4 +50,7 @@ public class PetRenderer<T extends BasePet> extends GeoEntityRenderer<T> {
 
     }
 
+    public void renderOnShoulder(BasePet pet, PoseStack pMatrixStack, VertexConsumer vertexconsumer, int pPackedLight, int noOverlay, float pLimbSwing, float pLimbSwingAmount, float pNetHeadYaw, float pHeadPitch, int tickCount) {
+
+    }
 }

@@ -9,7 +9,11 @@ import java.util.Map;
 public class CosmeticRegistry {
     public static Map<EntityType<? extends BasePet>, List<Type>> COSMETIC_MAP = Map.of(
             EntityInit.SHELTIE.get(), List.of(Type.HAT, Type.COLLAR, Type.BOOTS),
-            EntityInit.SUPER_MUTT.get(), List.of(Type.HAT, Type.COLLAR, Type.BOOTS)
+            EntityInit.SUPER_MUTT.get(), List.of(Type.HAT, Type.COLLAR, Type.BOOTS),
+            EntityInit.CALICO.get(), List.of(Type.HAT, Type.COLLAR, Type.BOOTS),
+            EntityInit.AMERICAN_SHORTHAIR.get(), List.of(Type.HAT, Type.COLLAR, Type.BOOTS),
+            EntityInit.GOLD_DASHED_PARROT.get(), List.of(Type.HAT, Type.BOOTS),
+            EntityInit.WHITE_STRIPED_PARROT.get(), List.of(Type.HAT, Type.BOOTS)
     );
 
 

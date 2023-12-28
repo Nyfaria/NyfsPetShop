@@ -22,9 +22,11 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        // Stream.of()
-        //         .map(Supplier::get)
-        //         .forEach(this::simpleHandHeldModel);
+        Stream.of(
+                        ItemInit.BAG_OF_KIBBLE
+                )
+                .map(Supplier::get)
+                .forEach(this::simpleHandHeldModel);
 
         Stream.of(
                         ItemInit.TENNIS_BALL
@@ -35,12 +37,18 @@ public class ModItemModelProvider extends ItemModelProvider {
         BlockInit.pet_bowls.stream()
                 .map(Supplier::get)
                 .forEach(this::petBowl);
+        Stream.of(
+                        BlockInit.GROOMING_STATION
+                ).map(Supplier::get)
+                .forEach(this::simpleBlockItemModel);
+        petItem(ItemInit.PET_ITEM.get());
     }
 
     protected ItemModelBuilder simpleBlockItemModel(Block block) {
         String name = getName(block);
         return withExistingParent(name, modLoc("block/" + name));
     }
+
     protected ItemModelBuilder petBowl(Block block) {
         String name = getName(block);
         return withExistingParent(name, modLoc("block/pet_bowl"));
@@ -65,5 +73,15 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     protected String getName(Block item) {
         return ForgeRegistries.BLOCKS.getKey(item).getPath();
+    }
+
+    protected ItemModelBuilder petItem(Item item) {
+        return withExistingParent(getName(item), mcLoc("item/generated"))
+                .override().predicate(new ResourceLocation(Constants.MODID,"type"), 0.1f)
+                .model(singleTexture(getName(item) + "_bone", mcLoc("item/generated"),"layer0", modLoc("item/" + getName(item) + "_bone"))).end()
+                .override().predicate(new ResourceLocation(Constants.MODID,"type"), 0.2f)
+                .model(singleTexture(getName(item)+ "_fish", mcLoc("item/generated"),"layer0", modLoc("item/" + getName(item) + "_fish"))).end()
+                .override().predicate(new ResourceLocation(Constants.MODID,"type"), 0.3f)
+                .model(singleTexture(getName(item)+ "_seed", mcLoc("item/generated"),"layer0", modLoc("item/" + getName(item) + "_seed"))).end();
     }
 }
