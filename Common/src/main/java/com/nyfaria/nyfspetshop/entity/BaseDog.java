@@ -136,7 +136,7 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
         return BrainActivityGroup.idleTasks(
 
                 new FirstApplicableBehaviour<BaseDog>(
-                        new SetPlayerLookTarget<>(),
+                        new SetPlayerLookTarget<BaseDog>().startCondition(e->e.getMovementType() == MovementType.STAY),
                         new SetRandomLookTarget<>()
                 ),
                 new OneRandomBehaviour<>(
