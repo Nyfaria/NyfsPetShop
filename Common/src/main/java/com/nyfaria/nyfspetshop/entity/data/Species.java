@@ -6,7 +6,9 @@ import net.minecraft.world.entity.EntityType;
 import java.util.function.Supplier;
 
 public enum Species {
-    DOG("wolf")
+    DOG("dog"),
+    CAT("cat"),
+    BIRD("bird")
     ;
     final String name;
     Species(String name){

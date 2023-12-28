@@ -32,9 +32,9 @@ public class ThrownBall extends ThrowableItemProjectile {
         super.onHitBlock(pResult);
         Vec3 bop = getDeltaMovement();
         if (pResult.getDirection() == Direction.UP || pResult.getDirection() == Direction.DOWN) {
-            setDeltaMovement(bop.x * 0.5, -bop.y * 0.5, bop.z * 0.5);
+            setDeltaMovement(bop.x * 0.33, -bop.y * 0.33, bop.z * 0.33);
         } else {
-            setDeltaMovement(-bop.x * 0.5, bop.y * 0.5, -bop.z * 0.5);
+            setDeltaMovement(-bop.x * 0.33, bop.y * 0.33, -bop.z * 0.33);
         }
         this.level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(30)).forEach(fetcher -> {
             if (fetcher instanceof Fetcher fetcher1)

@@ -39,8 +39,8 @@ public class NyfsPetShop {
         generator.addProvider(includeServer, new ModTagProvider.Blocks(packOutput,event.getLookupProvider(), existingFileHelper));
         generator.addProvider(includeServer, new ModTagProvider.Items(packOutput,event.getLookupProvider(), existingFileHelper));
         generator.addProvider(includeServer, new ModTagProvider.POITypes(packOutput,event.getLookupProvider(), existingFileHelper));
-        generator.addProvider(includeClient, new ModItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(includeClient, new ModBlockStateProvider(packOutput, existingFileHelper));
+        generator.addProvider(includeClient, new ModItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(includeClient, new ModLangProvider(packOutput));
     }
 }

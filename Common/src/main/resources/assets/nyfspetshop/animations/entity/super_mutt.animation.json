@@ -113,37 +113,27 @@
 			"loop": true,
 			"bones": {
 				"body": {
-					"rotation": {
-						"vector": [-35, 0, 0]
-					},
-					"position": {
-						"vector": [0, -3, 0]
-					}
+					"rotation": [-35, 0, 0],
+					"position": [0, -3, 0]
 				},
 				"front_left_leg": {
-					"rotation": {
-						"vector": [35, 0, 0]
-					}
+					"rotation": [35, 0, 0]
 				},
 				"front_right_leg": {
-					"rotation": {
-						"vector": [35, 0, 0]
-					}
+					"rotation": [35, 0, 0]
 				},
 				"back_left_leg": {
-					"rotation": {
-						"vector": [-55, 0, 0]
-					}
+					"rotation": [-55, 0, 0]
 				},
 				"back_right_leg": {
-					"rotation": {
-						"vector": [-55, 0, 0]
-					}
+					"rotation": [-55, 0, 0]
 				},
 				"head_rotations": {
-					"rotation": {
-						"vector": [37.5, 0, 0]
-					}
+					"rotation": [37.5, 0, 0]
+				},
+				"root": {
+					"rotation": [-35, 0, 0],
+					"position": [0, -3, 0]
 				}
 			}
 		},

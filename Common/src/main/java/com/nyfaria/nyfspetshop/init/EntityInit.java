@@ -2,7 +2,9 @@ package com.nyfaria.nyfspetshop.init;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.nyfaria.nyfspetshop.entity.BaseCat;
 import com.nyfaria.nyfspetshop.entity.BaseDog;
+import com.nyfaria.nyfspetshop.entity.BaseBird;
 import com.nyfaria.nyfspetshop.entity.ThrownBall;
 import com.nyfaria.nyfspetshop.entity.data.Species;
 import com.nyfaria.nyfspetshop.registration.RegistrationProvider;
@@ -27,6 +29,10 @@ public class EntityInit {
 
     public static final RegistryObject<EntityType<BaseDog>> SHELTIE = registerEntity(Species.DOG,"sheltie", ()->EntityType.Builder.of(BaseDog::new, MobCategory.CREATURE).sized(0.4f,0.6f), BaseDog::createAttributes);
     public static final RegistryObject<EntityType<BaseDog>> SUPER_MUTT = registerEntity(Species.DOG,"super_mutt", ()->EntityType.Builder.of(BaseDog::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseDog::createAttributes);
+    public static final RegistryObject<EntityType<BaseCat>> CALICO = registerEntity(Species.CAT,"calico", ()->EntityType.Builder.of(BaseCat::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseCat::createAttributes);
+    public static final RegistryObject<EntityType<BaseCat>> AMERICAN_SHORTHAIR = registerEntity(Species.CAT,"american_shorthair", ()->EntityType.Builder.of(BaseCat::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseCat::createAttributes);
+    public static final RegistryObject<EntityType<BaseBird>> GOLD_DASHED_PARROT  = registerEntity(Species.BIRD,"gold_dashed_parrot", ()->EntityType.Builder.of(BaseBird::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseBird::createAttributes);
+    public static final RegistryObject<EntityType<BaseBird>> WHITE_STRIPED_PARROT  = registerEntity(Species.BIRD,"white_striped_parrot", ()->EntityType.Builder.of(BaseBird::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseBird::createAttributes);
     public static final RegistryObject<EntityType<ThrownBall>> BALL = registerEntity("ball", ()->EntityType.Builder.<ThrownBall>of(ThrownBall::new, MobCategory.MISC).sized(0.25F, 0.25F));
     private static <T extends Entity> RegistryObject<EntityType<T>> registerEntity(String name, Supplier<EntityType.Builder<T>> supplier) {
         return ENTITIES.register(name, () -> supplier.get().build(Constants.MODID + ":" + name));

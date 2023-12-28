@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.tslat.smartbrainlib.api.SmartBrainOwner;
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +29,7 @@ import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.GeoEntity;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.UUID;
 
 public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<BasePet>, GeoEntity {
@@ -37,6 +40,7 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     public static final EntityDataAccessor<Vector3f> HAT_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.VECTOR3);
     public static final EntityDataAccessor<Vector3f> COLLAR_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.VECTOR3);
     public static final EntityDataAccessor<Vector3f> BOOTS_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.VECTOR3);
+    public static Optional<ItemStack> PET_ITEM_STACK = Optional.of(ItemStack.EMPTY);
 
     protected final EntityType<? extends BasePet> type;
 
@@ -45,6 +49,18 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         this.type = type;
     }
 
+    public static ItemStack getPetItemStack() {
+        return PET_ITEM_STACK.get();
+    }
+
+    public static void setPetItemStack(ItemStack petItemStack) {
+        PET_ITEM_STACK = Optional.of(petItemStack);
+    }
+    public String getPublicEncodeId() {
+        EntityType<?> $$0 = this.getType();
+        ResourceLocation $$1 = EntityType.getKey($$0);
+        return $$0.canSerialize() && $$1 != null ? $$1.toString() : null;
+    }
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
@@ -121,6 +137,13 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         bootsColor.putFloat("g", getBootsColor().y());
         bootsColor.putFloat("b", getBootsColor().z());
         tag.put("boots_color", bootsColor);
+    }
+
+    @Nullable
+    @Override
+    public ItemStack getPickResult() {
+
+        return super.getPickResult();
     }
 
     @Override

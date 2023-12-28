@@ -9,6 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.item.Item;
@@ -72,10 +73,12 @@ public class ModTagProvider {
         @Override
         protected void addTags(HolderLookup.Provider pProvider) {
             populateTag(TagInit.PET_BOWLS_POI, POIInit.PET_BOWL);
+            populateTag(PoiTypeTags.ACQUIRABLE_JOB_SITE, POIInit.CRATES);
+            populateTag(PoiTypeTags.ACQUIRABLE_JOB_SITE, POIInit.GROOMING_STATION);
         }
-        public  <T extends Block>void populateTag(TagKey<PoiType> tag, Supplier<? extends PoiType>... items){
-            for (Supplier<? extends PoiType> item : items) {
-                tag(tag).add(POIInit.PET_BOWL.getResourceKey());
+        public void populateTag(TagKey<PoiType> tag, RegistryObject<PoiType>... items){
+            for (RegistryObject<PoiType> item : items) {
+                tag(tag).add(item.getResourceKey());
             }
         }
     }

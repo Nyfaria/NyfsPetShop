@@ -2,8 +2,8 @@ package com.nyfaria.nyfspetshop.block;
 
 import com.nyfaria.nyfspetshop.init.BlockStateInit;
 import com.nyfaria.nyfspetshop.init.ItemInit;
+import com.nyfaria.nyfspetshop.item.KibbleItem;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -49,12 +49,12 @@ public class PetBowl extends Block {
                     player.setItemInHand(interactionHand, new ItemStack(Items.BUCKET));
                 }
             }
-        } else if(player.getItemInHand(interactionHand).getItem() == ItemInit.KIBBLE.get()){
+        } else if(player.getItemInHand(interactionHand).getItem() instanceof KibbleItem){
             if (state.getValue(BlockStateInit.BOWL_TYPE) != Type.WATER) {
                 level.playSound(null, pos, SoundEvents.BUCKET_FILL, SoundSource.BLOCKS, 1.0F, 0.5F);
                 level.setBlockAndUpdate(pos, state.setValue(BlockStateInit.BOWL_TYPE, Type.KIBBLE).setValue(BlockStateInit.FULLNESSITY, 3));
                 if (!player.isCreative()) {
-                    player.getItemInHand(interactionHand).shrink(1);
+                    KibbleItem.doKibbleAction(player.getItemInHand(interactionHand), player);
                 }
             }
         }

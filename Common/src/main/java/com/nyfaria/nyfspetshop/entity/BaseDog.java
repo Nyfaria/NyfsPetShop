@@ -6,6 +6,7 @@ import com.nyfaria.nyfspetshop.entity.ai.FindBowl;
 import com.nyfaria.nyfspetshop.entity.ai.GoToBowl;
 import com.nyfaria.nyfspetshop.entity.ai.ModAnimalMakeLove;
 import com.nyfaria.nyfspetshop.entity.ai.ReturnBall;
+import com.nyfaria.nyfspetshop.entity.data.Animations;
 import com.nyfaria.nyfspetshop.entity.enums.MovementType;
 import com.nyfaria.nyfspetshop.entity.ifaces.Fetcher;
 import com.nyfaria.nyfspetshop.entity.ifaces.Hungry;
@@ -56,6 +57,9 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
     public static final EntityDataAccessor<Optional<UUID>> FETCH_TARGET = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.OPTIONAL_UUID);
     public static final EntityDataAccessor<Float> THIRST = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Float> HUNGER = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.FLOAT);
+    public float thirstLevelThreshold = 0.8f;
+    public float hungerLevelThreshold = 0.2f;
+
 
 
     public BaseDog(EntityType<? extends BasePet> $$0, Level $$1) {
@@ -93,8 +97,8 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
     public BrainActivityGroup<? extends BasePet> getCoreTasks() {
         return BrainActivityGroup.coreTasks(
                 new FirstApplicableBehaviour<BaseDog>(
-                        new FindBowl<BaseDog>(PetBowl.Type.WATER).startCondition(e -> e.getThirstLevel() <= 0.8f),
-                        new FindBowl<BaseDog>(PetBowl.Type.KIBBLE).startCondition(e -> e.getHungerLevel() <= 0.2f),
+                        new FindBowl<BaseDog>(PetBowl.Type.WATER).startCondition(e -> e.getThirstLevel() <= thirstLevelThreshold),
+                        new FindBowl<BaseDog>(PetBowl.Type.KIBBLE).startCondition(e -> e.getHungerLevel() <= hungerLevelThreshold),
                         new FetchBall<>().startCondition(e -> e.getMainHandItem().isEmpty() && ((BasePet) e).getMovementType() != MovementType.STAY),
                         new ReturnBall<>().startCondition(e -> ((BasePet) e).getMovementType() != MovementType.STAY),
                         new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW)),
@@ -121,9 +125,9 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
     @Override
     public void performBowlAction(PetBowl.Type type) {
         if (type == PetBowl.Type.WATER) {
-            setThirstLevel(getThirstLevel() + 0.2f);
+            setThirstLevel(getThirstLevel() + (1.0f - thirstLevelThreshold));
         } else if (type == PetBowl.Type.KIBBLE) {
-            setHungerLevel(getHungerLevel() + 0.8f);
+            setHungerLevel(getHungerLevel() + (1.0f - hungerLevelThreshold));
         }
     }
 
@@ -177,20 +181,21 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
     }
 
     private PlayState earControllerState(AnimationState<BaseDog> baseDogAnimationState) {
-        baseDogAnimationState.setAnimation(RawAnimation.begin().thenLoop("ear_idle"));
+        baseDogAnimationState.setAnimation(Animations.EAR_IDLE);
         return PlayState.CONTINUE;
     }
 
     private PlayState tailControllerState(AnimationState<BaseDog> baseDogAnimationState) {
+
         if (getMovementType() == MovementType.STAY) {
             if (getOwner() != null && distanceToSqr(getOwner()) < 17) {
-                baseDogAnimationState.setAnimation(RawAnimation.begin().thenPlay("tail_wag_sit"));
+                baseDogAnimationState.setAnimation(Animations.TAIL_WAG_SIT);
             } else {
-                baseDogAnimationState.setAnimation(RawAnimation.begin().thenPlay("tail_sit_idle"));
+                baseDogAnimationState.setAnimation(Animations.TAIL_SIT_IDLE);
             }
         } else {
             if (getOwner() != null && distanceToSqr(getOwner()) < 17) {
-                baseDogAnimationState.setAnimation(RawAnimation.begin().thenPlay("tail_wag_stand"));
+                baseDogAnimationState.setAnimation(Animations.TAIL_WAG_STAND);
             } else {
                 return PlayState.STOP;
             }
@@ -200,11 +205,11 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
 
     private PlayState moveControllerState(AnimationState<BaseDog> baseDogAnimationState) {
         if (getMovementType() == MovementType.STAY) {
-            baseDogAnimationState.setAnimation(RawAnimation.begin().thenLoop("sit"));
+            baseDogAnimationState.setAnimation(Animations.SIT);
             return PlayState.CONTINUE;
         }
         if (baseDogAnimationState.isMoving()) {
-            baseDogAnimationState.setAnimation(RawAnimation.begin().thenLoop("walk"));
+            baseDogAnimationState.setAnimation(Animations.WALK);
             return PlayState.CONTINUE;
         }
 
