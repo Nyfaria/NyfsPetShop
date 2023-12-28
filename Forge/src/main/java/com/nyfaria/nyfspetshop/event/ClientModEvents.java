@@ -7,6 +7,7 @@ import com.nyfaria.nyfspetshop.client.renderers.PetRenderer;
 import com.nyfaria.nyfspetshop.client.renderers.layer.PetOnShoulderLayer;
 import com.nyfaria.nyfspetshop.entity.BaseBird;
 import com.nyfaria.nyfspetshop.entity.BaseCat;
+import com.nyfaria.nyfspetshop.entity.BaseDog;
 import com.nyfaria.nyfspetshop.init.EntityInit;
 import com.nyfaria.nyfspetshop.init.MenuTypeInit;
 import com.nyfaria.nyfspetshop.registration.RegistryObject;
@@ -57,6 +58,8 @@ public class ClientModEvents {
         event.registerEntityRenderer(EntityInit.BALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(EntityInit.SHELTIE.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "sheltie"), true)));
         event.registerEntityRenderer(EntityInit.SUPER_MUTT.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "super_mutt"), true)));
+        event.registerEntityRenderer(EntityInit.SABLE_HUSKY.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDog>(new ResourceLocation(Constants.MODID, "husky"), true).withAltTexture(new ResourceLocation(Constants.MODID, "sable_husky"))));
+        event.registerEntityRenderer(EntityInit.BLACK_AND_WHITE_HUSKY.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDog>(new ResourceLocation(Constants.MODID, "husky"), true).withAltTexture(new ResourceLocation(Constants.MODID, "black_and_white_husky"))));
         event.registerEntityRenderer(EntityInit.CALICO.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseCat>(new ResourceLocation(Constants.MODID, "base_cat"), true).withAltTexture(new ResourceLocation(Constants.MODID, "calico"))));
         event.registerEntityRenderer(EntityInit.AMERICAN_SHORTHAIR.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseCat>(new ResourceLocation(Constants.MODID, "base_cat"), true).withAltTexture(new ResourceLocation(Constants.MODID, "american_shorthair"))));
         event.registerEntityRenderer(EntityInit.GOLD_DASHED_PARROT.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "gold_dashed_parrot"))));
