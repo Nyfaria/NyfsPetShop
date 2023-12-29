@@ -38,9 +38,9 @@ public class ItemInit {
                         });
                         BlockInit.pet_bowls.forEach(block -> output.accept(block.get()));
                         output.accept(BlockInit.GROOMING_STATION.get());
+                            output.accept(BlockInit.CRATE.get());
                         output.accept(new ItemStack(ItemInit.TENNIS_BALL.get()));
                         output.accept(ItemInit.BAG_OF_KIBBLE.get());
-                        output.accept(BlockInit.CRATE.get());
 
                     }).title(Component.translatable("itemGroup." + Constants.MODID + ".tab"))
             .build());
