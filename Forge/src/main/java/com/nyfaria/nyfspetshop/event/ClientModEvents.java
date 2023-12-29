@@ -65,7 +65,10 @@ public class ClientModEvents {
         event.registerEntityRenderer(EntityInit.AMERICAN_SHORTHAIR.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseCat>(new ResourceLocation(Constants.MODID, "base_cat"), true).withAltTexture(new ResourceLocation(Constants.MODID, "american_shorthair"))));
         event.registerEntityRenderer(EntityInit.GOLD_DASHED_PARROT.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "gold_dashed_parrot"))));
         event.registerEntityRenderer(EntityInit.WHITE_STRIPED_PARROT.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "white_striped_parrot"))));
+        event.registerEntityRenderer(EntityInit.RED_ACCENT_ALBINO_PARROT.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "red_accent_albino_parrot"))));
+        event.registerEntityRenderer(EntityInit.TROPICAL_PARROT.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "tropical_parrot"))));
     }
+
     @SubscribeEvent
     public static void onEntityAddLayers(EntityRenderersEvent.AddLayers event) {
         for (String name : event.getSkins()) {

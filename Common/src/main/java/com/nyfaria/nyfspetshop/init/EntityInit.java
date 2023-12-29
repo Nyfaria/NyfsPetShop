@@ -27,16 +27,26 @@ public class EntityInit {
     public static final RegistrationProvider<EntityType<?>> ENTITIES = RegistrationProvider.get(Registries.ENTITY_TYPE, Constants.MODID);
     public static final List<AttributesRegister<?>> attributeSuppliers = new ArrayList<>();
 
+    // DOGS
     public static final RegistryObject<EntityType<BaseDog>> SHELTIE = registerEntity(Species.DOG,"sheltie", ()->EntityType.Builder.of(BaseDog::new, MobCategory.CREATURE).sized(0.4f,0.6f), BaseDog::createAttributes);
     public static final RegistryObject<EntityType<BaseDog>> SUPER_MUTT = registerEntity(Species.DOG,"super_mutt", ()->EntityType.Builder.of(BaseDog::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseDog::createAttributes);
     public static final RegistryObject<EntityType<BaseDog>> SABLE_HUSKY = registerEntity(Species.DOG,"sable_husky", ()->EntityType.Builder.of(BaseDog::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseDog::createAttributes);
     public static final RegistryObject<EntityType<BaseDog>> BLACK_AND_WHITE_HUSKY = registerEntity(Species.DOG,"black_and_white_husky", ()->EntityType.Builder.of(BaseDog::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseDog::createAttributes);
     public static final RegistryObject<EntityType<BaseDog>> ENGLISH_COCKER_SPANIEL = registerEntity(Species.DOG,"english_cocker_spaniel", ()->EntityType.Builder.of(BaseDog::new, MobCategory.CREATURE).sized(0.6f,0.6f), BaseDog::createAttributes);
+
+    // CATS
     public static final RegistryObject<EntityType<BaseCat>> CALICO = registerEntity(Species.CAT,"calico", ()->EntityType.Builder.of(BaseCat::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseCat::createAttributes);
     public static final RegistryObject<EntityType<BaseCat>> AMERICAN_SHORTHAIR = registerEntity(Species.CAT,"american_shorthair", ()->EntityType.Builder.of(BaseCat::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseCat::createAttributes);
+
+    // PARROTS
     public static final RegistryObject<EntityType<BaseBird>> GOLD_DASHED_PARROT  = registerEntity(Species.BIRD,"gold_dashed_parrot", ()->EntityType.Builder.of(BaseBird::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseBird::createAttributes);
     public static final RegistryObject<EntityType<BaseBird>> WHITE_STRIPED_PARROT  = registerEntity(Species.BIRD,"white_striped_parrot", ()->EntityType.Builder.of(BaseBird::new, MobCategory.CREATURE).sized(0.5f,0.8f), BaseBird::createAttributes);
+    public static final RegistryObject<EntityType<BaseBird>> RED_ACCENT_ALBINO_PARROT  = registerEntity(Species.BIRD,"red_accent_albino_parrot", ()->EntityType.Builder.of(BaseBird::new, MobCategory.CREATURE).sized(0.5f,0.8f), BaseBird::createAttributes);
+    public static final RegistryObject<EntityType<BaseBird>> TROPICAL_PARROT  = registerEntity(Species.BIRD,"tropical_parrot", ()->EntityType.Builder.of(BaseBird::new, MobCategory.CREATURE).sized(0.5f,0.8f), BaseBird::createAttributes);
+
+    // OTHER
     public static final RegistryObject<EntityType<ThrownBall>> BALL = registerEntity("ball", ()->EntityType.Builder.<ThrownBall>of(ThrownBall::new, MobCategory.MISC).sized(0.25F, 0.25F));
+
     private static <T extends Entity> RegistryObject<EntityType<T>> registerEntity(String name, Supplier<EntityType.Builder<T>> supplier) {
         return ENTITIES.register(name, () -> supplier.get().build(Constants.MODID + ":" + name));
     }
