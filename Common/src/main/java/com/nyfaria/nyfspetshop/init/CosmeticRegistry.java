@@ -11,6 +11,7 @@ public class CosmeticRegistry {
             EntityInit.SHELTIE.get(), List.of(Type.HAT, Type.COLLAR, Type.BOOTS),
             EntityInit.SUPER_MUTT.get(), List.of(Type.HAT, Type.COLLAR, Type.BOOTS),
             EntityInit.BLACK_AND_WHITE_HUSKY.get(), List.of(Type.HAT, Type.COLLAR, Type.BOOTS),
+            EntityInit.ENGLISH_COCKER_SPANIEL.get(), List.of(Type.HAT, Type.COLLAR, Type.BOOTS),
             EntityInit.SABLE_HUSKY.get(), List.of(Type.HAT, Type.COLLAR, Type.BOOTS),
             EntityInit.CALICO.get(), List.of(Type.HAT, Type.COLLAR, Type.BOOTS),
             EntityInit.AMERICAN_SHORTHAIR.get(), List.of(Type.HAT, Type.COLLAR, Type.BOOTS),

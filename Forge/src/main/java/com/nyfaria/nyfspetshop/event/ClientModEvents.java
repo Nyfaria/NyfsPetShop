@@ -57,6 +57,7 @@ public class ClientModEvents {
     public static void onEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(EntityInit.BALL.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(EntityInit.SHELTIE.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "sheltie"), true)));
+        event.registerEntityRenderer(EntityInit.ENGLISH_COCKER_SPANIEL.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "english_cocker_spaniel"), true)));
         event.registerEntityRenderer(EntityInit.SUPER_MUTT.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "super_mutt"), true)));
         event.registerEntityRenderer(EntityInit.SABLE_HUSKY.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDog>(new ResourceLocation(Constants.MODID, "husky"), true).withAltTexture(new ResourceLocation(Constants.MODID, "sable_husky"))));
         event.registerEntityRenderer(EntityInit.BLACK_AND_WHITE_HUSKY.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDog>(new ResourceLocation(Constants.MODID, "husky"), true).withAltTexture(new ResourceLocation(Constants.MODID, "black_and_white_husky"))));

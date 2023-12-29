@@ -65,10 +65,6 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
 
     public BaseCat(EntityType<? extends BasePet> $$0, Level $$1) {
         super($$0, $$1);
-        this.moveControl = new FlyingMoveControl(this, 10, false);
-        this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, -1.0F);
-        this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1.0F);
-        this.setPathfindingMalus(BlockPathTypes.COCOA, -1.0F);
     }
 
 
@@ -256,11 +252,5 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
         }
     }
 
-    protected PathNavigation createNavigation(Level pLevel) {
-        FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, pLevel);
-        flyingpathnavigation.setCanOpenDoors(false);
-        flyingpathnavigation.setCanFloat(true);
-        flyingpathnavigation.setCanPassDoors(true);
-        return flyingpathnavigation;
-    }
+
 }
