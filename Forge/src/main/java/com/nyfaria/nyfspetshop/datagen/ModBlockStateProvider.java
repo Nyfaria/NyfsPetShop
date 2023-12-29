@@ -33,7 +33,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         BlockInit.pet_bowls.forEach(
                 block -> petBowl(block.get())
         );
-        simpleBlock(BlockInit.GROOMING_STATION.get(),blockSidedModel(BlockInit.GROOMING_STATION.get()));
+        simpleBlock(BlockInit.GROOMING_STATION.get(),blockSidedModel(BlockInit.GROOMING_STATION.get()).texture("particle", modLoc("block/grooming_station_side_1")));
 //        petBowl(BlockInit.PET_BOWL.get());
     }
 

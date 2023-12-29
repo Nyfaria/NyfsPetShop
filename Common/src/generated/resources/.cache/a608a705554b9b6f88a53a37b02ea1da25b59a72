@@ -1,4 +1,4 @@
-// 1.20.1	2023-12-26T20:17:06.0444792	Block States: nyfspetshop
+// 1.20.1	2023-12-29T14:22:44.3652305	Block States: nyfspetshop
 5e5e67be0ca24ed9e2ad5d4125834b6fa8a61b89 assets/nyfspetshop/blockstates/grooming_station.json
 997e8cc50eb3607550c74e4ca3e3ce78b47b7510 assets/nyfspetshop/blockstates/pet_bowl.json
 997e8cc50eb3607550c74e4ca3e3ce78b47b7510 assets/nyfspetshop/blockstates/pet_bowl_black.json
@@ -16,4 +16,4 @@
 997e8cc50eb3607550c74e4ca3e3ce78b47b7510 assets/nyfspetshop/blockstates/pet_bowl_purple.json
 997e8cc50eb3607550c74e4ca3e3ce78b47b7510 assets/nyfspetshop/blockstates/pet_bowl_red.json
 997e8cc50eb3607550c74e4ca3e3ce78b47b7510 assets/nyfspetshop/blockstates/pet_bowl_yellow.json
-800b4193bd4f46339a3011a3f3d045439aee321d assets/nyfspetshop/models/block/grooming_station.json
+55937e6387db4330afd897169ffc0d4622100082 assets/nyfspetshop/models/block/grooming_station.json

@@ -4,6 +4,7 @@
     "down": "nyfspetshop:block/grooming_station_bottom",
     "east": "nyfspetshop:block/grooming_station_side_3",
     "north": "nyfspetshop:block/grooming_station_side_1",
+    "particle": "nyfspetshop:block/grooming_station_side_1",
     "south": "nyfspetshop:block/grooming_station_side_2",
     "up": "nyfspetshop:block/grooming_station_top",
     "west": "nyfspetshop:block/grooming_station_side_4"
