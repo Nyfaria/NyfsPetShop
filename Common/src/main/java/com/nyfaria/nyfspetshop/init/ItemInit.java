@@ -27,7 +27,6 @@ public class ItemInit {
             .displayItems(
                     (itemDisplayParameters, output) -> {
 //                        ITEMS.getEntries().forEach((registryObject) -> output.accept(new ItemStack(registryObject.get())));
-                        output.accept(new ItemStack(ItemInit.TENNIS_BALL.get()));
                         PET_ITEMS.forEach((item) -> {
                             EntityInit.SPECIES_MAP.forEach((type,entityType) -> {
                                         ItemStack stack = new ItemStack(item.get());
@@ -39,6 +38,7 @@ public class ItemInit {
                         });
                         BlockInit.pet_bowls.forEach(block -> output.accept(block.get()));
                         output.accept(BlockInit.GROOMING_STATION.get());
+                        output.accept(new ItemStack(ItemInit.TENNIS_BALL.get()));
                         output.accept(ItemInit.BAG_OF_KIBBLE.get());
                         output.accept(BlockInit.CRATE.get());
 
