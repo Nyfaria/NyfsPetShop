@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "down": "nyfspetshop:block/crate_bottom",
+    "east": "nyfspetshop:block/crate_side_e",
+    "north": "nyfspetshop:block/crate_front",
+    "south": "nyfspetshop:block/crate_back",
+    "up": "nyfspetshop:block/crate_top",
+    "west": "nyfspetshop:block/crate_side_w"
+  }
+}
