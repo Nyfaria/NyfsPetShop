@@ -40,7 +40,8 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     public static final EntityDataAccessor<Vector3f> HAT_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.VECTOR3);
     public static final EntityDataAccessor<Vector3f> COLLAR_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.VECTOR3);
     public static final EntityDataAccessor<Vector3f> BOOTS_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.VECTOR3);
-    public static Optional<ItemStack> PET_ITEM_STACK = Optional.of(ItemStack.EMPTY);
+    public static final EntityDataAccessor<Boolean> BEGGING = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.BOOLEAN);
+    public Optional<ItemStack> itemStack = Optional.of(ItemStack.EMPTY);
 
     protected final EntityType<? extends BasePet> type;
 
@@ -49,12 +50,12 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         this.type = type;
     }
 
-    public static ItemStack getPetItemStack() {
-        return PET_ITEM_STACK.get();
+    public ItemStack getPetItemStack() {
+        return itemStack.get();
     }
 
-    public static void setPetItemStack(ItemStack petItemStack) {
-        PET_ITEM_STACK = Optional.of(petItemStack);
+    public void setPetItemStack(ItemStack petItemStack) {
+        itemStack = Optional.of(petItemStack);
     }
     public String getPublicEncodeId() {
         EntityType<?> $$0 = this.getType();
@@ -71,6 +72,7 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         this.entityData.define(HAT_COLOR, new Vector3f(1, 1, 1));
         this.entityData.define(COLLAR_COLOR, new Vector3f(1, 1, 1));
         this.entityData.define(BOOTS_COLOR, new Vector3f(1, 1, 1));
+        this.entityData.define(BEGGING, false);
     }
 
     @Override
@@ -137,6 +139,11 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         bootsColor.putFloat("g", getBootsColor().y());
         bootsColor.putFloat("b", getBootsColor().z());
         tag.put("boots_color", bootsColor);
+        if(!getPetItemStack().isEmpty()) {
+            CompoundTag petItemStack = new CompoundTag();
+            getPetItemStack().save(petItemStack);
+            tag.put("pet_item_stack", petItemStack);
+        }
     }
 
     @Nullable
@@ -159,6 +166,10 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         setCollarColor(collarColor.getFloat("r"), collarColor.getFloat("g"), collarColor.getFloat("b"));
         CompoundTag bootsColor = tag.getCompound("boots_color");
         setBootsColor(bootsColor.getFloat("r"), bootsColor.getFloat("g"), bootsColor.getFloat("b"));
+        if(tag.contains("pet_item_stack")){
+            setPetItemStack(ItemStack.of(tag.getCompound("pet_item_stack")));
+        }
+
     }
 
     @NotNull
@@ -243,5 +254,10 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     public void setBootsColor(float r, float g, float b) {
         this.entityData.set(BOOTS_COLOR, new Vector3f(r, g, b));
     }
-
+    public void setBegging(boolean begging) {
+        this.entityData.set(BEGGING, begging);
+    }
+    public boolean isBegging() {
+        return this.entityData.get(BEGGING);
+    }
 }

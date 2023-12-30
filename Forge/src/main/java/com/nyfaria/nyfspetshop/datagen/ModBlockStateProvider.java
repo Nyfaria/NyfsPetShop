@@ -35,6 +35,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         );
         simpleBlock(BlockInit.GROOMING_STATION.get(),blockSidedModel(BlockInit.GROOMING_STATION.get()).texture("particle", modLoc("block/grooming_station_side_1")));
 //        petBowl(BlockInit.PET_BOWL.get());
+        horizontalBlock(BlockInit.CRATE.get(),directionallySidedModel(BlockInit.CRATE.get()).renderType("cutout"));
     }
 
     protected void simpleCubeBottomTopBlockState(Block block) {
@@ -56,7 +57,17 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 modLoc("block/" + name + "_side_4")
                 );
     }
-
+    protected BlockModelBuilder directionallySidedModel(Block block) {
+        String name = getName(block);
+        return models().cube(name,
+                modLoc("block/" + name + "_bottom"),
+                modLoc("block/" + name + "_top"),
+                modLoc("block/" + name + "_front"),
+                modLoc("block/" + name + "_back"),
+                modLoc("block/" + name + "_side_e"),
+                modLoc("block/" + name + "_side_w")
+        );
+    }
     protected void customModelBlock(Block block) {
         simpleBlock(block, models().getExistingFile(modLoc("block/" + getName(block))));
     }

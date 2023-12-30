@@ -132,12 +132,12 @@
 				},
 				"back_left_leg": {
 					"rotation": {
-						"vector": [-55, 0, 0]
+						"vector": [-105, 0, 0]
 					}
 				},
 				"back_right_leg": {
 					"rotation": {
-						"vector": [-55, 0, 0]
+						"vector": [-105, 0, 0]
 					}
 				},
 				"root": {
@@ -156,6 +156,16 @@
 				"tail": {
 					"rotation": {
 						"vector": [15, 0, 0]
+					}
+				},
+				"back_left_seg_2": {
+					"rotation": {
+						"vector": [125, 0, 0]
+					}
+				},
+				"back_right_seg_2": {
+					"rotation": {
+						"vector": [125, 0, 0]
 					}
 				}
 			}
@@ -203,6 +213,114 @@
 					}
 				}
 			}
+		},
+		"beg": {
+			"loop": true,
+			"animation_length": 0.75,
+			"bones": {
+				"body": {
+					"rotation": {
+						"vector": [-35, 0, 0]
+					},
+					"position": {
+						"vector": [0, -3, 0]
+					}
+				},
+				"front_left_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [17.5, 0, 0]
+						},
+						"0.375": {
+							"vector": [0, 0, 0]
+						},
+						"0.75": {
+							"vector": [17.5, 0, 0]
+						}
+					}
+				},
+				"front_right_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.375": {
+							"vector": [17.5, 0, 0]
+						},
+						"0.75": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"back_left_leg": {
+					"rotation": {
+						"vector": [-57.5, 0, 0]
+					}
+				},
+				"back_right_leg": {
+					"rotation": {
+						"vector": [-57.5, 0, 0]
+					}
+				},
+				"root": {
+					"rotation": {
+						"vector": [-82.5, 0, 0]
+					},
+					"position": {
+						"vector": [0, -1, 5]
+					}
+				},
+				"head_rotations": {
+					"rotation": {
+						"vector": [70, 0, 0]
+					}
+				},
+				"tail": {
+					"rotation": {
+						"vector": [15, 0, 0]
+					}
+				},
+				"back_left_seg_2": {
+					"rotation": {
+						"vector": [125, 0, 0]
+					}
+				},
+				"back_right_seg_2": {
+					"rotation": {
+						"vector": [125, 0, 0]
+					}
+				},
+				"head": {
+					"rotation": {
+						"vector": [22.5, 0, 0]
+					},
+					"position": {
+						"vector": [0, 2, -2]
+					}
+				}
+			}
+		},
+		"tail_wag_beg": {
+			"loop": true,
+			"animation_length": 0.5,
+			"bones": {
+				"tail": {
+					"rotation": {
+						"0.0": {
+							"vector": [156.35027, 6.27967, 24.24769]
+						},
+						"0.25": {
+							"vector": [159.51846, -13.59995, -21.96809]
+						},
+						"0.5": {
+							"vector": [156.35027, 6.27967, 24.24769]
+						}
+					}
+				}
+			}
+		},
+		"idle": {
+			"animation_length": 0.04167
 		}
 	},
 	"geckolib_format_version": 2

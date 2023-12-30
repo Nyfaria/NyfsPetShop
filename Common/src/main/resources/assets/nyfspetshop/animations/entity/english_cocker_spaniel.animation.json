@@ -181,6 +181,134 @@
 		},
 		"ear_idle": {
 			"loop": true
+		},
+		"beg": {
+			"loop": true,
+			"animation_length": 0.75,
+			"bones": {
+				"back_left_seg_2": {
+					"rotation": {
+						"vector": [125, 0, 0]
+					}
+				},
+				"back_right_seg_2": {
+					"rotation": {
+						"vector": [125, 0, 0]
+					}
+				},
+				"root": {
+					"rotation": {
+						"vector": [-82.5, 0, 0]
+					},
+					"position": {
+						"vector": [0, -1, 5]
+					}
+				},
+				"hind_leg_l_2": {
+					"rotation": {
+						"vector": [125, 0, 0]
+					}
+				},
+				"hind_leg_r_2": {
+					"rotation": {
+						"vector": [125, 0, 0]
+					}
+				},
+				"body": {
+					"rotation": {
+						"vector": [-82.5, 0, 0]
+					},
+					"position": {
+						"vector": [0, 4, 5]
+					}
+				},
+				"head": {
+					"rotation": {
+						"vector": [22.5, 0, 0]
+					},
+					"position": {
+						"vector": [0, 2, -2]
+					}
+				},
+				"front_left_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [17.5, 0, 0]
+						},
+						"0.375": {
+							"vector": [0, 0, 0]
+						},
+						"0.75": {
+							"vector": [17.5, 0, 0]
+						}
+					}
+				},
+				"front_right_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.375": {
+							"vector": [17.5, 0, 0]
+						},
+						"0.75": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"tail": {
+					"rotation": {
+						"vector": [15, 0, 0]
+					}
+				},
+				"back_left_leg": {
+					"rotation": {
+						"vector": [-57.5, 0, 0]
+					}
+				},
+				"back_left_leg_2": {
+					"rotation": {
+						"vector": [125, 0, 0]
+					}
+				},
+				"back_right_leg": {
+					"rotation": {
+						"vector": [-57.5, 0, 0]
+					}
+				},
+				"back_right_leg_2": {
+					"rotation": {
+						"vector": [125, 0, 0]
+					}
+				},
+				"head_rotations": {
+					"rotation": {
+						"vector": [70, 0, 0]
+					},
+					"position": {
+						"vector": [0, 12, 3]
+					}
+				}
+			}
+		},
+		"tail_wag_beg": {
+			"loop": true,
+			"animation_length": 0.5,
+			"bones": {
+				"tail": {
+					"rotation": {
+						"0.0": {
+							"vector": [156.35027, 6.27967, 24.24769]
+						},
+						"0.25": {
+							"vector": [159.51846, -13.59995, -21.96809]
+						},
+						"0.5": {
+							"vector": [156.35027, 6.27967, 24.24769]
+						}
+					}
+				}
+			}
 		}
 	},
 	"geckolib_format_version": 2

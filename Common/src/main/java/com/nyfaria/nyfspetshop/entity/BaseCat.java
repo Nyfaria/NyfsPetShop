@@ -32,11 +32,13 @@ import net.tslat.smartbrainlib.api.core.behaviour.OneRandomBehaviour;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.look.LookAtTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.misc.Idle;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowOwner;
+import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowTemptation;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.MoveToWalkTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.path.SetRandomWalkTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.target.SetPlayerLookTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.target.SetRandomLookTarget;
 import net.tslat.smartbrainlib.api.core.sensor.ExtendedSensor;
+import net.tslat.smartbrainlib.api.core.sensor.vanilla.ItemTemptingSensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyLivingEntitySensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyPlayersSensor;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -81,6 +83,7 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
     @Override
     public List<? extends ExtendedSensor<? extends BaseCat>> getSensors() {
         return ObjectArrayList.of(
+                new ItemTemptingSensor<BaseCat>().temptedWith((livingEntity, itemStack)->itemStack == getPetItemStack()),
                 new NearbyPlayersSensor<BaseCat>().setRadius(50).setPredicate((player, wolf) -> player.is(wolf.getOwner())),
                 new NearbyLivingEntitySensor<>()
         );
@@ -97,9 +100,10 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
     @Override
     public BrainActivityGroup<? extends BasePet> getCoreTasks() {
         return BrainActivityGroup.coreTasks(
-                new FirstApplicableBehaviour<BaseCat>(
+                new FirstApplicableBehaviour<>(
                         new FindBowl<BaseCat>(PetBowl.Type.WATER).startCondition(e -> e.getThirstLevel() <= thirstLevelThreshold),
                         new FindBowl<BaseCat>(PetBowl.Type.KIBBLE).startCondition(e -> e.getHungerLevel() <= hungerLevelThreshold),
+                        new FollowTemptation<BaseCat>().startCondition(e -> e.getMovementType() == MovementType.WANDER),
                         new FetchBall<>().startCondition(e -> e.getMainHandItem().isEmpty() && ((BasePet) e).getMovementType() != MovementType.STAY),
                         new ReturnBall<>().startCondition(e -> ((BasePet) e).getMovementType() != MovementType.STAY),
                         new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW)),

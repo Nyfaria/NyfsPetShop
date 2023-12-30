@@ -13,6 +13,7 @@ public class CommonModEvents {
 
     @SubscribeEvent
     public static void attribs(EntityAttributeCreationEvent e) {
+
         EntityInit.attributeSuppliers.forEach(p -> e.put(p.entityTypeSupplier().get(), p.factory().get().build()));
     }
     @SubscribeEvent

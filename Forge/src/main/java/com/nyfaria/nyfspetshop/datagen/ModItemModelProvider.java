@@ -29,7 +29,8 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .forEach(this::simpleHandHeldModel);
 
         Stream.of(
-                        ItemInit.TENNIS_BALL
+                        ItemInit.TENNIS_BALL,
+                        ItemInit.DOG_TREAT
                 )
                 .map(Supplier::get)
                 .forEach(this::simpleGeneratedModel);
@@ -38,7 +39,8 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .map(Supplier::get)
                 .forEach(this::petBowl);
         Stream.of(
-                        BlockInit.GROOMING_STATION
+                        BlockInit.GROOMING_STATION,
+                        BlockInit.CRATE
                 ).map(Supplier::get)
                 .forEach(this::simpleBlockItemModel);
         petItem(ItemInit.PET_ITEM.get());
