@@ -48,6 +48,7 @@ public class ItemInit {
     public static final RegistryObject<Item> PET_ITEM = registerDogCollar("pet_item", getItemProperties(Rarity.COMMON).stacksTo(1));
     public static final RegistryObject<Item> TENNIS_BALL = ITEMS.register("tennis_ball", () -> new BallItem(getItemProperties(Rarity.COMMON).stacksTo(1)));
     public static final RegistryObject<Item> BAG_OF_KIBBLE = ITEMS.register("bag_of_kibble", () -> new KibbleItem(KibbleItem.Type.BAG, getItemProperties(Rarity.COMMON).durability(3)));
+    public static final RegistryObject<Item> DOG_TREAT = ITEMS.register("dog_treat", () -> new Item(getItemProperties(Rarity.COMMON).durability(3)));
 
     public static RegistryObject<Item> registerDogCollar(String name, Item.Properties properties) {
         RegistryObject<Item> item = ITEMS.register(name, () -> new PetItem(properties));

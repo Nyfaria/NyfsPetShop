@@ -3,7 +3,6 @@ package com.nyfaria.nyfspetshop.item;
 import com.nyfaria.nyfspetshop.entity.BasePet;
 import com.nyfaria.nyfspetshop.init.CosmeticRegistry;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -16,7 +15,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
@@ -145,18 +143,18 @@ public class PetItem extends Item {
                 ItemStack itemstack = pPlayer.getMainHandItem();
                 if (!pLevel.isClientSide() && itemstack.hasTag()) {
                     CompoundTag tag = itemstack.getTag();
-                    if(tag.contains("pet_uuid")) {
-                        if(tag.contains("inside")) {
+                    if (tag.contains("pet_uuid")) {
+                        if (tag.contains("inside")) {
                             if (tag.getBoolean("inside")) {
                                 if (tag.contains("owner_uuid") && pPlayer.getUUID().equals(tag.getUUID("owner_uuid"))) {
                                     spawnExisting(pLevel, pPlayer, tag, itemstack);
                                 }
-                            } else{
+                            } else {
                                 recallExisting((ServerLevel) pLevel, tag, itemstack);
                             }
                         }
                     } else {
-                        spawnNew((ServerLevel) pLevel, pPlayer, tag);
+                        spawnNew((ServerLevel) pLevel, pPlayer, tag, itemstack);
                     }
                     itemstack.setTag(tag);
                 }
@@ -166,12 +164,13 @@ public class PetItem extends Item {
         return InteractionResultHolder.pass(pPlayer.getItemInHand(pUsedHand));
     }
 
-    private static void spawnNew(ServerLevel pLevel, Player pPlayer, CompoundTag tag) {
+    private static void spawnNew(ServerLevel pLevel, Player pPlayer, CompoundTag tag, ItemStack stack) {
         BasePet pet = (BasePet) BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(tag.getString("entityType"))).spawn(pLevel, pPlayer.blockPosition(), MobSpawnType.MOB_SUMMONED);
         tag.putUUID("owner_uuid", pPlayer.getUUID());
         tag.putUUID("pet_uuid", pet.getUUID());
         tag.putBoolean("inside", false);
         pet.tame(pPlayer);
+        pet.setPetItemStack(stack);
     }
 
     private static void recallExisting(ServerLevel pLevel, CompoundTag tag, ItemStack itemstack) {
@@ -189,10 +188,11 @@ public class PetItem extends Item {
 
     private static void spawnExisting(Level pLevel, Player pPlayer, CompoundTag tag, ItemStack itemstack) {
         tag.putBoolean("inside", false);
-        LivingEntity entity = getEntity(itemstack, pLevel);
+        BasePet entity = getEntity(itemstack, pLevel);
         entity.load(tag.getCompound("petData"));
         entity.setPos(pPlayer.getX(), pPlayer.getY(), pPlayer.getZ());
         pLevel.addFreshEntity(entity);
+        entity.setPetItemStack(itemstack);
     }
 
     @Override
@@ -206,18 +206,18 @@ public class PetItem extends Item {
                 ItemStack itemstack = pPlayer.getMainHandItem();
                 if (!pLevel.isClientSide() && itemstack.hasTag()) {
                     CompoundTag tag = itemstack.getTag();
-                    if(tag.contains("pet_uuid")) {
-                        if(tag.contains("inside")) {
+                    if (tag.contains("pet_uuid")) {
+                        if (tag.contains("inside")) {
                             if (tag.getBoolean("inside")) {
                                 if (tag.contains("owner_uuid") && pPlayer.getUUID().equals(tag.getUUID("owner_uuid"))) {
                                     spawnExisting(pLevel, pPlayer, tag, itemstack);
                                 }
-                            } else{
+                            } else {
                                 recallExisting((ServerLevel) pLevel, tag, itemstack);
                             }
                         }
                     } else {
-                        spawnNew((ServerLevel) pLevel, pPlayer, tag);
+                        spawnNew((ServerLevel) pLevel, pPlayer, tag, itemstack);
                     }
                     itemstack.setTag(tag);
                 }

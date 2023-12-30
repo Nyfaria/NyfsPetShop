@@ -11,6 +11,7 @@ import com.nyfaria.nyfspetshop.entity.ifaces.Fetcher;
 import com.nyfaria.nyfspetshop.entity.ifaces.Hungry;
 import com.nyfaria.nyfspetshop.entity.ifaces.ShoulderRider;
 import com.nyfaria.nyfspetshop.entity.ifaces.Thirsty;
+import com.nyfaria.nyfspetshop.init.ItemInit;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -31,6 +32,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.sensing.TemptingSensor;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
@@ -44,11 +46,13 @@ import net.tslat.smartbrainlib.api.core.behaviour.OneRandomBehaviour;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.look.LookAtTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.misc.Idle;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowOwner;
+import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowTemptation;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.MoveToWalkTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.path.SetRandomWalkTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.target.SetPlayerLookTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.target.SetRandomLookTarget;
 import net.tslat.smartbrainlib.api.core.sensor.ExtendedSensor;
+import net.tslat.smartbrainlib.api.core.sensor.vanilla.ItemTemptingSensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyLivingEntitySensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyPlayersSensor;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -103,8 +107,10 @@ public class BaseBird extends BasePet implements Thirsty, Hungry, ShoulderRider<
     @Override
     public List<? extends ExtendedSensor<? extends BaseBird>> getSensors() {
         return ObjectArrayList.of(
-                new NearbyPlayersSensor<BaseBird>().setRadius(50).setPredicate((player, wolf) -> player.is(wolf.getOwner())),
+                new ItemTemptingSensor<BaseBird>().temptedWith((livingEntity, itemStack)->itemStack == getPetItemStack()),
+                new NearbyPlayersSensor<BaseBird>().setRadius(50).setPredicate((player, wolf) -> player.getMainHandItem().is(ItemInit.DOG_TREAT.get()) || player.getOffhandItem().is(ItemInit.DOG_TREAT.get()) || player.is(wolf.getOwner())),
                 new NearbyLivingEntitySensor<>()
+
         );
     }
 
@@ -122,6 +128,7 @@ public class BaseBird extends BasePet implements Thirsty, Hungry, ShoulderRider<
                 new FirstApplicableBehaviour<BaseBird>(
                         new FindBowl<BaseBird>(PetBowl.Type.WATER).startCondition(e -> e.getThirstLevel() <= thirstLevelThreshold),
                         new FindBowl<BaseBird>(PetBowl.Type.KIBBLE).startCondition(e -> e.getHungerLevel() <= hungerLevelThreshold),
+                        new FollowTemptation<BaseBird>().startCondition(e->e.getMovementType() == MovementType.WANDER),
                         new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW)),
                 new LookAtTarget<BasePet>().runFor(entity -> entity.getRandom().nextIntBetweenInclusive(40, 300)),
                 new GoToBowl<>(),

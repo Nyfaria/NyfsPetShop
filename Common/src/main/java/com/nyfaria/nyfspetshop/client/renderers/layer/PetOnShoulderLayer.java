@@ -32,17 +32,16 @@ public class PetOnShoulderLayer<T extends Player> extends RenderLayer<T, PlayerM
 
     private void render(PoseStack pMatrixStack, MultiBufferSource pBuffer, int pPackedLight, T pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pNetHeadYaw, float pHeadPitch, boolean pLeftShoulder) {
         CompoundTag compoundtag = pLeftShoulder ? pLivingEntity.getShoulderEntityLeft() : pLivingEntity.getShoulderEntityRight();
-        EntityType.byString(compoundtag.getString("id")).filter((p_117294_) -> {
-            return p_117294_.getBaseClass().isAssignableFrom(BasePet.class);
-        }).ifPresent((type) -> {
-            pMatrixStack.pushPose();
-            pMatrixStack.translate(pLeftShoulder ? 0.4F : -0.4F, pLivingEntity.isCrouching() ? -1.3F : -1.5F, 0.0F);
-            BasePet pet = (BasePet)type.create(Minecraft.getInstance().level);
-            pet.load(compoundtag);
-            pMatrixStack.scale(1,-1,1);
-            pMatrixStack.translate(0, -1.5, 0);
-            ((PetRenderer<BasePet>)Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(pet)).render(pet, pet.getYRot(), pet.getXRot(), pMatrixStack, pBuffer, pPackedLight);
-            pMatrixStack.popPose();
+        EntityType.byString(compoundtag.getString("id")).ifPresent((type) -> {
+            if(type.create(Minecraft.getInstance().level) instanceof BasePet pet) {
+                pMatrixStack.pushPose();
+                pMatrixStack.translate(pLeftShoulder ? 0.4F : -0.4F, pLivingEntity.isCrouching() ? -1.3F : -1.5F, 0.0F);
+                pet.load(compoundtag);
+                pMatrixStack.scale(1, -1, 1);
+                pMatrixStack.translate(0, -1.5, 0);
+                Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(pet).render(pet, pet.getYRot(), pet.getXRot(), pMatrixStack, pBuffer, pPackedLight);
+                pMatrixStack.popPose();
+            }
         });
     }
 }
