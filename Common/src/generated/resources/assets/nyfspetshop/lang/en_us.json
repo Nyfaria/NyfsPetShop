@@ -18,6 +18,8 @@
   "block.nyfspetshop.pet_bowl_red": "Pet Bowl Red",
   "block.nyfspetshop.pet_bowl_yellow": "Pet Bowl Yellow",
   "container.nyfspetshop.grooming": "Grooming Station",
+  "entity.minecraft.villager.nyfspetshop.pet_item": "Pet Groomer",
+  "entity.minecraft.villager.nyfspetshop.pets": "Pet Supplier",
   "entity.nyfspetshop.american_shorthair": "American Shorthair",
   "entity.nyfspetshop.ball": "Ball",
   "entity.nyfspetshop.black_and_white_husky": "Black And White Husky",

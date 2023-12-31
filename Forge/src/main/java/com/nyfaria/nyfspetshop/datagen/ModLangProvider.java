@@ -40,6 +40,8 @@ public class ModLangProvider extends LanguageProvider {
         add("movementType." + Constants.MODID + ".wander", "Wander");
         add("player_message." + Constants.MODID + ".movementType", "%s is now commanded to %s");
         add("container." + Constants.MODID + ".grooming", "Grooming Station");
+        add("entity.minecraft.villager." + Constants.MODID + ".pets", "Pet Supplier");
+        add("entity.minecraft.villager." + Constants.MODID + ".pet_items", "Pet Groomer");
     }
 
     protected void itemLang(RegistryObject<Item> entry) {

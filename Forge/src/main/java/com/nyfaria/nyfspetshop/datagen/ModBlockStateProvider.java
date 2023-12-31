@@ -58,7 +58,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 modLoc("block/" + name + "_side_4")
         );
     }
-    
+
     protected BlockModelBuilder directionallySidedModel(Block block) {
         String name = getName(block);
         return models().cube(name,
