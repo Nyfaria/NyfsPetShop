@@ -44,16 +44,10 @@ public class VillagerInit {
     public static void loadClass() { }
     public static void loadTrades() {
         List<VillagerTrades.ItemListing> trades = new ArrayList<>();
-        EntityInit.SPECIES_MAP.get(Species.DOG).forEach((key) -> {
+        EntityInit.SPECIES_MAP.forEach((species,entity)-> {
             ItemStack stack = new ItemStack(ItemInit.PET_ITEM.get());
-            stack.getOrCreateTag().putString("entityType", BuiltInRegistries.ENTITY_TYPE.getKey(key.get()).toString());
-            stack.getTag().putString("pet_type","dog");
-            trades.add(new ItemsForItems(new ItemStack(Items.EMERALD,15),ItemStack.EMPTY,stack , 1, 1, 1));
-        });
-        EntityInit.SPECIES_MAP.get(Species.CAT).forEach((key) -> {
-            ItemStack stack = new ItemStack(ItemInit.PET_ITEM.get());
-            stack.getOrCreateTag().putString("entityType", BuiltInRegistries.ENTITY_TYPE.getKey(key.get()).toString());
-            stack.getTag().putString("pet_type","cat");
+            stack.getOrCreateTag().putString("entityType", BuiltInRegistries.ENTITY_TYPE.getKey(entity.get()).toString());
+            stack.getTag().putString("pet_type", species.getName());
             trades.add(new ItemsForItems(new ItemStack(Items.EMERALD,15),ItemStack.EMPTY,stack , 1, 1, 1));
         });
         Map<Integer,VillagerTrades.ItemListing[]> theMap = Map.of(
@@ -67,6 +61,7 @@ public class VillagerInit {
         List<VillagerTrades.ItemListing> trades2 = new ArrayList<>();
         trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.TENNIS_BALL.get()) , 20, 1, 1));
         trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,5),ItemStack.EMPTY,new ItemStack(ItemInit.BAG_OF_KIBBLE.get()) , 20, 1, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.DOG_TREAT.get()) , 20, 1, 1));
         Map<Integer,VillagerTrades.ItemListing[]> theSecondMap = Map.of(
                 1, trades2.toArray(new VillagerTrades.ItemListing[trades2.size()]),
                 2,trades2.toArray(new VillagerTrades.ItemListing[trades2.size()]),
