@@ -26,6 +26,7 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BrushableBlock;
 import net.tslat.smartbrainlib.api.core.BrainActivityGroup;
 import net.tslat.smartbrainlib.api.core.SmartBrainProvider;
 import net.tslat.smartbrainlib.api.core.behaviour.FirstApplicableBehaviour;
@@ -39,6 +40,7 @@ import net.tslat.smartbrainlib.api.core.behaviour.custom.path.SetRandomWalkTarge
 import net.tslat.smartbrainlib.api.core.behaviour.custom.target.SetPlayerLookTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.target.SetRandomLookTarget;
 import net.tslat.smartbrainlib.api.core.sensor.ExtendedSensor;
+import net.tslat.smartbrainlib.api.core.sensor.custom.NearbyBlocksSensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.ItemTemptingSensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyLivingEntitySensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyPlayersSensor;
@@ -72,11 +74,28 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
         super($$0, $$1);
     }
 
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(FETCH_TARGET, Optional.empty());
+        this.entityData.define(THIRST, 1.0f);
+        this.entityData.define(HUNGER, 1.0f);
+    }
 
     @Override
-    protected Brain.Provider<?> brainProvider() {
-        return new SmartBrainProvider<>(this);
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putFloat("thirst", getThirstLevel());
+        tag.putFloat("hunger", getHungerLevel());
     }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        setThirstLevel(tag.getFloat("thirst"));
+        setHungerLevel(tag.getFloat("hunger"));
+    }
+
 
     @Override
     protected void customServerAiStep() {
@@ -85,20 +104,18 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
     }
 
     @Override
+    protected Brain.Provider<?> brainProvider() {
+        return new SmartBrainProvider<>(this);
+    }
+
+    @Override
     public List<? extends ExtendedSensor<? extends BaseDog>> getSensors() {
         return ObjectArrayList.of(
                 new ItemTemptingSensor<BaseDog>().temptedWith((livingEntity,itemStack)->itemStack == getPetItemStack()),
                 new NearbyPlayersSensor<BaseDog>().setRadius(50).setPredicate((player, wolf) -> player.is(wolf.getOwner())),
-                new NearbyLivingEntitySensor<>()
+                new NearbyLivingEntitySensor<>(),
+                new NearbyBlocksSensor<BaseDog>().setPredicate((state, dog)->state.getBlock() instanceof BrushableBlock)
         );
-    }
-
-    @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(FETCH_TARGET, Optional.empty());
-        this.entityData.define(THIRST, 1.0f);
-        this.entityData.define(HUNGER, 1.0f);
     }
 
     @Override
@@ -121,29 +138,6 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag tag) {
-        super.addAdditionalSaveData(tag);
-        tag.putFloat("thirst", getThirstLevel());
-        tag.putFloat("hunger", getHungerLevel());
-    }
-
-    @Override
-    public void readAdditionalSaveData(CompoundTag tag) {
-        super.readAdditionalSaveData(tag);
-        setThirstLevel(tag.getFloat("thirst"));
-        setHungerLevel(tag.getFloat("hunger"));
-    }
-
-    @Override
-    public void performBowlAction(PetBowl.Type type) {
-        if (type == PetBowl.Type.WATER) {
-            setThirstLevel(getThirstLevel() + (1.0f - thirstLevelThreshold));
-        } else if (type == PetBowl.Type.KIBBLE) {
-            setHungerLevel(getHungerLevel() + (1.0f - hungerLevelThreshold));
-        }
-    }
-
-    @Override
     public BrainActivityGroup<? extends BasePet> getIdleTasks() {
         return BrainActivityGroup.idleTasks(
 
@@ -156,6 +150,15 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
                         new Idle<BaseDog>().runFor(entity -> entity.getRandom().nextInt(30, 60)).startCondition(e -> e.getMovementType() == MovementType.WANDER)
                 )
         );
+    }
+
+    @Override
+    public void performBowlAction(PetBowl.Type type) {
+        if (type == PetBowl.Type.WATER) {
+            setThirstLevel(getThirstLevel() + (1.0f - thirstLevelThreshold));
+        } else if (type == PetBowl.Type.KIBBLE) {
+            setHungerLevel(getHungerLevel() + (1.0f - hungerLevelThreshold));
+        }
     }
 
 
@@ -183,6 +186,17 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
     }
 
     @Override
+    public void aiStep() {
+        super.aiStep();
+        if (level().isClientSide) return;
+        if (tickCount % 20 == 0 && getRandom().nextFloat() < 0.01) {
+            triggerAnim(EAR_CONTROLLER, "ear_wiggle");
+        }
+        tickThirst();
+        tickHunger();
+    }
+
+    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
         controllerRegistrar.add(new AnimationController<>(this, MOVE_CONTROLLER, this::moveControllerState)
                 .triggerableAnim("beg", RawAnimation.begin().thenPlay("beg"))
@@ -194,17 +208,6 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
         );
         controllerRegistrar.add(new AnimationController<>(this, EAR_CONTROLLER, this::earControllerState)
                 .triggerableAnim("ear_wiggle", Animations.EAR_WIGGLE));
-    }
-
-    @Override
-    public void aiStep() {
-        super.aiStep();
-        if (level().isClientSide) return;
-        if (tickCount % 20 == 0 && getRandom().nextFloat() < 0.01) {
-            triggerAnim(EAR_CONTROLLER, "ear_wiggle");
-        }
-        tickThirst();
-        tickHunger();
     }
 
     private PlayState earControllerState(AnimationState<BaseDog> baseDogAnimationState) {
@@ -248,7 +251,6 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
         return animationCache;
     }
 
-
     @Override
     public float getThirstLevel() {
         return this.entityData.get(THIRST);
@@ -277,8 +279,6 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
     public void setHungerLevel(float hungerLevel) {
         this.entityData.set(HUNGER, hungerLevel);
     }
-
-
 
     @Override
     public void tickHunger() {
