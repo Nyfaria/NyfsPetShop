@@ -113,34 +113,23 @@
 			"loop": true,
 			"bones": {
 				"body": {
-					"rotation": {
-						"vector": [-22.5, 0, 0]
-					}
+					"rotation": [-22.5, 0, 0],
+					"position": [0, -1, 0]
 				},
 				"front_left_leg": {
-					"rotation": {
-						"vector": [22.5, 0, 0]
-					}
+					"rotation": [22.5, 0, 0]
 				},
 				"front_right_leg": {
-					"rotation": {
-						"vector": [22.5, 0, 0]
-					}
+					"rotation": [22.5, 0, 0]
 				},
 				"back_left_leg": {
-					"rotation": {
-						"vector": [-67.5, 0, 0]
-					}
+					"rotation": [-67.5, 0, 0]
 				},
 				"back_right_leg": {
-					"rotation": {
-						"vector": [-67.5, 0, 0]
-					}
+					"rotation": [-67.5, 0, 0]
 				},
 				"head_rotations": {
-					"rotation": {
-						"vector": [25, 0, 0]
-					}
+					"rotation": [25, 0, 0]
 				}
 			}
 		},
@@ -246,6 +235,80 @@
 						"0.25": [159.51846, -13.59995, -21.96809],
 						"0.5": [156.35027, 6.27967, 24.24769]
 					}
+				}
+			}
+		},
+		"dig": {
+			"loop": true,
+			"animation_length": 0.5,
+			"bones": {
+				"body": {
+					"rotation": [-22.5, 0, 0],
+					"position": [0, -1.5, 0]
+				},
+				"front_left_leg": {
+					"rotation": {
+						"0.0": [22.5, 0, 0],
+						"0.25": [52.5, 0, 0],
+						"0.5": [22.5, 0, 0]
+					}
+				},
+				"front_right_leg": {
+					"rotation": {
+						"0.0": [52.5, 0, 0],
+						"0.25": [22.5, 0, 0],
+						"0.5": [52.5, 0, 0]
+					}
+				},
+				"back_left_leg": {
+					"rotation": [-67.5, 0, 0]
+				},
+				"back_right_leg": {
+					"rotation": [-67.5, 0, 0]
+				},
+				"head_rotations": {
+					"rotation": [60, 0, 0]
+				}
+			}
+		},
+		"idle": {
+			"animation_length": 0.04167,
+			"bones": {
+				"body": {
+					"rotation": [0, 0, 0]
+				}
+			}
+		},
+		"sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [0, 0, 90],
+					"position": [0, -2, 0]
+				}
+			}
+		},
+		"sleep2": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"position": [0, -4, 0]
+				},
+				"front_left_leg": {
+					"rotation": [-90, 0, 0]
+				},
+				"front_right_leg": {
+					"rotation": [-90, 0, 0]
+				},
+				"back_left_leg": {
+					"rotation": [-90, 0, 0]
+				},
+				"back_right_leg": {
+					"rotation": [-90, 0, 0]
+				},
+				"head": {
+					"rotation": [15, 0, 0],
+					"position": [0, -3, -2]
 				}
 			}
 		}

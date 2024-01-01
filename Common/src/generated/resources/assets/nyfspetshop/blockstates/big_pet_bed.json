@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "corner=bl": {
+      "model": "nyfspetshop:block/big_pet_bed_bl"
+    },
+    "corner=br": {
+      "model": "nyfspetshop:block/big_pet_bed_br"
+    },
+    "corner=fl": {
+      "model": "nyfspetshop:block/big_pet_bed_fl"
+    },
+    "corner=fr": {
+      "model": "nyfspetshop:block/big_pet_bed_fr"
+    }
+  }
+}

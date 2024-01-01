@@ -3,10 +3,10 @@ package com.nyfaria.nyfspetshop.init;
 import com.nyfaria.nyfspetshop.Constants;
 import com.nyfaria.nyfspetshop.block.BasicHorizontalBlock;
 import com.nyfaria.nyfspetshop.block.GroomingStation;
+import com.nyfaria.nyfspetshop.block.TBTBlock;
 import com.nyfaria.nyfspetshop.block.PetBowl;
 import com.nyfaria.nyfspetshop.registration.RegistrationProvider;
 import com.nyfaria.nyfspetshop.registration.RegistryObject;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
@@ -44,7 +44,8 @@ public class BlockInit {
     public static final RegistryObject<Block> PET_BOWL_BLACK = registerPetBowl("pet_bowl_black", () -> new PetBowl(DyeColor.BLACK, Block.Properties.copy(Blocks.BLACK_WOOL).noOcclusion()));
     public static final RegistryObject<Block> GROOMING_STATION = registerBlock("grooming_station", () -> new GroomingStation(Block.Properties.copy(Blocks.CRAFTING_TABLE).noOcclusion()));
     public static final RegistryObject<Block> CRATE = registerBlock("crate", () -> new BasicHorizontalBlock(Block.Properties.copy(Blocks.CRAFTING_TABLE).noOcclusion()));
-
+    public static final RegistryObject<Block> BIG_PET_BED = registerBlock("big_pet_bed",()-> new TBTBlock(Block.Properties.copy(Blocks.WHITE_WOOL).noOcclusion()), (block)-> ()->new TBTHorizontalBlockItem(block.get(), ItemInit.getItemProperties(Rarity.COMMON)));
+    public static final RegistryObject<Block> PET_BED = registerBlock("pet_bed",()-> new Block(Block.Properties.copy(Blocks.WHITE_WOOL).noOcclusion()));
     public static <T extends Block> RegistryObject<T> registerPetBowl(String name, Supplier<T> block) {
         RegistryObject<T> reg = registerBlock(name, block, b -> () -> new BlockItem(b.get(), ItemInit.getItemProperties(Rarity.COMMON)));
         pet_bowls.add(reg);
@@ -59,6 +60,7 @@ public class BlockInit {
         ItemInit.ITEMS.register(name, () -> item.apply(reg).get());
         return reg;
     }
+
 
     public static void loadClass() {
     }

@@ -2,18 +2,25 @@ package com.nyfaria.nyfspetshop.entity;
 
 import com.nyfaria.nyfspetshop.block.PetBowl;
 import com.nyfaria.nyfspetshop.entity.ai.Beg;
+import com.nyfaria.nyfspetshop.entity.ai.Dig;
 import com.nyfaria.nyfspetshop.entity.ai.FetchBall;
 import com.nyfaria.nyfspetshop.entity.ai.FindBowl;
+import com.nyfaria.nyfspetshop.entity.ai.FindDig;
 import com.nyfaria.nyfspetshop.entity.ai.GoToBowl;
+import com.nyfaria.nyfspetshop.entity.ai.GoToDig;
 import com.nyfaria.nyfspetshop.entity.ai.ModAnimalMakeLove;
 import com.nyfaria.nyfspetshop.entity.ai.ReturnBall;
 import com.nyfaria.nyfspetshop.entity.data.Animations;
 import com.nyfaria.nyfspetshop.entity.enums.MovementType;
+import com.nyfaria.nyfspetshop.entity.ifaces.Digger;
 import com.nyfaria.nyfspetshop.entity.ifaces.Fetcher;
 import com.nyfaria.nyfspetshop.entity.ifaces.Hungry;
 import com.nyfaria.nyfspetshop.entity.ifaces.Thirsty;
 import com.nyfaria.nyfspetshop.init.ItemInit;
+import com.nyfaria.nyfspetshop.init.MemoryModuleTypeInit;
+import com.sun.jna.Memory;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -24,6 +31,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BrushableBlock;
@@ -37,6 +45,7 @@ import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowOwner;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowTemptation;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.MoveToWalkTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.path.SetRandomWalkTarget;
+import net.tslat.smartbrainlib.api.core.behaviour.custom.path.SetWalkTargetToBlock;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.target.SetPlayerLookTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.target.SetRandomLookTarget;
 import net.tslat.smartbrainlib.api.core.sensor.ExtendedSensor;
@@ -44,6 +53,8 @@ import net.tslat.smartbrainlib.api.core.sensor.custom.NearbyBlocksSensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.ItemTemptingSensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyLivingEntitySensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyPlayersSensor;
+import net.tslat.smartbrainlib.registry.SBLMemoryTypes;
+import net.tslat.smartbrainlib.util.BrainUtils;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
@@ -56,7 +67,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
+public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry, Digger {
     private static final String MOVE_CONTROLLER = "move_controller";
     private static final String TAIL_CONTROLLER = "tail_controller";
     private static final String EAR_CONTROLLER = "ear_controller";
@@ -67,7 +78,6 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
     public static final EntityDataAccessor<Float> HUNGER = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.FLOAT);
     public float thirstLevelThreshold = 0.8f;
     public float hungerLevelThreshold = 0.2f;
-
 
 
     public BaseDog(EntityType<? extends BasePet> $$0, Level $$1) {
@@ -111,10 +121,10 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
     @Override
     public List<? extends ExtendedSensor<? extends BaseDog>> getSensors() {
         return ObjectArrayList.of(
-                new ItemTemptingSensor<BaseDog>().temptedWith((livingEntity,itemStack)->itemStack == getPetItemStack()),
+                new ItemTemptingSensor<BaseDog>().temptedWith((livingEntity, itemStack) -> itemStack == getPetItemStack()),
                 new NearbyPlayersSensor<BaseDog>().setRadius(50).setPredicate((player, wolf) -> player.is(wolf.getOwner())),
                 new NearbyLivingEntitySensor<>(),
-                new NearbyBlocksSensor<BaseDog>().setPredicate((state, dog)->state.getBlock() instanceof BrushableBlock)
+                new NearbyBlocksSensor<BaseDog>().setRadius(15,1).setPredicate((state, dog) -> state.getBlock() instanceof BrushableBlock)
         );
     }
 
@@ -125,16 +135,20 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
                         new Beg<>().setBegItem(ItemInit.DOG_TREAT.get())
                                 .setController(MOVE_CONTROLLER).setAnimation("beg")
                                 .setController2(TAIL_CONTROLLER).setAnimation2("tail_wag_beg"),
-                        new FindBowl<BaseDog>(PetBowl.Type.WATER).startCondition(e -> e.getThirstLevel() <= thirstLevelThreshold),
-                        new FindBowl<BaseDog>(PetBowl.Type.KIBBLE).startCondition(e -> e.getHungerLevel() <= hungerLevelThreshold),
-                        new FollowTemptation<BaseDog>().startCondition(e -> e.getMovementType() == MovementType.WANDER),
-                        new FetchBall<BaseDog>().startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() != MovementType.STAY),
-                        new ReturnBall<BaseDog>().startCondition(e -> e.getMovementType() != MovementType.STAY),
-                        new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW)),
-                new LookAtTarget<BasePet>().runFor(entity -> entity.getRandom().nextIntBetweenInclusive(40, 300)),
+                        new FindDig<>(),
+                        new Dig<>(),
+                        new FindBowl<BaseDog>(PetBowl.Type.WATER).startCondition(e -> e.getThirstLevel() <= thirstLevelThreshold && !isDigging()),
+                        new FindBowl<BaseDog>(PetBowl.Type.KIBBLE).startCondition(e -> e.getHungerLevel() <= hungerLevelThreshold && !isDigging()),
+                        new GoToDig<>(),
+                        new FollowTemptation<BaseDog>().startCondition(e -> e.getMovementType() == MovementType.WANDER && !isDigging()),
+                        new FetchBall<BaseDog>().startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() != MovementType.STAY && !isDigging()),
+                        new ReturnBall<BaseDog>().startCondition(e -> e.getMovementType() != MovementType.STAY && !isDigging()),
+                        new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW && !isDigging())),
+                new LookAtTarget<BasePet>().startCondition(e-> !isDigging()).runFor(entity -> entity.getRandom().nextIntBetweenInclusive(40, 300)),
+                new Dig<>(),
                 new GoToBowl<BaseDog>(),
-                new MoveToWalkTarget<BaseDog>().startCondition(e -> e.getMovementType() != MovementType.STAY),
-                new ModAnimalMakeLove<BaseDog>(getType(), 1.0f).startCondition(e -> e.getMovementType() != MovementType.STAY));                                                                                    // Move to the current walk target
+                new MoveToWalkTarget<BaseDog>().startCondition(e -> e.getMovementType() != MovementType.STAY && !isDigging()),
+                new ModAnimalMakeLove<BaseDog>(getType(), 1.0f).startCondition(e -> e.getMovementType() != MovementType.STAY && !isDigging()));                                                                                    // Move to the current walk target
     }
 
     @Override
@@ -142,7 +156,7 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
         return BrainActivityGroup.idleTasks(
 
                 new FirstApplicableBehaviour<BaseDog>(
-                        new SetPlayerLookTarget<BaseDog>().startCondition(e->e.getMovementType() == MovementType.STAY),
+                        new SetPlayerLookTarget<BaseDog>().startCondition(e -> e.getMovementType() == MovementType.STAY),
                         new SetRandomLookTarget<>()
                 ),
                 new OneRandomBehaviour<>(
@@ -176,11 +190,10 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
     }
 
 
-
     @Override
     public EntityDimensions getDimensions(Pose $$0) {
-        if(isBegging()){
-            return super.getDimensions($$0).scale(1.0f,1.2f);
+        if (isBegging()) {
+            return super.getDimensions($$0).scale(1.0f, 1.2f);
         }
         return super.getDimensions($$0);
     }
@@ -200,11 +213,13 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
         controllerRegistrar.add(new AnimationController<>(this, MOVE_CONTROLLER, this::moveControllerState)
                 .triggerableAnim("beg", RawAnimation.begin().thenPlay("beg"))
-                .triggerableAnim("idle", RawAnimation.begin().thenPlay("idle"))
+                .triggerableAnim("idle", RawAnimation.begin().thenPlayXTimes("idle",1))
+                .triggerableAnim("dig", RawAnimation.begin().thenLoop("dig"))
         );
         controllerRegistrar.add(new AnimationController<>(this, TAIL_CONTROLLER, this::tailControllerState)
                 .triggerableAnim("tail_wag_beg", RawAnimation.begin().thenPlay("tail_wag_beg"))
-                .triggerableAnim("idle", RawAnimation.begin().thenPlay("idle"))
+                .triggerableAnim("idle", RawAnimation.begin().thenPlayXTimes("idle",1))
+                .triggerableAnim("tail_wag_sit", RawAnimation.begin().thenPlay("tail_wag_sit"))
         );
         controllerRegistrar.add(new AnimationController<>(this, EAR_CONTROLLER, this::earControllerState)
                 .triggerableAnim("ear_wiggle", Animations.EAR_WIGGLE));
@@ -242,7 +257,8 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
             baseDogAnimationState.setAnimation(Animations.WALK);
             return PlayState.CONTINUE;
         }
-
+//        baseDogAnimationState.setAnimation(RawAnimation.begin().thenLoop("dig"));
+//        return PlayState.CONTINUE;
         return PlayState.STOP;
     }
 
@@ -287,5 +303,10 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry {
         if (tickCount % 40 == 0 && getHungerLevel() > 0) {
             setHungerLevel(getHungerLevel() - 0.01f);
         }
+    }
+
+    @Override
+    public boolean isDigging() {
+        return BrainUtils.hasMemory(this, MemoryModuleTypeInit.DIG_POS.get());
     }
 }

@@ -36,6 +36,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(BlockInit.GROOMING_STATION.get(),blockSidedModel(BlockInit.GROOMING_STATION.get()).texture("particle", modLoc("block/grooming_station_side_1")));
 //        petBowl(BlockInit.PET_BOWL.get());
         horizontalBlock(BlockInit.CRATE.get(),directionallySidedModel(BlockInit.CRATE.get()).renderType("cutout").texture("particle", modLoc("block/crate_side_e")));
+
+        getVariantBuilder(BlockInit.BIG_PET_BED.get()).forAllStatesExcept(state ->
+                ConfiguredModel.builder()
+                        .modelFile(models().getExistingFile(modLoc("block/big_pet_bed_" + state.getValue(BlockStateInit.CORNER).getSerializedName())))
+                        .build());
     }
 
     protected void simpleCubeBottomTopBlockState(Block block) {

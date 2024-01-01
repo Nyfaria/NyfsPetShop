@@ -1,6 +1,8 @@
 {
+  "block.nyfspetshop.big_pet_bed": "Big Pet Bed",
   "block.nyfspetshop.crate": "Crate",
   "block.nyfspetshop.grooming_station": "Grooming Station",
+  "block.nyfspetshop.pet_bed": "Pet Bed",
   "block.nyfspetshop.pet_bowl": "Pet Bowl",
   "block.nyfspetshop.pet_bowl_black": "Pet Bowl Black",
   "block.nyfspetshop.pet_bowl_blue": "Pet Bowl Blue",
@@ -18,7 +20,7 @@
   "block.nyfspetshop.pet_bowl_red": "Pet Bowl Red",
   "block.nyfspetshop.pet_bowl_yellow": "Pet Bowl Yellow",
   "container.nyfspetshop.grooming": "Grooming Station",
-  "entity.minecraft.villager.nyfspetshop.pet_item": "Pet Groomer",
+  "entity.minecraft.villager.nyfspetshop.pet_items": "Pet Groomer",
   "entity.minecraft.villager.nyfspetshop.pets": "Pet Supplier",
   "entity.nyfspetshop.american_shorthair": "American Shorthair",
   "entity.nyfspetshop.ball": "Ball",
