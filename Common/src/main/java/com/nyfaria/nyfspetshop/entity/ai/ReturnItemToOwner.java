@@ -12,10 +12,10 @@ import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowEntity;
  * @param <E> The owner of the brain
  * @param <T> The minimum common class of the entity expected to be following
  */
-public class ReturnBall<E extends TamableAnimal> extends FollowEntity<E, LivingEntity> {
+public class ReturnItemToOwner<E extends TamableAnimal> extends FollowEntity<E, LivingEntity> {
 	protected LivingEntity owner = null;
 
-	public ReturnBall() {
+	public ReturnItemToOwner() {
 		following(this::getOwner);
 		stopFollowingWithin(2f);
 	}

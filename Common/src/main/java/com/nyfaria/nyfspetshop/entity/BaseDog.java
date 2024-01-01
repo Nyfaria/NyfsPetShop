@@ -10,7 +10,7 @@ import com.nyfaria.nyfspetshop.entity.ai.GoToBed;
 import com.nyfaria.nyfspetshop.entity.ai.GoToBowl;
 import com.nyfaria.nyfspetshop.entity.ai.GoToDig;
 import com.nyfaria.nyfspetshop.entity.ai.ModAnimalMakeLove;
-import com.nyfaria.nyfspetshop.entity.ai.ReturnBall;
+import com.nyfaria.nyfspetshop.entity.ai.ReturnItemToOwner;
 import com.nyfaria.nyfspetshop.entity.ai.Sleep;
 import com.nyfaria.nyfspetshop.entity.data.Animations;
 import com.nyfaria.nyfspetshop.entity.enums.MovementType;
@@ -78,6 +78,8 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry, Digger
     public static final EntityDataAccessor<Float> HUNGER = SynchedEntityData.defineId(BaseDog.class, EntityDataSerializers.FLOAT);
     public float thirstLevelThreshold = 0.8f;
     public float hungerLevelThreshold = 0.2f;
+    public float thirstSpeed = 0.001f;
+    public float hungerSpeed = 0.001f;
 
 
     public BaseDog(EntityType<? extends BasePet> $$0, Level $$1) {
@@ -142,19 +144,21 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry, Digger
                                 .withTag(TagInit.PET_BEDS_POI)
                                 .withOccupancy(PoiManager.Occupancy.HAS_SPACE)
                                 .movementTypePredicate((e, m) -> m == MovementType.WANDER)
-                                .startCondition(e-> canDoStuff()),
+                                .startCondition(e-> canDoStuff() && e.level().isNight()),
                         new FindPOI<BaseDog>()
                                 .withMemory(MemoryModuleTypeInit.BOWL_POS.get())
+                                .withTag(TagInit.PET_BOWLS_POI)
                                 .checkState((level,pos,state)->state.hasProperty(BlockStateInit.BOWL_TYPE) && state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.WATER)
                                 .startCondition(e -> e.getThirstLevel() <= thirstLevelThreshold && canDoStuff()),
                         new FindPOI<BaseDog>()
                                 .withMemory(MemoryModuleTypeInit.BOWL_POS.get())
+                                .withTag(TagInit.PET_BOWLS_POI)
                                 .checkState((level,pos,state)->state.hasProperty(BlockStateInit.BOWL_TYPE) && state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.KIBBLE)
                                 .startCondition(e -> e.getHungerLevel() <= hungerLevelThreshold && canDoStuff()),
                         new GoToDig<>(),
                         new FollowTemptation<BaseDog>().startCondition(e -> e.getMovementType() == MovementType.WANDER && canDoStuff()),
                         new FetchBall<BaseDog>().startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() != MovementType.STAY && canDoStuff()),
-                        new ReturnBall<BaseDog>().startCondition(e -> e.getMovementType() != MovementType.STAY && canDoStuff()),
+                        new ReturnItemToOwner<BaseDog>().startCondition(e -> e.getMovementType() != MovementType.STAY && canDoStuff()),
                         new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW && canDoStuff())),
                 new LookAtTarget<BasePet>().startCondition(e-> canDoStuff()).runFor(entity -> entity.getRandom().nextIntBetweenInclusive(40, 300)),
                 new Sleep<>(),
@@ -296,7 +300,7 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry, Digger
     public void tickThirst() {
         if (level().isClientSide) return;
         if (tickCount % 40 == 0 && getThirstLevel() > 0) {
-            setThirstLevel(getThirstLevel() - 0.01f);
+            setThirstLevel(getThirstLevel() - thirstSpeed);
         }
     }
 
@@ -316,7 +320,7 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry, Digger
 
         if (level().isClientSide) return;
         if (tickCount % 40 == 0 && getHungerLevel() > 0) {
-            setHungerLevel(getHungerLevel() - 0.01f);
+            setHungerLevel(getHungerLevel() - hungerSpeed);
         }
     }
 

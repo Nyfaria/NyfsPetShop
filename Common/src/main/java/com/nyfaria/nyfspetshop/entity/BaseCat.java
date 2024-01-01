@@ -5,7 +5,7 @@ import com.nyfaria.nyfspetshop.entity.ai.FetchBall;
 import com.nyfaria.nyfspetshop.entity.ai.FindPOI;
 import com.nyfaria.nyfspetshop.entity.ai.GoToBowl;
 import com.nyfaria.nyfspetshop.entity.ai.ModAnimalMakeLove;
-import com.nyfaria.nyfspetshop.entity.ai.ReturnBall;
+import com.nyfaria.nyfspetshop.entity.ai.ReturnItemToOwner;
 import com.nyfaria.nyfspetshop.entity.enums.MovementType;
 import com.nyfaria.nyfspetshop.entity.ifaces.Fetcher;
 import com.nyfaria.nyfspetshop.entity.ifaces.Hungry;
@@ -115,7 +115,7 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
                                 .startCondition(e -> e.getHungerLevel() <= hungerLevelThreshold && canDoStuff()),
                         new FollowTemptation<BaseCat>().startCondition(e -> e.getMovementType() == MovementType.WANDER),
                         new FetchBall<>().startCondition(e -> e.getMainHandItem().isEmpty() && ((BasePet) e).getMovementType() != MovementType.STAY),
-                        new ReturnBall<>().startCondition(e -> ((BasePet) e).getMovementType() != MovementType.STAY),
+                        new ReturnItemToOwner<>().startCondition(e -> ((BasePet) e).getMovementType() != MovementType.STAY),
                         new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW)),
                 new LookAtTarget<BasePet>().runFor(entity -> entity.getRandom().nextIntBetweenInclusive(40, 300)),
                 new GoToBowl<>(),
