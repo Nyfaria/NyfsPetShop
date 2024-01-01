@@ -1,29 +1,20 @@
 package com.nyfaria.nyfspetshop.client;
 
-import com.nyfaria.nyfspetshop.block.PetBowl;
-import com.nyfaria.nyfspetshop.block.menu.groomingstation.GroomingStationMenu;
 import com.nyfaria.nyfspetshop.init.CosmeticRegistry;
 import com.nyfaria.nyfspetshop.network.packetsc2s.SelectCosmeticPacket;
 import commonnetwork.api.Network;
-import commonnetwork.api.NetworkHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class CosmeticTypeButton extends AbstractButton {
 

@@ -1,7 +1,7 @@
 package com.nyfaria.nyfspetshop.entity.ai;
 
 import com.mojang.datafixers.util.Pair;
-import com.nyfaria.nyfspetshop.block.PetBowl;
+import com.nyfaria.nyfspetshop.block.TBTBlock;
 import com.nyfaria.nyfspetshop.entity.BasePet;
 import com.nyfaria.nyfspetshop.init.BlockStateInit;
 import com.nyfaria.nyfspetshop.init.MemoryModuleTypeInit;
@@ -13,7 +13,6 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import net.tslat.smartbrainlib.api.core.behaviour.ExtendedBehaviour;
@@ -22,8 +21,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class GoToBowl<E extends BasePet> extends ExtendedBehaviour<E> {
-    private static final List<Pair<MemoryModuleType<?>, MemoryStatus>> MEMORY_REQUIREMENTS = ObjectArrayList.of(Pair.of(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryStatus.REGISTERED), Pair.of(MemoryModuleType.PATH, MemoryStatus.VALUE_ABSENT), Pair.of(MemoryModuleTypeInit.BOWL_POS.get(), MemoryStatus.VALUE_PRESENT));
+public class GoToBed<E extends BasePet> extends ExtendedBehaviour<E> {
+    private static final List<Pair<MemoryModuleType<?>, MemoryStatus>> MEMORY_REQUIREMENTS = ObjectArrayList.of(Pair.of(MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryStatus.REGISTERED), Pair.of(MemoryModuleType.PATH, MemoryStatus.VALUE_ABSENT), Pair.of(MemoryModuleTypeInit.BED.get(), MemoryStatus.VALUE_PRESENT));
 
     @Nullable
     protected Path path;
@@ -31,7 +30,7 @@ public class GoToBowl<E extends BasePet> extends ExtendedBehaviour<E> {
     protected BlockPos lastTargetPos;
     protected float speedModifier;
 
-    public GoToBowl() {
+    public GoToBed() {
         runFor(entity -> entity.getRandom().nextInt(100) + 150);
         cooldownFor(entity -> entity.getRandom().nextInt(40));
     }
@@ -44,17 +43,17 @@ public class GoToBowl<E extends BasePet> extends ExtendedBehaviour<E> {
     @Override
     protected boolean checkExtraStartConditions(ServerLevel level, E entity) {
         Brain<?> brain = entity.getBrain();
-        BlockPos walkTarget = BrainUtils.getMemory(brain, MemoryModuleTypeInit.BOWL_POS.get()).get();
+        BlockPos walkTarget = BrainUtils.getMemory(brain, MemoryModuleTypeInit.BED.get()).get();
 
         if (!hasReachedTarget(entity, walkTarget) && attemptNewPath(entity, walkTarget, false)) {
             this.lastTargetPos = walkTarget;
 
             return true;
-        } else if (hasReachedTarget(entity, walkTarget)){
+        } else if (hasReachedTarget(entity, walkTarget)) {
             drinkFromBowl(entity, walkTarget);
         }
 
-        BrainUtils.clearMemory(brain, MemoryModuleTypeInit.BOWL_POS.get());
+        BrainUtils.clearMemory(brain, MemoryModuleTypeInit.BED.get());
         BrainUtils.clearMemory(brain, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE);
 
         return false;
@@ -68,7 +67,7 @@ public class GoToBowl<E extends BasePet> extends ExtendedBehaviour<E> {
         if (entity.getNavigation().isDone())
             return false;
 
-        BlockPos walkTarget = BrainUtils.getMemory(entity, MemoryModuleTypeInit.BOWL_POS.get()).get();
+        BlockPos walkTarget = BrainUtils.getMemory(entity, MemoryModuleTypeInit.BED.get()).get();
 
         return !hasReachedTarget(entity, walkTarget);
     }
@@ -90,7 +89,7 @@ public class GoToBowl<E extends BasePet> extends ExtendedBehaviour<E> {
         }
 
         if (path != null && this.lastTargetPos != null) {
-            BlockPos walkTarget = BrainUtils.getMemory(brain, MemoryModuleTypeInit.BOWL_POS.get()).get();
+            BlockPos walkTarget = BrainUtils.getMemory(brain, MemoryModuleTypeInit.BED.get()).get();
 
             if (walkTarget.distSqr(this.lastTargetPos) > 4 && attemptNewPath(entity, walkTarget, hasReachedTarget(entity, walkTarget))) {
                 this.lastTargetPos = walkTarget;
@@ -105,29 +104,21 @@ public class GoToBowl<E extends BasePet> extends ExtendedBehaviour<E> {
     @Override
     protected void stop(E entity) {
         Brain<?> brain = entity.getBrain();
-        BlockPos walkTarget = BrainUtils.getMemory(brain, MemoryModuleTypeInit.BOWL_POS.get()).get();
+        BlockPos walkTarget = BrainUtils.getMemory(brain, MemoryModuleTypeInit.BED.get()).get();
         if (hasReachedTarget(entity, walkTarget)) {
             drinkFromBowl(entity, walkTarget);
         }
-        if (!entity.getNavigation().isStuck() || !BrainUtils.hasMemory(brain, MemoryModuleTypeInit.BOWL_POS.get()) || hasReachedTarget(entity, BrainUtils.getMemory(brain, MemoryModuleTypeInit.BOWL_POS.get()).get()))
+        if (!entity.getNavigation().isStuck() || !BrainUtils.hasMemory(brain, MemoryModuleTypeInit.BED.get()) || hasReachedTarget(entity, BrainUtils.getMemory(brain, MemoryModuleTypeInit.BED.get()).get()))
             this.cooldownFinishedAt = 0;
 
         entity.getNavigation().stop();
-        BrainUtils.clearMemories(brain, MemoryModuleTypeInit.BOWL_POS.get(), MemoryModuleType.PATH);
+        BrainUtils.clearMemories(brain, MemoryModuleTypeInit.BED.get(), MemoryModuleType.PATH);
 
         this.path = null;
     }
 
     private static <E extends BasePet> void drinkFromBowl(E entity, BlockPos walkTarget) {
-        BlockState state = entity.level().getBlockState(walkTarget);
-        PetBowl.Type type = state.getValue(BlockStateInit.BOWL_TYPE);
-        entity.performBowlAction(type);
-        entity.playSound(type.getSound());
-        int fullnessity = state.getValue(BlockStateInit.FULLNESSITY);
-        if (fullnessity <= 1)
-            entity.level().setBlockAndUpdate(walkTarget, state.setValue(BlockStateInit.BOWL_TYPE, PetBowl.Type.EMPTY).setValue(BlockStateInit.FULLNESSITY, 0));
-        else
-            entity.level().setBlockAndUpdate(walkTarget, state.setValue(BlockStateInit.FULLNESSITY, fullnessity - 1));
+        BrainUtils.setMemory(entity, MemoryModuleTypeInit.SLEEPING.get(), true);
     }
 
     protected boolean attemptNewPath(E entity, BlockPos walkTarget, boolean reachedCurrentTarget) {
@@ -163,7 +154,7 @@ public class GoToBowl<E extends BasePet> extends ExtendedBehaviour<E> {
     }
 
     protected boolean hasReachedTarget(E entity, BlockPos target) {
-        return target.distManhattan(entity.blockPosition()) <= 2.0f;
+        return entity.position().distanceTo(target.getCenter()) <= 0.5f;
     }
 
     protected void startOnNewPath(E entity) {

@@ -260,4 +260,7 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     public boolean isBegging() {
         return this.entityData.get(BEGGING);
     }
+    public boolean canDoStuff(){
+        return !isBegging() && getMovementType() !=MovementType.STAY;
+    }
 }

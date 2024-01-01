@@ -1,10 +1,9 @@
 package com.nyfaria.nyfspetshop.init;
 
 import com.google.common.collect.ImmutableSet;
-import com.nyfaria.nyfspetshop.entity.data.Species;
+import com.nyfaria.nyfspetshop.Constants;
 import com.nyfaria.nyfspetshop.registration.RegistrationProvider;
 import com.nyfaria.nyfspetshop.registration.RegistryObject;
-import com.nyfaria.nyfspetshop.Constants;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;

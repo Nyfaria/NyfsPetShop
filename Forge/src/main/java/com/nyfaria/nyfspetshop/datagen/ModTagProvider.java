@@ -73,6 +73,7 @@ public class ModTagProvider {
         @Override
         protected void addTags(HolderLookup.Provider pProvider) {
             populateTag(TagInit.PET_BOWLS_POI, POIInit.PET_BOWL);
+            populateTag(TagInit.PET_BEDS_POI, POIInit.PET_BEDS);
             populateTag(PoiTypeTags.ACQUIRABLE_JOB_SITE, POIInit.CRATES);
             populateTag(PoiTypeTags.ACQUIRABLE_JOB_SITE, POIInit.GROOMING_STATION);
         }

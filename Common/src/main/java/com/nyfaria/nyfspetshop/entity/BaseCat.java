@@ -2,7 +2,7 @@ package com.nyfaria.nyfspetshop.entity;
 
 import com.nyfaria.nyfspetshop.block.PetBowl;
 import com.nyfaria.nyfspetshop.entity.ai.FetchBall;
-import com.nyfaria.nyfspetshop.entity.ai.FindBowl;
+import com.nyfaria.nyfspetshop.entity.ai.FindPOI;
 import com.nyfaria.nyfspetshop.entity.ai.GoToBowl;
 import com.nyfaria.nyfspetshop.entity.ai.ModAnimalMakeLove;
 import com.nyfaria.nyfspetshop.entity.ai.ReturnBall;
@@ -10,6 +10,8 @@ import com.nyfaria.nyfspetshop.entity.enums.MovementType;
 import com.nyfaria.nyfspetshop.entity.ifaces.Fetcher;
 import com.nyfaria.nyfspetshop.entity.ifaces.Hungry;
 import com.nyfaria.nyfspetshop.entity.ifaces.Thirsty;
+import com.nyfaria.nyfspetshop.init.BlockStateInit;
+import com.nyfaria.nyfspetshop.init.MemoryModuleTypeInit;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -19,12 +21,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.control.FlyingMoveControl;
-import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.tslat.smartbrainlib.api.core.BrainActivityGroup;
 import net.tslat.smartbrainlib.api.core.SmartBrainProvider;
 import net.tslat.smartbrainlib.api.core.behaviour.FirstApplicableBehaviour;
@@ -83,7 +81,7 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
     @Override
     public List<? extends ExtendedSensor<? extends BaseCat>> getSensors() {
         return ObjectArrayList.of(
-                new ItemTemptingSensor<BaseCat>().temptedWith((livingEntity, itemStack)->itemStack == getPetItemStack()),
+                new ItemTemptingSensor<BaseCat>().temptedWith((livingEntity, itemStack) -> itemStack == getPetItemStack()),
                 new NearbyPlayersSensor<BaseCat>().setRadius(50).setPredicate((player, wolf) -> player.is(wolf.getOwner())),
                 new NearbyLivingEntitySensor<>()
         );
@@ -101,8 +99,20 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
     public BrainActivityGroup<? extends BasePet> getCoreTasks() {
         return BrainActivityGroup.coreTasks(
                 new FirstApplicableBehaviour<>(
-                        new FindBowl<BaseCat>(PetBowl.Type.WATER).startCondition(e -> e.getThirstLevel() <= thirstLevelThreshold),
-                        new FindBowl<BaseCat>(PetBowl.Type.KIBBLE).startCondition(e -> e.getHungerLevel() <= hungerLevelThreshold),
+                        new FindPOI<BaseCat>()
+                                .withMemory(MemoryModuleTypeInit.BOWL_POS.get())
+                                .checkState((level, pos, state) ->
+                                        state.hasProperty(BlockStateInit.BOWL_TYPE) && state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.WATER
+                                                && state.hasProperty(BlockStateInit.FULLNESSITY) && state.getValue(BlockStateInit.FULLNESSITY) > 0
+                                )
+                                .startCondition(e -> e.getThirstLevel() <= thirstLevelThreshold && canDoStuff()),
+                        new FindPOI<BaseCat>()
+                                .withMemory(MemoryModuleTypeInit.BOWL_POS.get())
+                                .checkState((level, pos, state) ->
+                                        state.hasProperty(BlockStateInit.BOWL_TYPE) && state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.KIBBLE
+                                                && state.hasProperty(BlockStateInit.FULLNESSITY) && state.getValue(BlockStateInit.FULLNESSITY) > 0
+                                )
+                                .startCondition(e -> e.getHungerLevel() <= hungerLevelThreshold && canDoStuff()),
                         new FollowTemptation<BaseCat>().startCondition(e -> e.getMovementType() == MovementType.WANDER),
                         new FetchBall<>().startCondition(e -> e.getMainHandItem().isEmpty() && ((BasePet) e).getMovementType() != MovementType.STAY),
                         new ReturnBall<>().startCondition(e -> ((BasePet) e).getMovementType() != MovementType.STAY),
@@ -162,7 +172,7 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
     @Override
     public void setFetchTarget(ThrowableItemProjectile entity) {
         if (level().isClientSide) return;
-        if(random.nextInt(3) == 0) return;
+        if (random.nextInt(3) == 0) return;
         this.entityData.set(FETCH_TARGET, Optional.ofNullable(entity).map(Entity::getUUID));
     }
 

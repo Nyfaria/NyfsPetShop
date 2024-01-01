@@ -3,10 +3,7 @@ package com.nyfaria.nyfspetshop.entity.data;
 import com.google.common.collect.ImmutableMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.npc.VillagerTrades;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
 
 public class VillagerData {
 

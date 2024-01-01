@@ -2,14 +2,14 @@ package com.nyfaria.nyfspetshop.init;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.nyfaria.nyfspetshop.Constants;
+import com.nyfaria.nyfspetshop.entity.BaseBird;
 import com.nyfaria.nyfspetshop.entity.BaseCat;
 import com.nyfaria.nyfspetshop.entity.BaseDog;
-import com.nyfaria.nyfspetshop.entity.BaseBird;
 import com.nyfaria.nyfspetshop.entity.ThrownBall;
 import com.nyfaria.nyfspetshop.entity.data.Species;
 import com.nyfaria.nyfspetshop.registration.RegistrationProvider;
 import com.nyfaria.nyfspetshop.registration.RegistryObject;
-import com.nyfaria.nyfspetshop.Constants;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

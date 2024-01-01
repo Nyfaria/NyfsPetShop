@@ -1,7 +1,6 @@
 package com.nyfaria.nyfspetshop.init;
 
 import com.nyfaria.nyfspetshop.Constants;
-import com.nyfaria.nyfspetshop.entity.data.Species;
 import com.nyfaria.nyfspetshop.item.BallItem;
 import com.nyfaria.nyfspetshop.item.KibbleItem;
 import com.nyfaria.nyfspetshop.item.PetItem;

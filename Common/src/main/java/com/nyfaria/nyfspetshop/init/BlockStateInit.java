@@ -1,7 +1,7 @@
 package com.nyfaria.nyfspetshop.init;
 
-import com.nyfaria.nyfspetshop.block.TBTBlock;
 import com.nyfaria.nyfspetshop.block.PetBowl;
+import com.nyfaria.nyfspetshop.block.TBTBlock;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 

@@ -2,13 +2,11 @@ package com.nyfaria.nyfspetshop.network.packetsc2s;
 
 import com.nyfaria.nyfspetshop.block.menu.groomingstation.GroomingStationMenu;
 import com.nyfaria.nyfspetshop.init.CosmeticRegistry;
-import com.nyfaria.nyfspetshop.item.PetItem;
 import commonnetwork.Constants;
 import commonnetwork.networking.data.PacketContext;
 import commonnetwork.networking.data.Side;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 
 public record SelectCosmeticPacket(CosmeticRegistry.Type type) {
     public static final ResourceLocation LOCATION = new ResourceLocation(Constants.MOD_ID, "set_cosmetic");

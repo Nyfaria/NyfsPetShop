@@ -1,3 +1,4 @@
-// 1.20.1	2023-12-27T10:03:26.4208334	Tags for minecraft:point_of_interest_type mod id nyfspetshop
+// 1.20.1	2024-01-01T09:00:01.6392263	Tags for minecraft:point_of_interest_type mod id nyfspetshop
 ebd82ce02f087879985b1d358559d42fba70fd83 data/minecraft/tags/point_of_interest_type/acquirable_job_site.json
+3424e309bca2e5420c62f6b7b1b109b1c7c14934 data/nyfspetshop/tags/point_of_interest_type/pet_beds.json
 e9f86a9405c10fd7269a91aef7c4eca2af32e8d5 data/nyfspetshop/tags/point_of_interest_type/pet_bowls.json

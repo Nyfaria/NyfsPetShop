@@ -1,10 +1,5 @@
 package com.nyfaria.nyfspetshop.entity.data;
 
-import com.nyfaria.nyfspetshop.init.EntityInit;
-import net.minecraft.world.entity.EntityType;
-
-import java.util.function.Supplier;
-
 public enum Species {
     DOG("dog"),
     CAT("cat"),

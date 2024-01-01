@@ -1,9 +1,7 @@
 package com.nyfaria.nyfspetshop.entity.ai;
 
 import com.mojang.datafixers.util.Pair;
-import com.nyfaria.nyfspetshop.block.PetBowl;
 import com.nyfaria.nyfspetshop.entity.BasePet;
-import com.nyfaria.nyfspetshop.init.BlockStateInit;
 import com.nyfaria.nyfspetshop.init.MemoryModuleTypeInit;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
@@ -13,7 +11,6 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import net.tslat.smartbrainlib.api.core.behaviour.ExtendedBehaviour;

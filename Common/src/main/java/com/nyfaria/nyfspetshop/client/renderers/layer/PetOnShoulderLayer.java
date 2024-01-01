@@ -1,21 +1,14 @@
 package com.nyfaria.nyfspetshop.client.renderers.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.nyfaria.nyfspetshop.client.PetModel;
-import com.nyfaria.nyfspetshop.client.renderers.PetRenderer;
 import com.nyfaria.nyfspetshop.entity.BasePet;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ParrotModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.ParrotRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Parrot;
 import net.minecraft.world.entity.player.Player;
 
 public class PetOnShoulderLayer<T extends Player> extends RenderLayer<T, PlayerModel<T>> {

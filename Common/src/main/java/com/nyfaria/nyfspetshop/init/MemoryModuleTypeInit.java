@@ -17,6 +17,7 @@ public class MemoryModuleTypeInit {
     public static RegistryObject<MemoryModuleType<Optional<BlockPos>>> BED = MEMORY_MODULE_TYPES.register("bed", () -> new MemoryModuleType<>(Optional.empty()));
     public static RegistryObject<MemoryModuleType<Optional<BlockPos>>> DIG_POS = MEMORY_MODULE_TYPES.register("dig_pos", () -> new MemoryModuleType<>(Optional.empty()));
     public static RegistryObject<MemoryModuleType<Boolean>> DIGGING = MEMORY_MODULE_TYPES.register("digging", () -> new MemoryModuleType<>(Optional.empty()));
+    public static RegistryObject<MemoryModuleType<Boolean>> SLEEPING = MEMORY_MODULE_TYPES.register("sleeping", () -> new MemoryModuleType<>(Optional.empty()));
 
     public static void loadClass() {}
 }

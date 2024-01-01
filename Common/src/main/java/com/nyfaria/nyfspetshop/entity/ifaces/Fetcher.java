@@ -1,6 +1,5 @@
 package com.nyfaria.nyfspetshop.entity.ifaces;
 
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 
 public interface Fetcher {

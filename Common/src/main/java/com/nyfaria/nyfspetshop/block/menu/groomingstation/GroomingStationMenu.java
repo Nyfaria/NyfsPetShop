@@ -3,7 +3,6 @@ package com.nyfaria.nyfspetshop.block.menu.groomingstation;
 import com.nyfaria.nyfspetshop.init.CosmeticRegistry;
 import com.nyfaria.nyfspetshop.init.MenuTypeInit;
 import com.nyfaria.nyfspetshop.item.PetItem;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

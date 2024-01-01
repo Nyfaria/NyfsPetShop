@@ -41,6 +41,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 ConfiguredModel.builder()
                         .modelFile(models().getExistingFile(modLoc("block/big_pet_bed_" + state.getValue(BlockStateInit.CORNER).getSerializedName())))
                         .build());
+        customModelBlock(BlockInit.PET_BED.get());
     }
 
     protected void simpleCubeBottomTopBlockState(Block block) {

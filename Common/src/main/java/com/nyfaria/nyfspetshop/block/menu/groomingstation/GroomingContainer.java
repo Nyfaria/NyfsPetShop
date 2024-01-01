@@ -1,6 +1,5 @@
 package com.nyfaria.nyfspetshop.block.menu.groomingstation;
 
-import com.nyfaria.nyfspetshop.init.CosmeticRegistry;
 import com.nyfaria.nyfspetshop.item.PetItem;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;

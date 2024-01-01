@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Block;
 
 public class TagInit {
     public static TagKey<PoiType> PET_BOWLS_POI = TagKey.create(Registries.POINT_OF_INTEREST_TYPE, new ResourceLocation(Constants.MODID, "pet_bowls"));
+    public static TagKey<PoiType> PET_BEDS_POI = TagKey.create(Registries.POINT_OF_INTEREST_TYPE, new ResourceLocation(Constants.MODID, "pet_beds"));
     public static TagKey<Block> PET_BOWLS = TagKey.create(Registries.BLOCK, new ResourceLocation(Constants.MODID, "pet_bowls"));
     public static TagKey<Item> PET_BOWLS_ITEM = TagKey.create(Registries.ITEM, new ResourceLocation(Constants.MODID, "pet_bowls"));
 }

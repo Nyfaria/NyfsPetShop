@@ -30,4 +30,5 @@ public enum MovementType {
     public MovementType cycle() {
         return values()[(ordinal() + 1) % values().length];
     }
+
 }
