@@ -6,6 +6,7 @@ import com.nyfaria.nyfspetshop.init.BlockInit;
 import com.nyfaria.nyfspetshop.init.BlockStateInit;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -40,6 +41,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         getVariantBuilder(BlockInit.BIG_PET_BED.get()).forAllStatesExcept(state ->
                 ConfiguredModel.builder()
                         .modelFile(models().getExistingFile(modLoc("block/big_pet_bed_" + state.getValue(BlockStateInit.CORNER).getSerializedName())))
+                        .build());
+        getVariantBuilder(BlockInit.BIRD_CAGE.get()).forAllStatesExcept(state ->
+                ConfiguredModel.builder()
+                        .modelFile(models().getExistingFile(modLoc("block/bird_cage_" + state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF).getSerializedName())))
                         .build());
         customModelBlock(BlockInit.PET_BED.get());
     }

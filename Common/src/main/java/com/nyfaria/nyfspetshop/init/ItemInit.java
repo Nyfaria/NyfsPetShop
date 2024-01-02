@@ -27,7 +27,7 @@ public class ItemInit {
                     (itemDisplayParameters, output) -> {
 //                        ITEMS.getEntries().forEach((registryObject) -> output.accept(new ItemStack(registryObject.get())));
                         PET_ITEMS.forEach((item) -> {
-                            EntityInit.SPECIES_MAP.forEach((type,entityType) -> {
+                            EntityInit.SPECIES_MAP.forEach((type, entityType) -> {
                                         ItemStack stack = new ItemStack(item.get());
                                         stack.getOrCreateTag().putString("entityType", BuiltInRegistries.ENTITY_TYPE.getKey(entityType.get()).toString());
                                         stack.getTag().putString("pet_type", type.getName());
@@ -37,9 +37,12 @@ public class ItemInit {
                         });
                         BlockInit.pet_bowls.forEach(block -> output.accept(block.get()));
                         output.accept(BlockInit.GROOMING_STATION.get());
-                            output.accept(BlockInit.CRATE.get());
+                        output.accept(BlockInit.CRATE.get());
+                        output.accept(BlockInit.BIRD_CAGE.get());
                         output.accept(new ItemStack(ItemInit.TENNIS_BALL.get()));
                         output.accept(ItemInit.BAG_OF_KIBBLE.get());
+                        output.accept(ItemInit.DOG_TREAT.get());
+
 
                     }).title(Component.translatable("itemGroup." + Constants.MODID + ".tab"))
             .build());

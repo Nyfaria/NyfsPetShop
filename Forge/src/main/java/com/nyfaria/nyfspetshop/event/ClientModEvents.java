@@ -3,11 +3,13 @@ package com.nyfaria.nyfspetshop.event;
 import com.nyfaria.nyfspetshop.Constants;
 import com.nyfaria.nyfspetshop.client.CommonClientClass;
 import com.nyfaria.nyfspetshop.client.GroomingScreen;
+import com.nyfaria.nyfspetshop.client.renderers.BirdCageRenderer;
 import com.nyfaria.nyfspetshop.client.renderers.PetRenderer;
 import com.nyfaria.nyfspetshop.client.renderers.layer.PetOnShoulderLayer;
 import com.nyfaria.nyfspetshop.entity.BaseBird;
 import com.nyfaria.nyfspetshop.entity.BaseCat;
 import com.nyfaria.nyfspetshop.entity.BaseDog;
+import com.nyfaria.nyfspetshop.init.BlockInit;
 import com.nyfaria.nyfspetshop.init.EntityInit;
 import com.nyfaria.nyfspetshop.init.MenuTypeInit;
 import com.nyfaria.nyfspetshop.registration.RegistryObject;
@@ -67,6 +69,8 @@ public class ClientModEvents {
         event.registerEntityRenderer(EntityInit.WHITE_STRIPED_PARROT.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "white_striped_parrot"))));
         event.registerEntityRenderer(EntityInit.RED_ACCENT_ALBINO_PARROT.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "red_accent_albino_parrot"))));
         event.registerEntityRenderer(EntityInit.TROPICAL_PARROT.get(), context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "tropical_parrot"))));
+
+        event.registerBlockEntityRenderer(BlockInit.BIRD_CAGE_BE.get(), (context)->new BirdCageRenderer());
     }
 
     @SubscribeEvent

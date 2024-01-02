@@ -2,14 +2,17 @@ package com.nyfaria.nyfspetshop.init;
 
 import com.nyfaria.nyfspetshop.Constants;
 import com.nyfaria.nyfspetshop.block.BasicHorizontalBlock;
+import com.nyfaria.nyfspetshop.block.BirdCage;
 import com.nyfaria.nyfspetshop.block.GroomingStation;
 import com.nyfaria.nyfspetshop.block.PetBowl;
 import com.nyfaria.nyfspetshop.block.SmolBed;
 import com.nyfaria.nyfspetshop.block.TBTBlock;
+import com.nyfaria.nyfspetshop.block.entity.BirdCageBlockEntity;
 import com.nyfaria.nyfspetshop.registration.RegistrationProvider;
 import com.nyfaria.nyfspetshop.registration.RegistryObject;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
@@ -47,6 +50,11 @@ public class BlockInit {
     public static final RegistryObject<Block> CRATE = registerBlock("crate", () -> new BasicHorizontalBlock(Block.Properties.copy(Blocks.CRAFTING_TABLE).noOcclusion()));
     public static final RegistryObject<Block> BIG_PET_BED = registerBlock("big_pet_bed",()-> new TBTBlock(Block.Properties.copy(Blocks.WHITE_WOOL).noOcclusion()), (block)-> ()->new TBTHorizontalBlockItem(block.get(), ItemInit.getItemProperties(Rarity.COMMON)));
     public static final RegistryObject<Block> PET_BED = registerBlock("pet_bed",()-> new SmolBed(Block.Properties.copy(Blocks.WHITE_WOOL).noOcclusion()));
+    public static final RegistryObject<Block> BIRD_CAGE = registerBlock("bird_cage",()-> new BirdCage(Block.Properties.copy(Blocks.BROWN_WOOL).noOcclusion()), (block)->()->new DoubleHighBlockItem(block.get(),ItemInit.getItemProperties(Rarity.UNCOMMON)));
+
+
+    public static final RegistryObject<BlockEntityType<BirdCageBlockEntity>> BIRD_CAGE_BE = BLOCK_ENTITIES.register("bird_cage", () -> BlockEntityType.Builder.of(BirdCageBlockEntity::new, BlockInit.BIRD_CAGE.get()).build(null));
+
     public static <T extends Block> RegistryObject<T> registerPetBowl(String name, Supplier<T> block) {
         RegistryObject<T> reg = registerBlock(name, block, b -> () -> new BlockItem(b.get(), ItemInit.getItemProperties(Rarity.COMMON)));
         pet_bowls.add(reg);

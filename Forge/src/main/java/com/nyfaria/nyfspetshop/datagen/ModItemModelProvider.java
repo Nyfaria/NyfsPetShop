@@ -6,6 +6,7 @@ import com.nyfaria.nyfspetshop.init.ItemInit;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -30,7 +31,8 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         Stream.of(
                         ItemInit.TENNIS_BALL,
-                        ItemInit.DOG_TREAT
+                        ItemInit.DOG_TREAT,
+                BlockInit.BIRD_CAGE
                 )
                 .map(Supplier::get)
                 .forEach(this::simpleGeneratedModel);
@@ -56,7 +58,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         return withExistingParent(name, modLoc("block/pet_bowl"));
     }
 
-    protected ItemModelBuilder simpleGeneratedModel(Item item) {
+    protected ItemModelBuilder simpleGeneratedModel(ItemLike item) {
         return simpleModel(item, mcLoc("item/generated"));
     }
 
@@ -64,13 +66,13 @@ public class ModItemModelProvider extends ItemModelProvider {
         return simpleModel(item, mcLoc("item/handheld"));
     }
 
-    protected ItemModelBuilder simpleModel(Item item, ResourceLocation parent) {
+    protected ItemModelBuilder simpleModel(ItemLike item, ResourceLocation parent) {
         String name = getName(item);
         return singleTexture(name, parent, "layer0", modLoc("item/" + name));
     }
 
-    protected String getName(Item item) {
-        return ForgeRegistries.ITEMS.getKey(item).getPath();
+    protected String getName(ItemLike item) {
+        return ForgeRegistries.ITEMS.getKey(item.asItem()).getPath();
     }
 
     protected String getName(Block item) {

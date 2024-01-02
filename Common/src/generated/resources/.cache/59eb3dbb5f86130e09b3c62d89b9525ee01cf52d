@@ -1,5 +1,6 @@
-// 1.20.1	2023-12-31T19:37:39.708565	Loot Tables
+// 1.20.1	2024-01-01T20:46:13.3753492	Loot Tables
 a641fffe0b8bce6fab05642d4b9385362a312c6a data/nyfspetshop/loot_tables/blocks/big_pet_bed.json
+a0ec67ba96943198299652a1e5d016c56383bce2 data/nyfspetshop/loot_tables/blocks/bird_cage.json
 9bb183cca465a72dc14d02c5c42a63345da703a4 data/nyfspetshop/loot_tables/blocks/crate.json
 b30387ca97f969a7f726ba4e39bb5443d2914981 data/nyfspetshop/loot_tables/blocks/grooming_station.json
 31faea7b39ad9bbd4733adc0abbd46730132bfdc data/nyfspetshop/loot_tables/blocks/pet_bed.json

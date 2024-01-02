@@ -174,9 +174,15 @@ public class PetItem extends Item {
     }
 
     private static void recallExisting(ServerLevel pLevel, CompoundTag tag, ItemStack itemstack) {
-        tag.putBoolean("inside", true);
         UUID petUUID = tag.getUUID("pet_uuid");
         LivingEntity pet = (LivingEntity) pLevel.getEntity(petUUID);
+        if (pet == null) {
+            if (!itemstack.getTag().contains("onShoulder") || !itemstack.getTag().getBoolean("onShoulder")) {
+                itemstack.getTag().putBoolean("inside", true);
+            }
+            return;
+        }
+        tag.putBoolean("inside", true);
         if (pet.hasCustomName()) {
             itemstack.setHoverName(pet.getCustomName());
         }
@@ -187,8 +193,8 @@ public class PetItem extends Item {
     }
 
     private static void spawnExisting(Level pLevel, Player pPlayer, CompoundTag tag, ItemStack itemstack) {
-        tag.putBoolean("inside", false);
         BasePet entity = getEntity(itemstack, pLevel);
+        tag.putBoolean("inside", false);
         entity.load(tag.getCompound("petData"));
         entity.setPos(pPlayer.getX(), pPlayer.getY(), pPlayer.getZ());
         pLevel.addFreshEntity(entity);
