@@ -37,6 +37,7 @@ public class EntityInit {
     // CATS
     public static final RegistryObject<EntityType<BaseCat>> CALICO = registerEntity(Species.CAT,"calico", ()->EntityType.Builder.of(BaseCat::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseCat::createAttributes);
     public static final RegistryObject<EntityType<BaseCat>> AMERICAN_SHORTHAIR = registerEntity(Species.CAT,"american_shorthair", ()->EntityType.Builder.of(BaseCat::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseCat::createAttributes);
+    public static final RegistryObject<EntityType<BaseCat>> BLACK_TUXEDO = registerEntity(Species.CAT,"black_tuxedo", ()->EntityType.Builder.of(BaseCat::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseCat::createAttributes);
 
     // PARROTS
     public static final RegistryObject<EntityType<BaseBird>> GOLD_DASHED_PARROT  = registerEntity(Species.BIRD,"gold_dashed_parrot", ()->EntityType.Builder.of(BaseBird::new, MobCategory.CREATURE).sized(0.6f,0.8f), BaseBird::createAttributes);
