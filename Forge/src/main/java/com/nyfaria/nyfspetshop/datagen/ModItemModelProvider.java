@@ -32,7 +32,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         Stream.of(
                         ItemInit.TENNIS_BALL,
                         ItemInit.DOG_TREAT,
-                BlockInit.BIRD_CAGE
+                        BlockInit.BIRD_CAGE,
+                        ItemInit.PEANUT,
+                        ItemInit.TUNA_TREAT
                 )
                 .map(Supplier::get)
                 .forEach(this::simpleGeneratedModel);
@@ -81,11 +83,11 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     protected ItemModelBuilder petItem(Item item) {
         return withExistingParent(getName(item), mcLoc("item/generated"))
-                .override().predicate(new ResourceLocation(Constants.MODID,"type"), 0.1f)
-                .model(singleTexture(getName(item) + "_bone", mcLoc("item/generated"),"layer0", modLoc("item/" + getName(item) + "_bone"))).end()
-                .override().predicate(new ResourceLocation(Constants.MODID,"type"), 0.2f)
-                .model(singleTexture(getName(item)+ "_fish", mcLoc("item/generated"),"layer0", modLoc("item/" + getName(item) + "_fish"))).end()
-                .override().predicate(new ResourceLocation(Constants.MODID,"type"), 0.3f)
-                .model(singleTexture(getName(item)+ "_seed", mcLoc("item/generated"),"layer0", modLoc("item/" + getName(item) + "_seed"))).end();
+                .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.1f)
+                .model(singleTexture(getName(item) + "_bone", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_bone"))).end()
+                .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.2f)
+                .model(singleTexture(getName(item) + "_fish", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_fish"))).end()
+                .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.3f)
+                .model(singleTexture(getName(item) + "_seed", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_seed"))).end();
     }
 }

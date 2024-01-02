@@ -19,7 +19,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
@@ -101,7 +100,7 @@ public class BaseBird extends BasePet implements Thirsty, Hungry, ShoulderRider<
     @Override
     public List<? extends ExtendedSensor<? extends BaseBird>> getSensors() {
         return ObjectArrayList.of(
-                new ItemTemptingSensor<BaseBird>().temptedWith((livingEntity, itemStack)->itemStack == getPetItemStack()),
+                new ItemTemptingSensor<BaseBird>().temptedWith((livingEntity, itemStack) -> itemStack == getPetItemStack()),
                 new NearbyPlayersSensor<BaseBird>().setRadius(50).setPredicate((player, wolf) -> player.getMainHandItem().is(ItemInit.DOG_TREAT.get()) || player.getOffhandItem().is(ItemInit.DOG_TREAT.get()) || player.is(wolf.getOwner())),
                 new NearbyLivingEntitySensor<>()
 
@@ -122,13 +121,13 @@ public class BaseBird extends BasePet implements Thirsty, Hungry, ShoulderRider<
                 new FirstApplicableBehaviour<BaseBird>(
                         new FindPOI<BaseBird>()
                                 .withMemory(MemoryModuleTypeInit.BOWL_POS.get())
-                                .checkState((level,pos,state)->state.hasProperty(BlockStateInit.BOWL_TYPE) && state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.WATER)
+                                .checkState((level, pos, state) -> state.hasProperty(BlockStateInit.BOWL_TYPE) && state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.WATER)
                                 .startCondition(e -> e.getThirstLevel() <= thirstLevelThreshold && canDoStuff()),
                         new FindPOI<BaseBird>()
                                 .withMemory(MemoryModuleTypeInit.BOWL_POS.get())
-                                .checkState((level,pos,state)->state.hasProperty(BlockStateInit.BOWL_TYPE) && state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.KIBBLE)
+                                .checkState((level, pos, state) -> state.hasProperty(BlockStateInit.BOWL_TYPE) && state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.KIBBLE)
                                 .startCondition(e -> e.getHungerLevel() <= hungerLevelThreshold && canDoStuff()),
-                        new FollowTemptation<BaseBird>().startCondition(e->e.getMovementType() == MovementType.WANDER),
+                        new FollowTemptation<BaseBird>().startCondition(e -> e.getMovementType() == MovementType.WANDER),
                         new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW)),
                 new LookAtTarget<BasePet>().runFor(entity -> entity.getRandom().nextIntBetweenInclusive(40, 300)),
                 new GoToBowl<>(),
@@ -180,7 +179,6 @@ public class BaseBird extends BasePet implements Thirsty, Hungry, ShoulderRider<
     }
 
 
-
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
         controllerRegistrar.add(new AnimationController<>(this, MOVE_CONTROLLER, this::moveControllerState));
@@ -197,7 +195,6 @@ public class BaseBird extends BasePet implements Thirsty, Hungry, ShoulderRider<
             this.setDeltaMovement(vec3.multiply(1.0D, 0.6D, 1.0D));
         }
     }
-
 
 
     private PlayState moveControllerState(AnimationState<BaseBird> baseDogAnimationState) {
@@ -237,15 +234,11 @@ public class BaseBird extends BasePet implements Thirsty, Hungry, ShoulderRider<
     }
 
     @Override
-    public InteractionResult mobInteract(Player interactingPlayer, InteractionHand hand) {
-        if(interactingPlayer.getMainHandItem().isEmpty()){
-            if(!interactingPlayer.level().isClientSide){
-                if(!interactingPlayer.isShiftKeyDown()){
-                    setEntityOnShoulder(this, (ServerPlayer) interactingPlayer);
-                }
-            }
+    public void doPetStuff(Player interactingPlayer, InteractionHand hand) {
+        if (!interactingPlayer.level().isClientSide) {
+            setEntityOnShoulder(this, (ServerPlayer) interactingPlayer);
+
         }
-        return super.mobInteract(interactingPlayer, hand);
     }
 
     @Override
@@ -267,14 +260,16 @@ public class BaseBird extends BasePet implements Thirsty, Hungry, ShoulderRider<
             setHungerLevel(getHungerLevel() - 0.01f);
         }
     }
+
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, (double) 0.2F).add(Attributes.FLYING_SPEED, (double)0.4F).add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.ATTACK_DAMAGE, 2.0D);
+        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, (double) 0.2F).add(Attributes.FLYING_SPEED, (double) 0.4F).add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.ATTACK_DAMAGE, 2.0D);
     }
 
     @Override
     public boolean canSitOnShoulder() {
         return rideCooldownCounter > 100;
     }
+
     protected PathNavigation createNavigation(Level pLevel) {
         FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, pLevel);
         flyingpathnavigation.setCanOpenDoors(false);
