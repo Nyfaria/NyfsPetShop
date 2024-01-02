@@ -50,7 +50,7 @@ public class BlockInit {
     public static final RegistryObject<Block> CRATE = registerBlock("crate", () -> new BasicHorizontalBlock(Block.Properties.copy(Blocks.CRAFTING_TABLE).noOcclusion()));
     public static final RegistryObject<Block> BIG_PET_BED = registerBlock("big_pet_bed",()-> new TBTBlock(Block.Properties.copy(Blocks.WHITE_WOOL).noOcclusion()), (block)-> ()->new TBTHorizontalBlockItem(block.get(), ItemInit.getItemProperties(Rarity.COMMON)));
     public static final RegistryObject<Block> PET_BED = registerBlock("pet_bed",()-> new SmolBed(Block.Properties.copy(Blocks.WHITE_WOOL).noOcclusion()));
-    public static final RegistryObject<Block> BIRD_CAGE = registerBlock("bird_cage",()-> new BirdCage(Block.Properties.copy(Blocks.BROWN_WOOL).noOcclusion()), (block)->()->new DoubleHighBlockItem(block.get(),ItemInit.getItemProperties(Rarity.UNCOMMON)));
+    public static final RegistryObject<Block> BIRD_CAGE = registerBlock("bird_cage",()-> new BirdCage(Block.Properties.copy(Blocks.IRON_BARS).noOcclusion()), (block)->()->new DoubleHighBlockItem(block.get(),ItemInit.getItemProperties(Rarity.UNCOMMON)));
 
 
     public static final RegistryObject<BlockEntityType<BirdCageBlockEntity>> BIRD_CAGE_BE = BLOCK_ENTITIES.register("bird_cage", () -> BlockEntityType.Builder.of(BirdCageBlockEntity::new, BlockInit.BIRD_CAGE.get()).build(null));
