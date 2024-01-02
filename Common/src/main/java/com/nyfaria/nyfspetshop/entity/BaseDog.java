@@ -28,12 +28,15 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BrushableBlock;
@@ -241,7 +244,9 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry, Digger
                 .triggerableAnim("tail_wag_sit", RawAnimation.begin().thenPlay("tail_wag_sit"))
         );
         controllerRegistrar.add(new AnimationController<>(this, EAR_CONTROLLER, this::earControllerState)
-                .triggerableAnim("ear_wiggle", Animations.EAR_WIGGLE));
+                .triggerableAnim("ear_wiggle", Animations.EAR_WIGGLE)
+                .triggerableAnim("ear_wiggle3", Animations.EAR_WIGGLE3)
+        );
     }
 
     private PlayState earControllerState(AnimationState<BaseDog> baseDogAnimationState) {
@@ -313,6 +318,11 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry, Digger
     @Override
     public void setHungerLevel(float hungerLevel) {
         this.entityData.set(HUNGER, hungerLevel);
+    }
+
+    @Override
+    public void doPetStuff(Player player, InteractionHand hand) {
+        triggerAnim(EAR_CONTROLLER, "ear_wiggle3");
     }
 
     @Override

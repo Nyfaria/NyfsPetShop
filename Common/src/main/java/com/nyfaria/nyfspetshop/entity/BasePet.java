@@ -4,6 +4,7 @@ import com.nyfaria.nyfspetshop.Constants;
 import com.nyfaria.nyfspetshop.block.PetBowl;
 import com.nyfaria.nyfspetshop.entity.enums.MovementType;
 import com.nyfaria.nyfspetshop.platform.Services;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -57,11 +58,13 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     public void setPetItemStack(ItemStack petItemStack) {
         itemStack = Optional.of(petItemStack);
     }
+
     public String getPublicEncodeId() {
         EntityType<?> $$0 = this.getType();
         ResourceLocation $$1 = EntityType.getKey($$0);
         return $$0.canSerialize() && $$1 != null ? $$1.toString() : null;
     }
+
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
@@ -77,21 +80,43 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
 
     @Override
     public InteractionResult mobInteract(Player interactingPlayer, InteractionHand hand) {
-        if (isOwnedBy(interactingPlayer)) {
-            if (interactingPlayer.isCrouching() && interactingPlayer.getItemInHand(hand).isEmpty()) {
-                if (!level().isClientSide) {
-                    setMovementType(getMovementType().cycle());
-                    interactingPlayer.displayClientMessage(Component.translatable("player_message." + Constants.MODID + ".movementType", getName(), getMovementType().getDisplayName()), true);
+
+        if (isOwnedBy(interactingPlayer) && interactingPlayer.isCrouching() && interactingPlayer.getItemInHand(hand).isEmpty()) {
+            if (!level().isClientSide) {
+                setMovementType(getMovementType().cycle());
+                interactingPlayer.displayClientMessage(Component.translatable("player_message." + Constants.MODID + ".movementType", getName(), getMovementType().getDisplayName()), true);
+            }
+            return InteractionResult.sidedSuccess(level().isClientSide);
+        } else if (!level().isClientSide && interactingPlayer.getItemInHand(hand).getItem() instanceof DyeItem dyeItem) {
+            setHatColor(new Vector3f(dyeItem.getDyeColor().getTextureDiffuseColors()));
+
+        } else if(isTreat(interactingPlayer.getMainHandItem())){
+            if(!level().isClientSide){
+                doTreatStuff(interactingPlayer,hand);
+            } else {
+                level().addParticle(ParticleTypes.HEART, getX(), getY() + getBbHeight(), getZ(), 0, 0.5f, 0);
+                level().addParticle(ParticleTypes.HEART, getX(), getY() + getBbHeight() - 0.2, getZ(), 0, 0.5f, 0);
+
+            }
+        }else {
+            if (interactingPlayer.getItemInHand(hand).isEmpty()) {
+                if (!interactingPlayer.level().isClientSide) {
+                    doPetStuff(interactingPlayer,hand);
+                } else {
+                    level().addParticle(ParticleTypes.HEART, getX(), getY() + getBbHeight(), getZ(), 0, 0.5f, 0);
                 }
-                return InteractionResult.sidedSuccess(level().isClientSide);
             }
-        }
-        if(!level().isClientSide) {
-            if(interactingPlayer.getItemInHand(hand).getItem() instanceof DyeItem dyeItem){
-                setHatColor(new Vector3f(dyeItem.getDyeColor().getTextureDiffuseColors()));
-            }
+            return InteractionResult.sidedSuccess(level().isClientSide);
         }
         return super.mobInteract(interactingPlayer, hand);
+    }
+
+    public void doPetStuff(Player player, InteractionHand hand) {
+
+    }
+
+    public void doTreatStuff(Player player, InteractionHand hand) {
+
     }
 
     public MovementType getMovementType() {
@@ -139,7 +164,7 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         bootsColor.putFloat("g", getBootsColor().y());
         bootsColor.putFloat("b", getBootsColor().z());
         tag.put("boots_color", bootsColor);
-        if(!getPetItemStack().isEmpty()) {
+        if (!getPetItemStack().isEmpty()) {
             CompoundTag petItemStack = new CompoundTag();
             getPetItemStack().save(petItemStack);
             tag.put("pet_item_stack", petItemStack);
@@ -166,7 +191,7 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         setCollarColor(collarColor.getFloat("r"), collarColor.getFloat("g"), collarColor.getFloat("b"));
         CompoundTag bootsColor = tag.getCompound("boots_color");
         setBootsColor(bootsColor.getFloat("r"), bootsColor.getFloat("g"), bootsColor.getFloat("b"));
-        if(tag.contains("pet_item_stack")){
+        if (tag.contains("pet_item_stack")) {
             setPetItemStack(ItemStack.of(tag.getCompound("pet_item_stack")));
         }
 
@@ -254,13 +279,19 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     public void setBootsColor(float r, float g, float b) {
         this.entityData.set(BOOTS_COLOR, new Vector3f(r, g, b));
     }
+
     public void setBegging(boolean begging) {
         this.entityData.set(BEGGING, begging);
     }
+
     public boolean isBegging() {
         return this.entityData.get(BEGGING);
     }
-    public boolean canDoStuff(){
-        return !isBegging() && getMovementType() !=MovementType.STAY;
+
+    public boolean canDoStuff() {
+        return !isBegging() && getMovementType() != MovementType.STAY;
+    }
+    public boolean isTreat(ItemStack stack) {
+        return false;
     }
 }

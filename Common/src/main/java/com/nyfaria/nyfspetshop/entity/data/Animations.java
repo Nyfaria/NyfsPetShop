@@ -12,6 +12,7 @@ public class Animations {
     public static RawAnimation TAIL_SIT_IDLE = RawAnimation.begin().thenLoop("tail_sit_idle");
     public static RawAnimation TAIL_WAG_STAND = RawAnimation.begin().thenLoop("tail_wag_stand");
     public static RawAnimation EAR_WIGGLE = RawAnimation.begin().thenPlay("ear_wiggle");
+    public static RawAnimation EAR_WIGGLE3 = RawAnimation.begin().thenPlayXTimes("ear_wiggle",3);
     public static RawAnimation EAR_IDLE = RawAnimation.begin().thenPlay("ear_idle");
 
 }

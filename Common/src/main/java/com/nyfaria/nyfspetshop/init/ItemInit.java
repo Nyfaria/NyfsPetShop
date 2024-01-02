@@ -42,6 +42,8 @@ public class ItemInit {
                         output.accept(new ItemStack(ItemInit.TENNIS_BALL.get()));
                         output.accept(ItemInit.BAG_OF_KIBBLE.get());
                         output.accept(ItemInit.DOG_TREAT.get());
+                        output.accept(ItemInit.TUNA_TREAT.get());
+                        output.accept(ItemInit.PEANUT.get());
 
 
                     }).title(Component.translatable("itemGroup." + Constants.MODID + ".tab"))
@@ -50,7 +52,9 @@ public class ItemInit {
     public static final RegistryObject<Item> PET_ITEM = registerDogCollar("pet_item", getItemProperties(Rarity.COMMON).stacksTo(1));
     public static final RegistryObject<Item> TENNIS_BALL = ITEMS.register("tennis_ball", () -> new BallItem(getItemProperties(Rarity.COMMON).stacksTo(1)));
     public static final RegistryObject<Item> BAG_OF_KIBBLE = ITEMS.register("bag_of_kibble", () -> new KibbleItem(KibbleItem.Type.BAG, getItemProperties(Rarity.COMMON).durability(3)));
-    public static final RegistryObject<Item> DOG_TREAT = ITEMS.register("dog_treat", () -> new Item(getItemProperties(Rarity.COMMON).durability(3)));
+    public static final RegistryObject<Item> DOG_TREAT = ITEMS.register("dog_treat", () -> new Item(getItemProperties(Rarity.COMMON)));
+    public static final RegistryObject<Item> TUNA_TREAT = ITEMS.register("tuna_treat", () -> new Item(getItemProperties(Rarity.COMMON)));
+    public static final RegistryObject<Item> PEANUT = ITEMS.register("peanut", () -> new Item(getItemProperties(Rarity.COMMON)));
 
     public static RegistryObject<Item> registerDogCollar(String name, Item.Properties properties) {
         RegistryObject<Item> item = ITEMS.register(name, () -> new PetItem(properties));

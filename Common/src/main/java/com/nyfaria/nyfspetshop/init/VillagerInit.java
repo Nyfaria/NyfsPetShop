@@ -61,6 +61,8 @@ public class VillagerInit {
         trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.TENNIS_BALL.get()) , 20, 1, 1));
         trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,5),ItemStack.EMPTY,new ItemStack(ItemInit.BAG_OF_KIBBLE.get()) , 20, 1, 1));
         trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.DOG_TREAT.get()) , 20, 1, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.TUNA_TREAT.get()) , 20, 1, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.PEANUT.get()) , 20, 1, 1));
         Map<Integer,VillagerTrades.ItemListing[]> theSecondMap = Map.of(
                 1, trades2.toArray(new VillagerTrades.ItemListing[trades2.size()]),
                 2,trades2.toArray(new VillagerTrades.ItemListing[trades2.size()]),
