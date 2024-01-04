@@ -1,10 +1,12 @@
-// 1.20.1	2024-01-02T12:21:16.7170949	Item Models: nyfspetshop
+// 1.20.1	2024-01-03T21:22:43.0649345	Item Models: nyfspetshop
 e26e42d7e4055d3e7e16e310034e66d23046e364 assets/nyfspetshop/models/item/bag_of_kibble.json
+53e59949d103157433dcac10ef2f971a3d52712e assets/nyfspetshop/models/item/big_pet_bed.json
 3ba111b9a7aab01b7e503089c58b4d37972b6a10 assets/nyfspetshop/models/item/bird_cage.json
 66978258f14a649d9e3ca647e06ed758c86baee9 assets/nyfspetshop/models/item/crate.json
 0bd665cb0ce827da2d10e53a73e4eb7a4f191ef3 assets/nyfspetshop/models/item/dog_treat.json
 5ce6ccf02cda614730b22a394bb8144358432ae9 assets/nyfspetshop/models/item/grooming_station.json
 44f7042de8c49bae4b933f0c18056400e125f360 assets/nyfspetshop/models/item/peanut.json
+92a3a053305f113d2b3dae7349cd89c14fe6558f assets/nyfspetshop/models/item/pet_bed.json
 73005049e5bc2d533e29d4779380f5e69a49bf7b assets/nyfspetshop/models/item/pet_bowl.json
 73005049e5bc2d533e29d4779380f5e69a49bf7b assets/nyfspetshop/models/item/pet_bowl_black.json
 73005049e5bc2d533e29d4779380f5e69a49bf7b assets/nyfspetshop/models/item/pet_bowl_blue.json

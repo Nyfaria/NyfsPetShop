@@ -1,0 +1,133 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"walk": {
+			"loop": true,
+			"animation_length": 0.75,
+			"bones": {
+				"front_left_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [-20, 0, 0]
+						},
+						"0.375": {
+							"vector": [20, 0, 0]
+						},
+						"0.75": {
+							"vector": [-20, 0, 0]
+						}
+					}
+				},
+				"front_right_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [20, 0, 0]
+						},
+						"0.375": {
+							"vector": [-20, 0, 0]
+						},
+						"0.75": {
+							"vector": [20, 0, 0]
+						}
+					}
+				},
+				"back_left_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [-20, 0, 0]
+						},
+						"0.375": {
+							"vector": [20, 0, 0]
+						},
+						"0.75": {
+							"vector": [-20, 0, 0]
+						}
+					}
+				},
+				"back_right_leg": {
+					"rotation": {
+						"0.0": {
+							"vector": [20, 0, 0]
+						},
+						"0.375": {
+							"vector": [-20, 0, 0]
+						},
+						"0.75": {
+							"vector": [20, 0, 0]
+						}
+					}
+				}
+			}
+		},
+		"tail_wag_stand": {
+			"loop": true,
+			"animation_length": 0.5,
+			"bones": {
+				"tail": {
+					"rotation": {
+						"0.0": [0, 0, -30],
+						"0.25": [0, 0, 30],
+						"0.5": [0, 0, -30]
+					},
+					"position": {
+						"0.0": [0, 0, 0],
+						"0.0833": [0, 1, 0]
+					}
+				}
+			}
+		},
+		"sit": {
+			"loop": true,
+			"animation_length": 0.375,
+			"bones": {
+				"body": {
+					"rotation": [-12.5, 0, 0]
+				},
+				"front_left_leg": {
+					"rotation": [-32.5, 0, 0],
+					"position": [0, -1, -2]
+				},
+				"front_right_leg": {
+					"rotation": [-32.5, 0, 0],
+					"position": [0, -1, -2]
+				},
+				"back_left_leg": {
+					"rotation": [-92.5, 0, 0],
+					"position": [0, -3, -2]
+				},
+				"back_right_leg": {
+					"rotation": [-92.5, 0, 0],
+					"position": [0, -3, -2]
+				},
+				"head_rotations": {
+					"rotation": [25, 0, 0]
+				}
+			}
+		},
+		"tail_wag_sit": {
+			"loop": true,
+			"animation_length": 0.5,
+			"bones": {
+				"tail": {
+					"rotation": {
+						"0.0": [23.85865, 18.74724, -36.00521],
+						"0.25": [23.85865, -18.74724, 36.00521],
+						"0.5": [23.85865, 18.74724, -36.00521]
+					},
+					"position": [0, 2, 0]
+				}
+			}
+		},
+		"tail_sit_idle": {
+			"loop": true,
+			"animation_length": 6.75,
+			"bones": {
+				"tail": {
+					"rotation": [90, 0, 0],
+					"position": [0, 4, -1]
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}

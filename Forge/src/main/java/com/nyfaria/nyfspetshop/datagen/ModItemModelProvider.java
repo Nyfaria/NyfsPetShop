@@ -34,7 +34,9 @@ public class ModItemModelProvider extends ItemModelProvider {
                         ItemInit.DOG_TREAT,
                         BlockInit.BIRD_CAGE,
                         ItemInit.PEANUT,
-                        ItemInit.TUNA_TREAT
+                        ItemInit.TUNA_TREAT,
+                        BlockInit.PET_BED,
+                        BlockInit.BIG_PET_BED
                 )
                 .map(Supplier::get)
                 .forEach(this::simpleGeneratedModel);
