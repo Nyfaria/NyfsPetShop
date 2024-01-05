@@ -189,6 +189,7 @@
 			}
 		},
 		"beg": {
+			"loop": "hold_on_last_frame",
 			"animation_length": 0.04167,
 			"bones": {
 				"body": {

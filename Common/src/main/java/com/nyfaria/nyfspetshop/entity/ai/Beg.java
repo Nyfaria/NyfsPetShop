@@ -72,7 +72,7 @@ public class Beg<T extends BasePet> extends ExtendedBehaviour<T> {
         super.stop(level, entity, gameTime);
         if(!checkForTreat(entity)){
             entity.triggerAnim(controller, "idle");
-            if(controller2.isEmpty()){
+            if(!controller2.isEmpty()){
             entity.triggerAnim(controller2, "idle");
             }
             @Nullable PositionTracker lookTarget = BrainUtils.getMemory(entity, MemoryModuleType.LOOK_TARGET);
