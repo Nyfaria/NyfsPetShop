@@ -23,7 +23,7 @@ public class NyfsPetShop {
     public NyfsPetShop() {
         Constants.LOG.info("Hello Forge world!");
         CommonClass.init();
-        DataSerializerInit.ENTITY_DATA_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
+//        DataSerializerInit.ENTITY_DATA_SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
     }
 
     @SubscribeEvent

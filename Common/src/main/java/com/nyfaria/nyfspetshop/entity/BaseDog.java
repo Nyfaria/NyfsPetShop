@@ -28,8 +28,11 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -58,6 +61,7 @@ import net.tslat.smartbrainlib.api.core.sensor.vanilla.ItemTemptingSensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyLivingEntitySensor;
 import net.tslat.smartbrainlib.api.core.sensor.vanilla.NearbyPlayersSensor;
 import net.tslat.smartbrainlib.util.BrainUtils;
+import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
@@ -117,7 +121,23 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry, Digger
         tickBrain(this);
 
     }
+    @Nullable
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.WOLF_AMBIENT;
+    }
 
+    @Nullable
+    @Override
+    protected SoundEvent getHurtSound(DamageSource $$0) {
+        return SoundEvents.WOLF_HURT;
+    }
+
+    @Nullable
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.WOLF_DEATH;
+    }
     @Override
     protected Brain.Provider<?> brainProvider() {
         return new SmartBrainProvider<>(this);
@@ -145,7 +165,6 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry, Digger
                         new FindPOI<>()
                                 .withMemory(MemoryModuleTypeInit.BED.get())
                                 .withTag(TagInit.PET_BEDS_POI)
-                                .withOccupancy(PoiManager.Occupancy.HAS_SPACE)
                                 .movementTypePredicate((e, m) -> m == MovementType.WANDER)
                                 .startCondition(e-> canDoStuff() && e.level().isNight()),
                         new FindPOI<BaseDog>()
@@ -341,10 +360,10 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry, Digger
 
     @Override
     public boolean canDoStuff() {
-        return !isDigging() && !isPetSleeping();
+        boolean isDigging = isDigging();
+        boolean isSleeping = isPetSleeping();
+        return !isDigging && !isSleeping && getMovementType() != MovementType.STAY;
     }
 
-    public boolean isPetSleeping() {
-        return BrainUtils.hasMemory(this, MemoryModuleTypeInit.SLEEPING.get());
-    }
+
 }

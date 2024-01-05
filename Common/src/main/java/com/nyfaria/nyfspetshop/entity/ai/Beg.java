@@ -22,14 +22,16 @@ public class Beg<T extends BasePet> extends ExtendedBehaviour<T> {
     private String animation2;
     private Item begItem;
     private String controller;
-    private String controller2;
+    private String controller2 = "";
     private Player treatPlayer;
 
     @Override
     protected void start(ServerLevel level, T entity, long gameTime) {
         super.start(level, entity, gameTime);
         entity.triggerAnim(controller,animation);
-        entity.triggerAnim(controller2,animation2);
+        if(!controller2.isEmpty()) {
+            entity.triggerAnim(controller2, animation2);
+        }
         entity.setBegging(true);
         entity.refreshDimensions();
     }
@@ -70,7 +72,9 @@ public class Beg<T extends BasePet> extends ExtendedBehaviour<T> {
         super.stop(level, entity, gameTime);
         if(!checkForTreat(entity)){
             entity.triggerAnim(controller, "idle");
+            if(controller2.isEmpty()){
             entity.triggerAnim(controller2, "idle");
+            }
             @Nullable PositionTracker lookTarget = BrainUtils.getMemory(entity, MemoryModuleType.LOOK_TARGET);
             BrainUtils.setMemory(entity, MemoryModuleType.LOOK_TARGET, null);
             BrainUtils.setForgettableMemory(entity, MemoryModuleType.LOOK_TARGET, lookTarget, 200);

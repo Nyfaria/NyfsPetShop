@@ -7,3 +7,5 @@ accessible method net/minecraft/world/inventory/MenuType <init> (Lnet/minecraft/
 accessible method net/minecraft/client/renderer/item/ItemProperties register (Lnet/minecraft/world/item/Item;Lnet/minecraft/resources/ResourceLocation;Lnet/minecraft/client/renderer/item/ClampedItemPropertyFunction;)V
 accessible method net/minecraft/world/entity/player/Player setShoulderEntityRight (Lnet/minecraft/nbt/CompoundTag;)V
 accessible method net/minecraft/world/entity/player/Player setShoulderEntityLeft (Lnet/minecraft/nbt/CompoundTag;)V
+accessible method net/minecraft/world/entity/ai/village/poi/PoiTypes register (Lnet/minecraft/core/Registry;Lnet/minecraft/resources/ResourceKey;Ljava/util/Set;II)Lnet/minecraft/world/entity/ai/village/poi/PoiType;
+accessible method net/minecraft/world/entity/ai/village/poi/PoiTypes registerBlockStates (Lnet/minecraft/core/Holder;Ljava/util/Set;)V

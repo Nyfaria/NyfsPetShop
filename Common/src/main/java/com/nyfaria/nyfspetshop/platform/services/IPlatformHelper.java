@@ -37,5 +37,4 @@ public interface IPlatformHelper {
         return isDevelopmentEnvironment() ? "development" : "production";
     }
 
-    EntityDataSerializer<MovementType> getMovementTypeSerializer();
 }

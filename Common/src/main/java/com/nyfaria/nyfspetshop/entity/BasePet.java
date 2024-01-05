@@ -1,8 +1,10 @@
 package com.nyfaria.nyfspetshop.entity;
 
+import com.nyfaria.nyfspetshop.CommonClass;
 import com.nyfaria.nyfspetshop.Constants;
 import com.nyfaria.nyfspetshop.block.PetBowl;
 import com.nyfaria.nyfspetshop.entity.enums.MovementType;
+import com.nyfaria.nyfspetshop.init.MemoryModuleTypeInit;
 import com.nyfaria.nyfspetshop.platform.Services;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -25,6 +27,7 @@ import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.tslat.smartbrainlib.api.SmartBrainOwner;
+import net.tslat.smartbrainlib.util.BrainUtils;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -34,7 +37,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<BasePet>, GeoEntity {
-    public static final EntityDataAccessor<MovementType> MOVEMENT_TYPE = SynchedEntityData.defineId(BasePet.class, Services.PLATFORM.getMovementTypeSerializer());
+    public static final EntityDataAccessor<MovementType> MOVEMENT_TYPE = SynchedEntityData.defineId(BasePet.class, CommonClass.MOVEMENT_TYPE);
     public static final EntityDataAccessor<Boolean> HAS_HAT = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> HAS_COLLAR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> HAS_BOOTS = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.BOOLEAN);
@@ -293,5 +296,8 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     }
     public boolean isTreat(ItemStack stack) {
         return false;
+    }
+    public boolean isPetSleeping() {
+        return BrainUtils.hasMemory(this, MemoryModuleTypeInit.SLEEPING.get());
     }
 }

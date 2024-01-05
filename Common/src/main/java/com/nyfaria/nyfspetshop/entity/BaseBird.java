@@ -1,6 +1,7 @@
 package com.nyfaria.nyfspetshop.entity;
 
 import com.nyfaria.nyfspetshop.block.PetBowl;
+import com.nyfaria.nyfspetshop.entity.ai.Beg;
 import com.nyfaria.nyfspetshop.entity.ai.FindPOI;
 import com.nyfaria.nyfspetshop.entity.ai.GoToBowl;
 import com.nyfaria.nyfspetshop.entity.ai.ModAnimalMakeLove;
@@ -119,6 +120,8 @@ public class BaseBird extends BasePet implements Thirsty, Hungry, ShoulderRider<
     public BrainActivityGroup<? extends BasePet> getCoreTasks() {
         return BrainActivityGroup.coreTasks(
                 new FirstApplicableBehaviour<BaseBird>(
+                        new Beg<>().setBegItem(ItemInit.PEANUT.get())
+                                .setController(MOVE_CONTROLLER).setAnimation("walk"),
                         new FindPOI<BaseBird>()
                                 .withMemory(MemoryModuleTypeInit.BOWL_POS.get())
                                 .checkState((level, pos, state) -> state.hasProperty(BlockStateInit.BOWL_TYPE) && state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.WATER)

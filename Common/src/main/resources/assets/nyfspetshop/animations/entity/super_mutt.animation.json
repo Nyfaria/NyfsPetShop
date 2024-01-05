@@ -263,6 +263,15 @@
 					"rotation": [0, 0, 0]
 				}
 			}
+		},
+		"sleep": {
+			"loop": true,
+			"bones": {
+				"root": {
+					"rotation": [0, 0, 90],
+					"position": [3, -6.5, 0]
+				}
+			}
 		}
 	},
 	"geckolib_format_version": 2

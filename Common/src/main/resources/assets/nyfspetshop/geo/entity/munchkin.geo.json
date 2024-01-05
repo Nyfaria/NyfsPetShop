@@ -83,7 +83,7 @@
 				{
 					"name": "tail2",
 					"parent": "tail",
-					"pivot": [0, -14, -13.5],
+					"pivot": [0, -13, -16],
 					"cubes": [
 						{
 							"origin": [-0.5, -17, -16.5],

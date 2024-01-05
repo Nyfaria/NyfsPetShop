@@ -4,8 +4,13 @@ import com.mojang.datafixers.util.Pair;
 import com.nyfaria.nyfspetshop.entity.BasePet;
 import com.nyfaria.nyfspetshop.entity.enums.MovementType;
 import com.nyfaria.nyfspetshop.init.MemoryModuleTypeInit;
+import com.nyfaria.nyfspetshop.init.POIInit;
+import com.nyfaria.nyfspetshop.init.TagInit;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -67,12 +72,18 @@ public class FindPOI<E extends BasePet> extends PetExtendedBehavior<E> {
     protected void start(ServerLevel level, E entity, long gameTime) {
         super.start(level, entity, gameTime);
 
+        PoiType poiType = POIInit.PET_BEDS.get();
         BlockPos blockpos = entity.blockPosition();
         PoiManager poimanager = level.getPoiManager();
-        Stream<PoiRecord> stream = poimanager.getInRange((poiTypeHolder) -> poiTypeHolder.is(poiTag), blockpos, 20, occupancy);
-        List<BlockPos> list = stream.map(PoiRecord::getPos).filter(pos -> propertyPredicate.test(level,pos,level.getBlockState(pos))).sorted(Comparator.comparingDouble((pos) -> pos.distSqr(blockpos))).toList();
-        if (!list.isEmpty()) {
-            BrainUtils.setMemory(entity, memoryModuleType, Optional.of(list.get(0)));
+        Stream<PoiRecord> stream = poimanager.getInRange((poiTypeHolder) -> {
+            boolean isRightType = poiTypeHolder.is(poiTag);
+            return isRightType;
+        }, blockpos, 20, occupancy);
+        List<BlockPos> posList = stream.map(PoiRecord::getPos).toList();
+        List<BlockPos> filteredPosList = posList.stream().filter(pos -> propertyPredicate.test(level,pos,level.getBlockState(pos))).toList();
+        List<BlockPos> sortedFilteredPosList = filteredPosList.stream().sorted(Comparator.comparingDouble((pos) -> pos.distSqr(blockpos))).toList();
+        if (!sortedFilteredPosList.isEmpty()) {
+            BrainUtils.setMemory(entity, memoryModuleType, Optional.of(sortedFilteredPosList.get(0)));
         }
     }
 

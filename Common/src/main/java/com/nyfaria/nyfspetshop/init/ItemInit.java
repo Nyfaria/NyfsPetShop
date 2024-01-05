@@ -39,11 +39,13 @@ public class ItemInit {
                         output.accept(BlockInit.GROOMING_STATION.get());
                         output.accept(BlockInit.CRATE.get());
                         output.accept(BlockInit.BIRD_CAGE.get());
-                        output.accept(new ItemStack(ItemInit.TENNIS_BALL.get()));
+                        output.accept(ItemInit.TENNIS_BALL.get());
                         output.accept(ItemInit.BAG_OF_KIBBLE.get());
                         output.accept(ItemInit.DOG_TREAT.get());
                         output.accept(ItemInit.TUNA_TREAT.get());
                         output.accept(ItemInit.PEANUT.get());
+                        output.accept(BlockInit.PET_BED.get());
+                        output.accept(BlockInit.BIG_PET_BED.get());
 
 
                     }).title(Component.translatable("itemGroup." + Constants.MODID + ".tab"))

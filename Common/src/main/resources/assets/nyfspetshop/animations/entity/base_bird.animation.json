@@ -32,6 +32,9 @@
 					}
 				}
 			}
+		},
+		"idle": {
+			"animation_length": 0.04167
 		}
 	},
 	"geckolib_format_version": 2

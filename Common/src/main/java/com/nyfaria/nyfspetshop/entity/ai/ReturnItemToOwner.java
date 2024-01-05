@@ -7,11 +7,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowEntity;
 
-/**
- * A movement behaviour for automatically following the owner of a {@link TamableAnimal TameableAnimal}.<br>
- * @param <E> The owner of the brain
- * @param <T> The minimum common class of the entity expected to be following
- */
 public class ReturnItemToOwner<E extends TamableAnimal> extends FollowEntity<E, LivingEntity> {
 	protected LivingEntity owner = null;
 

@@ -1,5 +1,6 @@
 package com.nyfaria.nyfspetshop.platform;
 
+import com.nyfaria.nyfspetshop.NyfsPetShop;
 import com.nyfaria.nyfspetshop.entity.enums.MovementType;
 import com.nyfaria.nyfspetshop.platform.services.IPlatformHelper;
 import net.fabricmc.loader.api.FabricLoader;
@@ -24,8 +25,4 @@ public class FabricPlatformHelper implements IPlatformHelper {
         return FabricLoader.getInstance().isDevelopmentEnvironment();
     }
 
-    @Override
-    public EntityDataSerializer<MovementType> getMovementTypeSerializer() {
-        return null;
-    }
 }

@@ -28,8 +28,4 @@ public class ForgePlatformHelper implements IPlatformHelper {
         return !FMLLoader.isProduction();
     }
 
-    @Override
-    public EntityDataSerializer<MovementType> getMovementTypeSerializer() {
-        return DataSerializerInit.MOVEMENT_TYPE.get();
-    }
 }

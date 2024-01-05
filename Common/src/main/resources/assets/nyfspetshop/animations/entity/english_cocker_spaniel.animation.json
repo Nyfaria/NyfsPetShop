@@ -319,6 +319,15 @@
 					}
 				}
 			}
+		},
+		"sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [0, 0, 90],
+					"position": [-6, 1, 1]
+				}
+			}
 		}
 	},
 	"geckolib_format_version": 2
