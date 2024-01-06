@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "petshop:block/grooming_station"
+    }
+  }
+}

@@ -26,7 +26,7 @@ dependencies {
 loom {
 
     if (project.hasProperty('fabric_aws_enabled') && project.findProperty('fabric_aws_enabled').toBoolean()) {
-        accessWidenerPath = project(":Common").file("src/main/resources/nyfspetshop.accesswidener")
+        accessWidenerPath = project(":Common").file("src/main/resources/petshop.accesswidener")
     }
     runs {
         client {
@@ -106,7 +106,7 @@ publishing {
     }
 }
 publishMods {
-    if(publishFabric) {
+    if (publishFabric) {
         file = remapJar.archiveFile
         changelog = project(":Common").file("changelog.md").text
         type = STABLE

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=lower": {
+      "model": "petshop:block/bird_cage_lower"
+    },
+    "half=upper": {
+      "model": "petshop:block/bird_cage_upper"
+    }
+  }
+}

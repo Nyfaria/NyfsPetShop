@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "corner=bl": {
+      "model": "petshop:block/big_pet_bed_bl"
+    },
+    "corner=br": {
+      "model": "petshop:block/big_pet_bed_br"
+    },
+    "corner=fl": {
+      "model": "petshop:block/big_pet_bed_fl"
+    },
+    "corner=fr": {
+      "model": "petshop:block/big_pet_bed_fr"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "petshop:block/grooming_station_bottom",
+    "east": "petshop:block/grooming_station_side_3",
+    "north": "petshop:block/grooming_station_side_1",
+    "particle": "petshop:block/grooming_station_side_1",
+    "south": "petshop:block/grooming_station_side_2",
+    "up": "petshop:block/grooming_station_top",
+    "west": "petshop:block/grooming_station_side_4"
+  }
+}

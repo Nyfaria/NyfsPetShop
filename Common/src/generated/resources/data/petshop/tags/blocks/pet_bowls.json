@@ -1,0 +1,20 @@
+{
+  "values": [
+    "petshop:pet_bowl",
+    "petshop:pet_bowl_orange",
+    "petshop:pet_bowl_magenta",
+    "petshop:pet_bowl_light_blue",
+    "petshop:pet_bowl_yellow",
+    "petshop:pet_bowl_lime",
+    "petshop:pet_bowl_pink",
+    "petshop:pet_bowl_gray",
+    "petshop:pet_bowl_light_gray",
+    "petshop:pet_bowl_cyan",
+    "petshop:pet_bowl_purple",
+    "petshop:pet_bowl_blue",
+    "petshop:pet_bowl_brown",
+    "petshop:pet_bowl_green",
+    "petshop:pet_bowl_red",
+    "petshop:pet_bowl_black"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "parent": "minecraft:block/cube",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "down": "petshop:block/crate_bottom",
+    "east": "petshop:block/crate_side_e",
+    "north": "petshop:block/crate_front",
+    "particle": "petshop:block/crate_side_e",
+    "south": "petshop:block/crate_back",
+    "up": "petshop:block/crate_top",
+    "west": "petshop:block/crate_side_w"
+  }
+}

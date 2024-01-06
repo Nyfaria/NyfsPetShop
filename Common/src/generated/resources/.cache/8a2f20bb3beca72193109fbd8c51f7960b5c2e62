@@ -1,0 +1,4 @@
+// 1.20.1	2024-01-05T20:43:46.1591992	Tags for minecraft:point_of_interest_type mod id petshop
+f3d31cc3516471984b7bf9ace170ff66afe92d4a data/minecraft/tags/point_of_interest_type/acquirable_job_site.json
+a485382edb074525d9070881846fd056bbdf6b10 data/petshop/tags/point_of_interest_type/pet_beds.json
+800d3b0836314dab0dbdde83ff4bc0dc3badbda9 data/petshop/tags/point_of_interest_type/pet_bowls.json

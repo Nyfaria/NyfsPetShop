@@ -12,10 +12,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.nyfaria.nyfspetshop.NyfsPetShop"
+      "com.nyfaria.petshop.PetShop"
     ],
     "client": [
-      "com.nyfaria.nyfspetshop.NyfsPetShopClient"
+      "com.nyfaria.petshop.PetShopClient"
     ]
   },
   "mixins": [

@@ -3,13 +3,13 @@
   "category": "misc",
   "ingredients": [
     {
-      "tag": "nyfspetshop:pet_bowls"
+      "tag": "petshop:pet_bowls"
     },
     {
       "item": "minecraft:blue_dye"
     }
   ],
   "result": {
-    "item": "nyfspetshop:pet_bowl_blue"
+    "item": "petshop:pet_bowl_blue"
   }
 }

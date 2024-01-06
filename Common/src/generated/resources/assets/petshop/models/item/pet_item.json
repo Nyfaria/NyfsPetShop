@@ -1,0 +1,23 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "petshop:item/pet_item_bone",
+      "predicate": {
+        "petshop:type": 0.1
+      }
+    },
+    {
+      "model": "petshop:item/pet_item_fish",
+      "predicate": {
+        "petshop:type": 0.2
+      }
+    },
+    {
+      "model": "petshop:item/pet_item_seed",
+      "predicate": {
+        "petshop:type": 0.3
+      }
+    }
+  ]
+}
