@@ -1,50 +1,58 @@
-# MultiLoader Template
+Do you love pets? Luckily, the Pet Shop mod allows you to fully experience having a pet in Minecraft!
 
-This project provides a Gradle project template that can compile mods for both Forge and Fabric using a common
-sourceset. This project does not require any third party libraries or dependencies.
+Currently, there are three species of pets that you can adopt - cats, dogs, and parrots. Each of these pets try to mimic exactly how pets act in real life. Besides having funny and cute animations, each pet also has extensive AI that allows you to have a full experience of having a pet.
 
-## Getting Started
+## What can your pets do?
 
-## IntelliJ IDEA
+Each pet has three modes: Stay, follow, and wander. To change your pet’s activated mode, simply crouch and right-click your pet with an empty hand. The current mode of the pet will be displayed on screen.
 
-This guide will show how to import the MultiLoader Template into IntelliJ IDEA. The setup process is roughly equivalent
-to setting up Forge and Fabric independently and should be very familiar to anyone who has worked with their MDKs.
+![petstau](https://github.com/Nyfaria/NyfsPetShop/assets/94301223/746fc1e0-23ba-4d23-8d56-1c587adae724)
 
-1. Clone or download this repository to your computer.
-2. Configure the project by editing the `group`, `mod_name`, `mod_author`, and `mod_id` properties in
-   the `gradle.properties` file. You will also need to change the `rootProject.name`  property in `settings.gradle`.
-3. Open the template's root folder as a new project in IDEA. This is the folder that contains this README file and the
-   gradlew executable.
-4. If your default JVM/JDK is not Java 17 you will encounter an error when opening the project. This error is fixed by
-   going to `File > Settings > Build, Execution, Deployment > Build Tools > Gradle > Gradle JVM`and changing the value
-   to a valid Java 17 JVM. You will also need to set the Project SDK to Java 17. This can be done by going
-   to `File > Project Structure > Project SDK`. Once both have been set open the Gradle tab in IDEA and click the
-   refresh button to reload the project.
-5. Open the Gradle tab in IDEA if it has not already been opened. Navigate
-   to `Your Project > Common > Tasks > vanilla gradle > decompile`. Run this task to decompile Minecraft.
-6. Open the Gradle tab in IDEA if it has not already been opened. Navigate
-   to `Your Project > Forge > Tasks > forgegradle runs > genIntellijRuns`. Run this task to set up run configurations
-   for Forge.
-7. Open your Run/Debug Configurations. Under the Application category there should now be options to run Forge and
-   Fabric projects. Select one of the client options and try to run it.
-8. Assuming you were able to run the game in step 7 your workspace should now be set up.
+Each pet also has a **hunger and thirst** level. Like real-life pets, you need to make sure your pets are constantly well-fed and have adequate water! Get some pet bowls from the Pet Groomer villager (ideally one for food and one for water). Fill one with kibble (using a kibble packet) and one with water (using a water bucket), and then from there, your pets will automatically eat and drink when they are hungry.
 
-### Eclipse
+![petbowls](https://github.com/Nyfaria/NyfsPetShop/assets/94301223/502e25ee-a4b0-4cfd-85a9-73be942ec3f9)
 
-While it is possible to use this template in Eclipse it is not recommended. During the development of this template
-multiple critical bugs and quirks related to Eclipse were found at nearly every level of the required build tools. While
-we continue to work with these tools to report and resolve issues support for projects like these are not there yet. For
-now Eclipse is considered unsupported by this project. The development cycle for build tools is notoriously slow so
-there are no ETAs available.
+Cats and dogs can **sleep** with a proper animation! This mod adds new pet beds (a small and large size) which you can place down. If there is a pet bed near which isn’t occupied, pets will sleep when it’s night time (only if they are set to wander).
 
-## Development Guide
+![pet_beds](https://github.com/Nyfaria/NyfsPetShop/assets/94301223/40e53305-f7e7-4449-9250-c05214ebe327)
 
-When using this template the majority of your mod is developed in the Common project. The Common project is compiled
-against the vanilla game and is used to hold code that is shared between the different loader-specific versions of your
-mod. The Common project has no knowledge or access to ModLoader specific code, apis, or concepts. Code that requires
-something from a specific loader must be done through the project that is specific to that loader, such as the Forge or
-Fabric project.
+Both dogs and cats can play **fetch** with you! Simply acquire a tennis ball, right click it to throw, and watch as your pets scurry for the ball and then return it to you.
 
-Loader specific projects such as the Forge and Fabric project are used to load the Common project into the game. These
-projects also define code that is specific to that loader. Loader specific projects can access all of the code in the
-Common project. It is important to remember that the Common project can not access code from loader specific projects.
+If you don’t have a brush with you, no problem! Dogs can** dig up suspicious blocks** for you! They don’t give you the item though, so you have to go and get the dug-up item yourself.
+
+![dig](https://github.com/Nyfaria/NyfsPetShop/assets/94301223/32bd2d04-e7e7-4318-8656-37e2047889c0)
+
+You can **put parrots on your shoulder**! Simply right click your parrot while it is on stay mode and it will go on your shoulder. You can also choose to put your parrots in bird cages - if you right click an empty bird cage while you have a parrot on your shoulder, the parrot will transfer to the bird cage.
+
+![parrot](https://github.com/Nyfaria/NyfsPetShop/assets/94301223/fe25ccce-0d1d-4d86-a4fa-5ea21db80140)
+
+You can give all of your pets **treats**! Each type of pet has a dedicated pet treat item. Dogs have a dog bone treat, cats have a tuna treat, and parrots have peanuts. Holding these items in hand will attract the attention of your pets (and they will display a cute animation). 
+
+And lastly, you can **pet your pets** by simply right clicking them. Who doesn’t want a little love?
+
+## Pet Supplier Villager
+
+How do you get your pets? Through the new Pet Supplier villager! Found randomly in regular villages, you can trade some emeralds for special **pet items**. These pet items “contain” your pet. You can summon your pet using this item. If your pet dies, you can simply re-summon it using your pet item. If your pet wanders too far, you can hold your pet item in hand and they will follow you. And finally, if you have lost sight of where your pet is, you can simply right click the ground with the pet item (putting the pet back in the item) and right click the ground to summon it right next to you.
+
+## Pet Groomer Villager and Grooming Station
+
+You have your pet, which is great; how can you upgrade it even further? How about… giving your pets cosmetics?
+
+With the new Grooming Station block, you can decorate your pet with some cool cosmetics! Simply put your pet item (making sure it contains your pet) in the top left slot, and your wool (the cost) in the bottom right. Click one of the options that displays on the left (either boots, collars, or hats) and then take the new pet item that displays on the right.
+
+![grooming_station](https://github.com/Nyfaria/NyfsPetShop/assets/94301223/bc2d2b99-3046-463d-9374-ddc386329a59)
+
+The Pet Groomer villager is responsible for selling a lot of items in the mod, including kibble, playing items, pet bowls, and pet beds.
+
+## What is Planned For the Future?
+
+We still plan to add a lot more to this mod. Planned:
+
+- More pet species 
+- More variants to existing species
+- More items to interact with your pets
+
+Potentially planned: 
+
+- Pet park jigsaw structure
+- Special leashes
