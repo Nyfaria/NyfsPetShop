@@ -18,7 +18,7 @@ Cats and dogs can **sleep** with a proper animation! This mod adds new pet beds 
 
 Both dogs and cats can play **fetch** with you! Simply acquire a tennis ball, right click it to throw, and watch as your pets scurry for the ball and then return it to you.
 
-If you don’t have a brush with you, no problem! Dogs can** dig up suspicious blocks** for you! They don’t give you the item though, so you have to go and get the dug-up item yourself.
+If you don’t have a brush with you, no problem! Dogs can **dig up suspicious blocks** for you! They don’t give you the item though, so you have to go and get the dug-up item yourself.
 
 ![dig](https://github.com/Nyfaria/NyfsPetShop/assets/94301223/32bd2d04-e7e7-4318-8656-37e2047889c0)
 
