@@ -29,6 +29,7 @@ import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
@@ -235,15 +236,22 @@ public class BaseBird extends BasePet implements Thirsty, Hungry, ShoulderRider<
             setThirstLevel(getThirstLevel() - 0.01f);
         }
     }
+    @Override
+    public boolean isTreat(ItemStack stack) {
+        return stack.is(ItemInit.PEANUT.get());
+    }
 
     @Override
     public void doPetStuff(Player interactingPlayer, InteractionHand hand) {
         if (!interactingPlayer.level().isClientSide) {
             setEntityOnShoulder(this, (ServerPlayer) interactingPlayer);
-
         }
     }
-
+    @Override
+    public void doTreatStuff(Player player, InteractionHand hand) {
+        super.doTreatStuff(player, hand);
+        setHungerLevel(getHungerLevel() + 0.1f);
+    }
     @Override
     public float getHungerLevel() {
         float hungerLevel = this.entityData.get(HUNGER);

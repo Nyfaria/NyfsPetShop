@@ -28,10 +28,12 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.Brain;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -41,6 +43,7 @@ import net.tslat.smartbrainlib.api.core.behaviour.FirstApplicableBehaviour;
 import net.tslat.smartbrainlib.api.core.behaviour.OneRandomBehaviour;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.look.LookAtTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.misc.Idle;
+import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FloatToSurfaceOfFluid;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowOwner;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowTemptation;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.MoveToWalkTarget;
@@ -107,10 +110,19 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
         this.entityData.define(THIRST, 1.0f);
         this.entityData.define(HUNGER, 1.0f);
     }
-
+    @Override
+    public boolean isTreat(ItemStack stack) {
+        return stack.is(ItemInit.TUNA_TREAT.get());
+    }
+    @Override
+    public void doTreatStuff(Player player, InteractionHand hand) {
+        super.doTreatStuff(player, hand);
+        setHungerLevel(getHungerLevel() + 0.1f);
+    }
     @Override
     public BrainActivityGroup<? extends BasePet> getCoreTasks() {
         return BrainActivityGroup.coreTasks(
+                new FloatToSurfaceOfFluid(),
                 new FirstApplicableBehaviour<>(
                         new Beg<>().setBegItem(ItemInit.TUNA_TREAT.get())
                                 .setController(MOVE_CONTROLLER).setAnimation("beg")
@@ -316,6 +328,6 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
     @Override
     public boolean canDoStuff() {
         boolean isSleeping = isPetSleeping();
-        return !isSleeping && getMovementType() != MovementType.STAY;
+        return !isSleeping && super.canDoStuff();
     }
 }

@@ -13,7 +13,7 @@ public class FetchBall<E extends TamableAnimal & Fetcher> extends FollowEntity<E
     public FetchBall() {
         following(this::getBall);
         speedMod(1.5f);
-        stopFollowingWithin(1);
+        stopFollowingWithin(0.5);
     }
 
     @Override

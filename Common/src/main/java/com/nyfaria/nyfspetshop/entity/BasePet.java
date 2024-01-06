@@ -5,7 +5,6 @@ import com.nyfaria.nyfspetshop.Constants;
 import com.nyfaria.nyfspetshop.block.PetBowl;
 import com.nyfaria.nyfspetshop.entity.enums.MovementType;
 import com.nyfaria.nyfspetshop.init.MemoryModuleTypeInit;
-import com.nyfaria.nyfspetshop.platform.Services;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -25,6 +24,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.tslat.smartbrainlib.api.SmartBrainOwner;
 import net.tslat.smartbrainlib.util.BrainUtils;
@@ -45,6 +45,7 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     public static final EntityDataAccessor<Vector3f> COLLAR_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.VECTOR3);
     public static final EntityDataAccessor<Vector3f> BOOTS_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.VECTOR3);
     public static final EntityDataAccessor<Boolean> BEGGING = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<ItemStack> PET_ITEM = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.ITEM_STACK);
     public Optional<ItemStack> itemStack = Optional.of(ItemStack.EMPTY);
 
     protected final EntityType<? extends BasePet> type;
@@ -55,11 +56,11 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     }
 
     public ItemStack getPetItemStack() {
-        return itemStack.get();
+        return entityData.get(PET_ITEM);
     }
 
     public void setPetItemStack(ItemStack petItemStack) {
-        itemStack = Optional.of(petItemStack);
+        this.entityData.set(PET_ITEM, petItemStack);
     }
 
     public String getPublicEncodeId() {
@@ -79,37 +80,38 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         this.entityData.define(COLLAR_COLOR, new Vector3f(1, 1, 1));
         this.entityData.define(BOOTS_COLOR, new Vector3f(1, 1, 1));
         this.entityData.define(BEGGING, false);
+        this.entityData.define(PET_ITEM, ItemStack.EMPTY);
     }
 
     @Override
     public InteractionResult mobInteract(Player interactingPlayer, InteractionHand hand) {
+        if(!level().isClientSide && hand == InteractionHand.MAIN_HAND) {
+            if (isOwnedBy(interactingPlayer) && interactingPlayer.isCrouching() && interactingPlayer.getItemInHand(hand).isEmpty()) {
+                if (!level().isClientSide) {
+                    setMovementType(getMovementType().cycle());
+                    interactingPlayer.displayClientMessage(Component.translatable("player_message." + Constants.MODID + ".movementType", getName(), getMovementType().getDisplayName()), true);
+                }
+                return InteractionResult.sidedSuccess(level().isClientSide);
+            } else if (!level().isClientSide && interactingPlayer.getItemInHand(hand).getItem() instanceof DyeItem dyeItem) {
+                setHatColor(new Vector3f(dyeItem.getDyeColor().getTextureDiffuseColors()));
 
-        if (isOwnedBy(interactingPlayer) && interactingPlayer.isCrouching() && interactingPlayer.getItemInHand(hand).isEmpty()) {
-            if (!level().isClientSide) {
-                setMovementType(getMovementType().cycle());
-                interactingPlayer.displayClientMessage(Component.translatable("player_message." + Constants.MODID + ".movementType", getName(), getMovementType().getDisplayName()), true);
-            }
-            return InteractionResult.sidedSuccess(level().isClientSide);
-        } else if (!level().isClientSide && interactingPlayer.getItemInHand(hand).getItem() instanceof DyeItem dyeItem) {
-            setHatColor(new Vector3f(dyeItem.getDyeColor().getTextureDiffuseColors()));
-
-        } else if(isTreat(interactingPlayer.getMainHandItem())){
-            if(!level().isClientSide){
-                doTreatStuff(interactingPlayer,hand);
-            } else {
-                level().addParticle(ParticleTypes.HEART, getX(), getY() + getBbHeight(), getZ(), 0, 0.5f, 0);
-                level().addParticle(ParticleTypes.HEART, getX(), getY() + getBbHeight() - 0.2, getZ(), 0, 0.5f, 0);
-
-            }
-        }else {
-            if (interactingPlayer.getItemInHand(hand).isEmpty()) {
-                if (!interactingPlayer.level().isClientSide) {
-                    doPetStuff(interactingPlayer,hand);
+            } else if (isTreat(interactingPlayer.getMainHandItem())) {
+                if (!level().isClientSide) {
+                    doTreatStuff(interactingPlayer, hand);
                 } else {
                     level().addParticle(ParticleTypes.HEART, getX(), getY() + getBbHeight(), getZ(), 0, 0.5f, 0);
+                    level().addParticle(ParticleTypes.HEART, getX(), getY() + getBbHeight() - 0.2, getZ(), 0, 0.5f, 0);
+
+                }
+            } else {
+                if (interactingPlayer.getItemInHand(hand).isEmpty()) {
+                    if (!interactingPlayer.level().isClientSide) {
+                        doPetStuff(interactingPlayer, hand);
+                    } else {
+                        level().addParticle(ParticleTypes.HEART, getX(), getY() + getBbHeight(), getZ(), 0, 0.5f, 0);
+                    }
                 }
             }
-            return InteractionResult.sidedSuccess(level().isClientSide);
         }
         return super.mobInteract(interactingPlayer, hand);
     }
@@ -119,7 +121,8 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     }
 
     public void doTreatStuff(Player player, InteractionHand hand) {
-
+        player.getItemInHand(hand).shrink(1);
+        this.playSound(getEatingSound(Items.APPLE.getDefaultInstance()));
     }
 
     public MovementType getMovementType() {
@@ -177,8 +180,7 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     @Nullable
     @Override
     public ItemStack getPickResult() {
-
-        return super.getPickResult();
+        return getPetItemStack();
     }
 
     @Override
@@ -300,4 +302,5 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     public boolean isPetSleeping() {
         return BrainUtils.hasMemory(this, MemoryModuleTypeInit.SLEEPING.get());
     }
+
 }

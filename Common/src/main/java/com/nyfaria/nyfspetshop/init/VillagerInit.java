@@ -14,6 +14,7 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class VillagerInit {
             ItemStack stack = new ItemStack(ItemInit.PET_ITEM.get());
             stack.getOrCreateTag().putString("entityType", BuiltInRegistries.ENTITY_TYPE.getKey(entity.get()).toString());
             stack.getTag().putString("pet_type", species.getName());
-            trades.add(new ItemsForItems(new ItemStack(Items.EMERALD,15),ItemStack.EMPTY,stack , 1, 1, 1));
+            trades.add(new ItemsForItems(new ItemStack(Items.EMERALD,15),ItemStack.EMPTY,stack , 1, 10, 1));
         });
         Map<Integer,VillagerTrades.ItemListing[]> theMap = Map.of(
                 1, trades.toArray(new VillagerTrades.ItemListing[trades.size()]),
@@ -58,11 +59,16 @@ public class VillagerInit {
         );
         VillagerTrades.TRADES.put(PETS.get(), new Int2ObjectOpenHashMap<>(theMap));
         List<VillagerTrades.ItemListing> trades2 = new ArrayList<>();
-        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.TENNIS_BALL.get()) , 20, 1, 1));
-        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,5),ItemStack.EMPTY,new ItemStack(ItemInit.BAG_OF_KIBBLE.get()) , 20, 1, 1));
-        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.DOG_TREAT.get()) , 20, 1, 1));
-        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.TUNA_TREAT.get()) , 20, 1, 1));
-        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.PEANUT.get()) , 20, 1, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.TENNIS_BALL.get()) , 20, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,5),ItemStack.EMPTY,new ItemStack(ItemInit.BAG_OF_KIBBLE.get()) , 20, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.DOG_TREAT.get(), 4) , 20, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.TUNA_TREAT.get(), 4) , 20, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,1),ItemStack.EMPTY,new ItemStack(ItemInit.PEANUT.get(), 4) , 20, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,15),ItemStack.EMPTY,new ItemStack(BlockInit.BIG_PET_BED.get()) , 20, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,7),ItemStack.EMPTY,new ItemStack(BlockInit.PET_BED.get()) , 20, 10, 1));
+        for (RegistryObject<? extends Block> petBowl : BlockInit.pet_bowls) {
+            trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD,5),ItemStack.EMPTY,new ItemStack(petBowl.get()) , 4, 10, 1));
+        }
         Map<Integer,VillagerTrades.ItemListing[]> theSecondMap = Map.of(
                 1, trades2.toArray(new VillagerTrades.ItemListing[trades2.size()]),
                 2,trades2.toArray(new VillagerTrades.ItemListing[trades2.size()]),

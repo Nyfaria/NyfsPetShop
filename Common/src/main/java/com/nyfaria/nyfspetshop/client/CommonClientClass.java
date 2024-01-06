@@ -69,7 +69,7 @@ public class CommonClientClass {
 
     public static void itemModelProperties() {
         ClampedItemPropertyFunction clampeditempropertyfunction = (itemStack, level, livingEntity, i) -> {
-            if (itemStack.getTag().contains("pet_type")) {
+            if (itemStack.hasTag() && itemStack.getTag().contains("pet_type")) {
                 if (itemStack.getTag().getString("pet_type").equals("dog")) {
                     return 0.1F;
                 } else if (itemStack.getTag().getString("pet_type").equals("cat")) {

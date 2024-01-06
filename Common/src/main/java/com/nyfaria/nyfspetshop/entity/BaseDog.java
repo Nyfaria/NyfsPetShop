@@ -41,6 +41,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BrushableBlock;
 import net.tslat.smartbrainlib.api.core.BrainActivityGroup;
@@ -49,6 +50,7 @@ import net.tslat.smartbrainlib.api.core.behaviour.FirstApplicableBehaviour;
 import net.tslat.smartbrainlib.api.core.behaviour.OneRandomBehaviour;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.look.LookAtTarget;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.misc.Idle;
+import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FloatToSurfaceOfFluid;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowOwner;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowTemptation;
 import net.tslat.smartbrainlib.api.core.behaviour.custom.move.MoveToWalkTarget;
@@ -156,6 +158,7 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry, Digger
     @Override
     public BrainActivityGroup<? extends BasePet> getCoreTasks() {
         return BrainActivityGroup.coreTasks(
+                new FloatToSurfaceOfFluid(),
                 new FirstApplicableBehaviour<>(
                         new Beg<>().setBegItem(ItemInit.DOG_TREAT.get())
                                 .setController(MOVE_CONTROLLER).setAnimation("beg")
@@ -189,6 +192,17 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry, Digger
                 new GoToBed<>(),
                 new MoveToWalkTarget<BaseDog>().startCondition(e -> e.getMovementType() != MovementType.STAY && canDoStuff()),
                 new ModAnimalMakeLove<BaseDog>(getType(), 1.0f).startCondition(e -> e.getMovementType() != MovementType.STAY && canDoStuff()));                                                                                    // Move to the current walk target
+    }
+
+    @Override
+    public boolean isTreat(ItemStack stack) {
+        return stack.is(ItemInit.DOG_TREAT.get());
+    }
+
+    @Override
+    public void doTreatStuff(Player player, InteractionHand hand) {
+        super.doTreatStuff(player, hand);
+        setHungerLevel(getHungerLevel() + 0.1f);
     }
 
     @Override
