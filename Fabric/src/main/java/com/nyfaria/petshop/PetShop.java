@@ -3,7 +3,9 @@ package com.nyfaria.petshop;
 import com.nyfaria.petshop.init.EntityInit;
 import com.nyfaria.petshop.init.POIInit;
 import com.nyfaria.petshop.init.VillagerInit;
+import com.nyfaria.petshop.server.ServerClass;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerProfessionBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -25,6 +27,8 @@ public class PetShop implements ModInitializer {
         PoiTypes.registerBlockStates(BuiltInRegistries.POINT_OF_INTEREST_TYPE.wrapAsHolder(POIInit.GROOMING_STATION.get()), POIInit.GROOMING_STATION.get().matchingStates());
         PoiTypes.registerBlockStates(BuiltInRegistries.POINT_OF_INTEREST_TYPE.wrapAsHolder(POIInit.CRATES.get()), POIInit.CRATES.get().matchingStates());
         VillagerInit.loadTrades();
+
+        ServerLifecycleEvents.SERVER_STARTING.register(ServerClass::addStructures);
     }
 
 }

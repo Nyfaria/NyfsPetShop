@@ -25,7 +25,7 @@ public class ServerClass {
         SinglePoolElement petShop = StructurePoolElement.single(PET_SHOP.toString()).apply(StructureTemplatePool.Projection.RIGID);
         SinglePoolElement petShopRoad = StructurePoolElement.single(PET_SHOP_ROAD.toString()).apply(StructureTemplatePool.Projection.TERRAIN_MATCHING);
 
-        addStructureToPool(templatePoolRegistry.get(new ResourceLocation("village/plains/streets")), petShopRoad, 8);
+        addStructureToPool(templatePoolRegistry.get(new ResourceLocation("village/plains/streets")), petShopRoad, 5);
 //        addStructureToPool(templatePoolRegistry.get(new ResourceLocation("village/plains/houses")), petShop, 100);
     }
 

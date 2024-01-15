@@ -1,3 +1,5 @@
+### Version 0.1.2
+- fixed pet shops not generating in villages
 ### Version 0.1.1
 - Fixed accesswideners not being recognized on fabric
 ### Version 0.1.0
