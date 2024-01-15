@@ -106,7 +106,7 @@ publishing {
     }
 }
 publishMods {
-    if (publishFabric) {
+    if (publishFabric.toBoolean()) {
         file = remapJar.archiveFile
         changelog = project(":Common").file("changelog.md").text
         type = STABLE
@@ -117,13 +117,38 @@ publishMods {
                 projectId = curseforge_project_id
                 accessToken = curseforge_token
                 minecraftVersions.add(minecraft_version)
+                requires {
+                    slug="smartbrainlib"
+                }
+                requires {
+                    slug="geckolib"
+                }
+                requires {
+                    slug="common-network"
+                }
+                requires {
+                    slug="fabric-api"
+                }
             }
+
         }
         if (modrinth_publishing_enabled.toBoolean()) {
             modrinth {
                 accessToken = modrinth_token
                 projectId = modrinth_project_id
                 minecraftVersions.add(minecraft_version)
+                requires {
+                    slug="smartbrainlib"
+                }
+                requires {
+                    slug="geckolib"
+                }
+                requires {
+                    slug="common-network"
+                }
+                requires {
+                    slug="fabric-api"
+                }
             }
         }
     }
