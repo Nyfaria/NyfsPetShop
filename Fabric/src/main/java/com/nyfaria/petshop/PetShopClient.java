@@ -6,6 +6,7 @@ import com.nyfaria.petshop.client.renderers.BirdCageRenderer;
 import com.nyfaria.petshop.client.renderers.layer.PetOnShoulderLayer;
 import com.nyfaria.petshop.init.BlockInit;
 import com.nyfaria.petshop.init.MenuTypeInit;
+import com.nyfaria.petshop.network.PacketInit;
 import com.nyfaria.petshop.registration.RegistryObject;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -42,6 +43,7 @@ public class PetShopClient implements ClientModInitializer {
         });
         BlockRenderLayerMap.INSTANCE.putBlock(BlockInit.BIRD_CAGE.get(), RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockInit.CRATE.get(), RenderType.cutout());
+        PacketInit.loadClass();
 
     }
 }
