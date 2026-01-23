@@ -378,5 +378,8 @@ public class BaseDog extends BasePet implements Fetcher, Thirsty, Hungry, Digger
         return !isDigging && !isSleeping && getMovementType() != MovementType.STAY;
     }
 
-
+    @Override
+    public ItemStack getCarriedItemStack() {
+        return getMainHandItem();
+    }
 }

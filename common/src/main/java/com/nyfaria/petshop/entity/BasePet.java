@@ -430,4 +430,7 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         }
         return false;
     }
+    public ItemStack getCarriedItemStack(){
+        return ItemStack.EMPTY;
+    }
 }

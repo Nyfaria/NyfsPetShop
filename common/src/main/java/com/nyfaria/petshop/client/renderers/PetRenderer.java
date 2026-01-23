@@ -1,7 +1,10 @@
 package com.nyfaria.petshop.client.renderers;
 
+import com.mojang.blaze3d.systems.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.*;
+import com.nyfaria.petshop.client.renderers.layer.*;
 import com.nyfaria.petshop.entity.BasePet;
 import net.minecraft.client.*;
 import net.minecraft.client.renderer.*;
@@ -11,23 +14,25 @@ import net.minecraft.core.*;
 import net.minecraft.util.*;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.*;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.*;
 import net.minecraft.world.phys.*;
 import org.joml.*;
 import software.bernie.geckolib.cache.object.*;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+import software.bernie.geckolib.util.*;
 
 import java.lang.Math;
 
 public class PetRenderer<T extends BasePet> extends GeoEntityRenderer<T> {
     public PetRenderer(EntityRendererProvider.Context renderManager, GeoModel<T> model) {
         super(renderManager, model);
+        this.addRenderLayer(new PetCarryItemLayer<T>(this));
     }
 
     @Override
     public void renderRecursively(PoseStack poseStack, T animatable, GeoBone bone, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-
         boolean useColor = false;
         float r = 0;
         float g = 0;
@@ -58,11 +63,15 @@ public class PetRenderer<T extends BasePet> extends GeoEntityRenderer<T> {
             super.renderRecursively(poseStack, animatable, bone, renderType, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
         }
 
+
     }
 
     @Override
     public void renderFinal(PoseStack poseStack, T animatable, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         super.renderFinal(poseStack, animatable, model, bufferSource, buffer, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
+
+
+
         animatable.getCustomLeashHolder().ifPresent(
                 leashHolder -> this.renderCustomLeash(animatable, partialTick, poseStack, bufferSource, Minecraft.getInstance().level.getPlayerByUUID(leashHolder), animatable.getLeashColor())
         );

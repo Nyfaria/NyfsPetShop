@@ -294,4 +294,6 @@ public class BaseBird extends BasePet implements Thirsty, Hungry, ShoulderRider<
         flyingpathnavigation.setCanPassDoors(true);
         return flyingpathnavigation;
     }
+
+
 }

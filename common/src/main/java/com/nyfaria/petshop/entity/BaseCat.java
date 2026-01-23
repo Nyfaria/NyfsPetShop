@@ -368,4 +368,9 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry, YarnPl
     public void setYarnPlayTime(int time) {
         this.entityData.set(YARN_PLAY_TIME, time);
     }
+
+    @Override
+    public ItemStack getCarriedItemStack() {
+        return getMainHandItem();
+    }
 }
