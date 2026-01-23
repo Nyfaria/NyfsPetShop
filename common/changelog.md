@@ -1,6 +1,8 @@
 ### Version 0.2.0
 - recipes added for the villager workstations.
-- leashes
+- Leashes
+- Yarn Ball for cats to play with.
+- Pet Doors
 ### Version 0.1.3
 - implemented workaround for bug in common network mod.
 ### Version 0.1.2

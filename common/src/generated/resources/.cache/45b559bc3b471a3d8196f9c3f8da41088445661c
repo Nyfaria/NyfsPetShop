@@ -1,4 +1,4 @@
-// 1.20.1	2026-01-23T01:26:42.1377571	Item Models: petshop
+// 1.20.1	2026-01-23T02:59:23.2967834	Item Models: petshop
 83989266f79e7882a483f0a3a18c322c5b5538b5 assets/petshop/models/item/bag_of_kibble.json
 a82e0f15822e736cc5fe5c025605d5043f9f25dd assets/petshop/models/item/big_pet_bed.json
 4fd35c4ff263dcd66508b1c8fa579840dcdd815b assets/petshop/models/item/bird_cage.json
@@ -23,6 +23,7 @@ dd662196d5ea573e77418237520e766aeda05ef5 assets/petshop/models/item/pet_bed.json
 366a761eb88f065f5d3fbfeb2eff076291f4d0d9 assets/petshop/models/item/pet_bowl_purple.json
 366a761eb88f065f5d3fbfeb2eff076291f4d0d9 assets/petshop/models/item/pet_bowl_red.json
 366a761eb88f065f5d3fbfeb2eff076291f4d0d9 assets/petshop/models/item/pet_bowl_yellow.json
+d99f3444cf422a1280ca9511f253e87df456f8dc assets/petshop/models/item/pet_door.json
 dc1888527ed349e3991e9d45387ef9fcb0432660 assets/petshop/models/item/pet_item.json
 a724b078198ca13513b2175a07a7f1e1f97d3ce5 assets/petshop/models/item/pet_item_bone.json
 afe989a4623565ad01421912c257f0391303d474 assets/petshop/models/item/pet_item_fish.json

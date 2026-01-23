@@ -50,6 +50,7 @@ public class ItemInit {
                         output.accept(ItemInit.PEANUT.get());
                         output.accept(BlockInit.PET_BED.get());
                         output.accept(BlockInit.BIG_PET_BED.get());
+                        output.accept(BlockInit.PET_DOOR.get());
                         LEASH_ITEMS.forEach(item -> output.accept(item.get()));
 
 

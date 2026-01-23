@@ -45,6 +45,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         BlockInit.pet_bowls.stream()
                 .map(Supplier::get)
                 .forEach(this::petBowl);
+        simpleBlockItemModel(BlockInit.PET_DOOR.get(),"_closed");
         Stream.of(
                         BlockInit.GROOMING_STATION,
                         BlockInit.CRATE
@@ -56,6 +57,10 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected ItemModelBuilder simpleBlockItemModel(Block block) {
         String name = getName(block);
         return withExistingParent(name, modLoc("block/" + name));
+    }
+    protected ItemModelBuilder simpleBlockItemModel(Block block, String modifier) {
+        String name = getName(block);
+        return withExistingParent(name, modLoc("block/" + name + modifier));
     }
 
     protected ItemModelBuilder petBowl(Block block) {

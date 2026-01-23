@@ -2,8 +2,10 @@ package com.nyfaria.petshop.datagen;
 
 import com.nyfaria.petshop.Constants;
 import com.nyfaria.petshop.block.PetBowl;
+import com.nyfaria.petshop.block.PetDoorBlock;
 import com.nyfaria.petshop.init.BlockInit;
 import com.nyfaria.petshop.init.BlockStateInit;
+import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -48,6 +50,15 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         .modelFile(models().getExistingFile(modLoc("block/bird_cage_" + state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF).getSerializedName())))
                         .build());
         customModelBlock(BlockInit.PET_BED.get());
+
+        getVariantBuilder(BlockInit.PET_DOOR.get()).forAllStates(state -> {
+            Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+            boolean open = state.getValue(PetDoorBlock.OPEN);
+            return ConfiguredModel.builder()
+                    .modelFile(models().getExistingFile(modLoc("block/pet_door" + (open ? "_open" : "_closed"))))
+                    .rotationY(((int) facing.toYRot() + 180) % 360)
+                    .build();
+        });
 
 
     }

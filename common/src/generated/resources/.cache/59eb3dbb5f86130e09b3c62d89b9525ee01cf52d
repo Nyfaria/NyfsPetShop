@@ -1,4 +1,4 @@
-// 1.20.1	2024-01-05T20:43:46.1631668	Loot Tables
+// 1.20.1	2026-01-23T02:59:23.2957854	Loot Tables
 714c4454ea7205fe6171369d1470066667d225e8 data/petshop/loot_tables/blocks/big_pet_bed.json
 e205251ec6e41ed7b33352ef16781ab04c3d992b data/petshop/loot_tables/blocks/bird_cage.json
 6376d0c5e384a5e0b8fdc033606e15fce353501d data/petshop/loot_tables/blocks/crate.json
@@ -20,3 +20,4 @@ bae9d3c3a7b2c2f20e4daf1f35d7d10b6b0090e2 data/petshop/loot_tables/blocks/pet_bow
 4091386dd3deb30a1c83073461fafb27e0ceded9 data/petshop/loot_tables/blocks/pet_bowl_purple.json
 4675d6574c4ec95cf46a8decbd5dd80cbbb07431 data/petshop/loot_tables/blocks/pet_bowl_red.json
 ae2fe314bb2ad5114acdf7db4c7a6ad779c4a6e7 data/petshop/loot_tables/blocks/pet_bowl_yellow.json
+e48c4fe442615313f85411e9cf4307c06c33d55c data/petshop/loot_tables/blocks/pet_door.json

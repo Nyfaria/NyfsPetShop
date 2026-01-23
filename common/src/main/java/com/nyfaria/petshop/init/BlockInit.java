@@ -1,12 +1,7 @@
 package com.nyfaria.petshop.init;
 
 import com.nyfaria.petshop.Constants;
-import com.nyfaria.petshop.block.BasicHorizontalBlock;
-import com.nyfaria.petshop.block.BirdCage;
-import com.nyfaria.petshop.block.GroomingStation;
-import com.nyfaria.petshop.block.PetBowl;
-import com.nyfaria.petshop.block.SmolBed;
-import com.nyfaria.petshop.block.TBTBlock;
+import com.nyfaria.petshop.block.*;
 import com.nyfaria.petshop.block.entity.BirdCageBlockEntity;
 import com.nyfaria.petshop.registration.RegistrationProvider;
 import com.nyfaria.petshop.registration.RegistryObject;
@@ -50,6 +45,8 @@ public class BlockInit {
     public static final RegistryObject<Block> PET_BOWL_GREEN = registerPetBowl("pet_bowl_green", () -> new PetBowl(DyeColor.GREEN, Block.Properties.copy(Blocks.GREEN_WOOL).noOcclusion()));
     public static final RegistryObject<Block> PET_BOWL_RED = registerPetBowl("pet_bowl_red", () -> new PetBowl(DyeColor.RED, Block.Properties.copy(Blocks.RED_WOOL).noOcclusion()));
     public static final RegistryObject<Block> PET_BOWL_BLACK = registerPetBowl("pet_bowl_black", () -> new PetBowl(DyeColor.BLACK, Block.Properties.copy(Blocks.BLACK_WOOL).noOcclusion()));
+
+    public static final RegistryObject<PetDoorBlock> PET_DOOR = registerBlock("pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
 
     public static <T extends Block> RegistryObject<T> registerPetBowl(String name, Supplier<T> block) {
         RegistryObject<T> reg = registerBlock(name, block, b -> () -> new BlockItem(b.get(), ItemInit.getItemProperties(Rarity.COMMON)));
