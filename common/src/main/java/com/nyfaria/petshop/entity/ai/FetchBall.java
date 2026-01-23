@@ -9,18 +9,19 @@ import net.tslat.smartbrainlib.api.core.behaviour.custom.move.FollowEntity;
 
 public class FetchBall<E extends TamableAnimal & Fetcher> extends FollowEntity<E, Entity> {
     protected ThrowableItemProjectile owner = null;
+    private static final double PICKUP_DISTANCE = 2.0;
+    private static final double PICKUP_DISTANCE_SQ = PICKUP_DISTANCE * PICKUP_DISTANCE;
 
     public FetchBall() {
         following(this::getBall);
         speedMod(1.5f);
-        stopFollowingWithin(0.5);
+        stopFollowingWithin(1.5f);
     }
 
     @Override
     protected void stop(E entity) {
         if (owner != null && !owner.isRemoved()) {
-            double min = followDistMin.apply(entity, owner);
-            if (entity.distanceToSqr(owner) <= min * min) {
+            if (entity.distanceToSqr(owner) <= PICKUP_DISTANCE_SQ) {
                 entity.setItemSlot(EquipmentSlot.MAINHAND, owner.getItem());
                 owner.discard();
             }

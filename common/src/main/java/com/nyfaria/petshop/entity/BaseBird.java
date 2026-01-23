@@ -12,6 +12,7 @@ import com.nyfaria.petshop.entity.ifaces.Thirsty;
 import com.nyfaria.petshop.init.BlockStateInit;
 import com.nyfaria.petshop.init.ItemInit;
 import com.nyfaria.petshop.init.MemoryModuleTypeInit;
+import com.nyfaria.petshop.init.TagInit;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -127,18 +128,20 @@ public class BaseBird extends BasePet implements Thirsty, Hungry, ShoulderRider<
                                 .setController(MOVE_CONTROLLER).setAnimation("walk"),
                         new FindPOI<BaseBird>()
                                 .withMemory(MemoryModuleTypeInit.BOWL_POS.get())
+                                .withTag(TagInit.PET_BOWLS_POI)
                                 .checkState((level, pos, state) -> state.hasProperty(BlockStateInit.BOWL_TYPE) && state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.WATER)
                                 .startCondition(e -> e.getThirstLevel() <= thirstLevelThreshold && canDoStuff()),
                         new FindPOI<BaseBird>()
                                 .withMemory(MemoryModuleTypeInit.BOWL_POS.get())
+                                .withTag(TagInit.PET_BOWLS_POI)
                                 .checkState((level, pos, state) -> state.hasProperty(BlockStateInit.BOWL_TYPE) && state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.KIBBLE)
                                 .startCondition(e -> e.getHungerLevel() <= hungerLevelThreshold && canDoStuff()),
-                        new FollowTemptation<BaseBird>().startCondition(e -> e.getMovementType() == MovementType.WANDER),
-                        new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW)),
-                new LookAtTarget<BasePet>().runFor(entity -> entity.getRandom().nextIntBetweenInclusive(40, 300)),
+                        new FollowTemptation<BaseBird>().startCondition(e -> e.getMovementType() == MovementType.WANDER && canDoStuff()),
+                        new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW && canDoStuff())),
+                new LookAtTarget<BasePet>().startCondition(e -> canDoStuff()).runFor(entity -> entity.getRandom().nextIntBetweenInclusive(40, 300)),
                 new GoToBowl<>(),
-                new MoveToWalkTarget<>().startCondition(e -> ((BasePet) e).getMovementType() != MovementType.STAY),
-                new ModAnimalMakeLove<>(getType(), 1.0f).startCondition(e -> ((BasePet) e).getMovementType() != MovementType.STAY));                                                                                    // Move to the current walk target
+                new MoveToWalkTarget<BaseBird>().startCondition(e -> e.getMovementType() != MovementType.STAY && canDoStuff()),
+                new ModAnimalMakeLove<BaseBird>(getType(), 1.0f).startCondition(e -> e.getMovementType() != MovementType.STAY && canDoStuff()));                                                                                    // Move to the current walk target
     }
 
     @Override
@@ -174,14 +177,19 @@ public class BaseBird extends BasePet implements Thirsty, Hungry, ShoulderRider<
         return BrainActivityGroup.idleTasks(
 
                 new FirstApplicableBehaviour<BaseBird>(
-                        new SetPlayerLookTarget<>(),
+                        new SetPlayerLookTarget<BaseBird>().startCondition(e -> e.getMovementType() == MovementType.STAY),
                         new SetRandomLookTarget<>()
                 ),
                 new OneRandomBehaviour<>(
-                        new SetRandomWalkTarget<BaseBird>().speedModifier(1).startCondition(e -> e.getOwner() == null || e.getMovementType() == MovementType.WANDER),
-                        new Idle<BaseBird>().runFor(entity -> entity.getRandom().nextInt(30, 60)).startCondition(e -> e.getMovementType() == MovementType.WANDER)
+                        new SetRandomWalkTarget<BaseBird>().speedModifier(1).startCondition(e -> (e.getOwner() == null || e.getMovementType() == MovementType.WANDER) && canDoStuff()),
+                        new Idle<BaseBird>().runFor(entity -> entity.getRandom().nextInt(30, 60)).startCondition(e -> e.getMovementType() == MovementType.WANDER && canDoStuff())
                 )
         );
+    }
+
+    @Override
+    public boolean canDoStuff() {
+        return getMovementType() != MovementType.STAY && !isBegging();
     }
 
     @Override

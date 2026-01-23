@@ -1,6 +1,7 @@
 package com.nyfaria.petshop.entity;
 
 import com.nyfaria.petshop.entity.ifaces.Fetcher;
+import com.nyfaria.petshop.entity.ifaces.YarnPlayer;
 import com.nyfaria.petshop.init.EntityInit;
 import com.nyfaria.petshop.init.ItemInit;
 import net.minecraft.core.Direction;
@@ -36,9 +37,13 @@ public class ThrownBall extends ThrowableItemProjectile {
         } else {
             setDeltaMovement(-bop.x * 0.33, bop.y * 0.33, -bop.z * 0.33);
         }
-        this.level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(30)).forEach(fetcher -> {
-            if (fetcher instanceof Fetcher fetcher1)
-                fetcher1.setFetchTarget(this);
+        this.level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(30)).forEach(entity -> {
+            if (entity instanceof Fetcher fetcher) {
+                fetcher.setFetchTarget(this);
+            }
+            if (getItem().is(ItemInit.YARN_BALL.get()) && entity instanceof YarnPlayer yarnPlayer) {
+                yarnPlayer.setYarnTarget(this);
+            }
         });
     }
 

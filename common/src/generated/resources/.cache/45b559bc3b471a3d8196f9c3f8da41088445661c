@@ -1,4 +1,4 @@
-// 1.20.1	2024-01-05T20:43:46.1641601	Item Models: petshop
+// 1.20.1	2026-01-23T01:26:42.1377571	Item Models: petshop
 83989266f79e7882a483f0a3a18c322c5b5538b5 assets/petshop/models/item/bag_of_kibble.json
 a82e0f15822e736cc5fe5c025605d5043f9f25dd assets/petshop/models/item/big_pet_bed.json
 4fd35c4ff263dcd66508b1c8fa579840dcdd815b assets/petshop/models/item/bird_cage.json
@@ -29,3 +29,4 @@ afe989a4623565ad01421912c257f0391303d474 assets/petshop/models/item/pet_item_fis
 45b68591bc15aaa00d14dbd9a5733fdfda55801a assets/petshop/models/item/pet_item_seed.json
 e3bb76d2c46ffe23fe5b142822359ef750374272 assets/petshop/models/item/tennis_ball.json
 bb19f95784c1c97a18404ac9cba9134b72ea7b93 assets/petshop/models/item/tuna_treat.json
+de42bdc9ab7aa3ec0240504f8e797687e3b09f42 assets/petshop/models/item/yarn_ball.json

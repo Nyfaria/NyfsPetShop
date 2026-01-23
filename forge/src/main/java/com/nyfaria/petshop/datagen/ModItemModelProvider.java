@@ -31,6 +31,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         Stream.of(
                         ItemInit.TENNIS_BALL,
+                        ItemInit.YARN_BALL,
                         ItemInit.DOG_TREAT,
                         BlockInit.BIRD_CAGE,
                         ItemInit.PEANUT,

@@ -2,19 +2,19 @@ package com.nyfaria.petshop.entity;
 
 import com.nyfaria.petshop.block.PetBowl;
 import com.nyfaria.petshop.entity.ai.Beg;
-import com.nyfaria.petshop.entity.ai.Dig;
 import com.nyfaria.petshop.entity.ai.FetchBall;
-import com.nyfaria.petshop.entity.ai.FindDig;
 import com.nyfaria.petshop.entity.ai.FindPOI;
 import com.nyfaria.petshop.entity.ai.GoToBed;
 import com.nyfaria.petshop.entity.ai.GoToBowl;
 import com.nyfaria.petshop.entity.ai.ModAnimalMakeLove;
+import com.nyfaria.petshop.entity.ai.PlayWithYarn;
 import com.nyfaria.petshop.entity.ai.ReturnItemToOwner;
 import com.nyfaria.petshop.entity.ai.Sleep;
 import com.nyfaria.petshop.entity.enums.MovementType;
 import com.nyfaria.petshop.entity.ifaces.Fetcher;
 import com.nyfaria.petshop.entity.ifaces.Hungry;
 import com.nyfaria.petshop.entity.ifaces.Thirsty;
+import com.nyfaria.petshop.entity.ifaces.YarnPlayer;
 import com.nyfaria.petshop.init.BlockStateInit;
 import com.nyfaria.petshop.init.ItemInit;
 import com.nyfaria.petshop.init.MemoryModuleTypeInit;
@@ -66,8 +66,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
+public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry, YarnPlayer {
     public static final EntityDataAccessor<Optional<UUID>> FETCH_TARGET = SynchedEntityData.defineId(BaseCat.class, EntityDataSerializers.OPTIONAL_UUID);
+    public static final EntityDataAccessor<Optional<UUID>> YARN_TARGET = SynchedEntityData.defineId(BaseCat.class, EntityDataSerializers.OPTIONAL_UUID);
+    public static final EntityDataAccessor<Boolean> PLAYING_WITH_YARN = SynchedEntityData.defineId(BaseCat.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Integer> YARN_PLAY_TIME = SynchedEntityData.defineId(BaseCat.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Float> THIRST = SynchedEntityData.defineId(BaseCat.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Float> HUNGER = SynchedEntityData.defineId(BaseCat.class, EntityDataSerializers.FLOAT);
     private static final String MOVE_CONTROLLER = "move_controller";
@@ -105,6 +108,9 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(FETCH_TARGET, Optional.empty());
+        this.entityData.define(YARN_TARGET, Optional.empty());
+        this.entityData.define(PLAYING_WITH_YARN, false);
+        this.entityData.define(YARN_PLAY_TIME, 0);
         this.entityData.define(THIRST, 1.0f);
         this.entityData.define(HUNGER, 1.0f);
     }
@@ -128,8 +134,6 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
                         new Beg<>().setBegItem(ItemInit.TUNA_TREAT.get())
                                 .setController(MOVE_CONTROLLER).setAnimation("beg")
                                 .setController2(TAIL_CONTROLLER).setAnimation2("tail_wag_beg"),
-                        new FindDig<>(),
-                        new Dig<>(),
                         new FindPOI<>()
                                 .withMemory(MemoryModuleTypeInit.BED.get())
                                 .withTag(TagInit.PET_BEDS_POI)
@@ -146,8 +150,9 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
                                 .checkState((level, pos, state) -> state.hasProperty(BlockStateInit.BOWL_TYPE) && state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.KIBBLE)
                                 .startCondition(e -> e.getHungerLevel() <= hungerLevelThreshold && canDoStuff()),
                         new FollowTemptation<BaseCat>().startCondition(e -> e.getMovementType() == MovementType.WANDER && canDoStuff()),
+                        new PlayWithYarn<BaseCat>().startCondition(e -> e.getMovementType() != MovementType.STAY && canDoStuff()),
                         new FetchBall<BaseCat>().startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() != MovementType.STAY && canDoStuff()),
-                        new ReturnItemToOwner<BaseCat>().startCondition(e -> e.getMovementType() != MovementType.STAY && canDoStuff()),
+                        new ReturnItemToOwner<BaseCat>().startCondition(e -> e.getMovementType() != MovementType.STAY && !e.getMainHandItem().is(ItemInit.YARN_BALL.get()) && canDoStuff()),
                         new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW && canDoStuff())),
                 new LookAtTarget<BasePet>().startCondition(e -> canDoStuff()).runFor(entity -> entity.getRandom().nextIntBetweenInclusive(40, 300)),
                 new Sleep<>(),
@@ -329,5 +334,38 @@ public class BaseCat extends BasePet implements Fetcher, Thirsty, Hungry {
     public boolean canDoStuff() {
         boolean isSleeping = isPetSleeping();
         return !isSleeping && super.canDoStuff();
+    }
+
+    @Override
+    public ThrowableItemProjectile getYarnTarget() {
+        if (level().isClientSide) return null;
+        if (this.entityData.get(YARN_TARGET).isEmpty()) return null;
+        return (ThrowableItemProjectile) ((ServerLevel) level()).getEntity(this.entityData.get(YARN_TARGET).get());
+    }
+
+    @Override
+    public void setYarnTarget(ThrowableItemProjectile entity) {
+        if (level().isClientSide) return;
+        this.entityData.set(YARN_TARGET, Optional.ofNullable(entity).map(Entity::getUUID));
+    }
+
+    @Override
+    public boolean isPlayingWithYarn() {
+        return this.entityData.get(PLAYING_WITH_YARN);
+    }
+
+    @Override
+    public void setPlayingWithYarn(boolean playing) {
+        this.entityData.set(PLAYING_WITH_YARN, playing);
+    }
+
+    @Override
+    public int getYarnPlayTime() {
+        return this.entityData.get(YARN_PLAY_TIME);
+    }
+
+    @Override
+    public void setYarnPlayTime(int time) {
+        this.entityData.set(YARN_PLAY_TIME, time);
     }
 }
