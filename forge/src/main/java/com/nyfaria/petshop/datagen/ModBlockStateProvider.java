@@ -48,7 +48,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         .modelFile(models().getExistingFile(modLoc("block/bird_cage_" + state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF).getSerializedName())))
                         .build());
         customModelBlock(BlockInit.PET_BED.get());
- 
+
 
     }
 
