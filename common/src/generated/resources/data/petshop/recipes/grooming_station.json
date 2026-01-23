@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "tag": "minecraft:planks"
+    },
+    "S": {
+      "item": "minecraft:shears"
+    },
+    "W": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "pattern": [
+    "PWP",
+    "PSP",
+    "PPP"
+  ],
+  "result": {
+    "item": "petshop:grooming_station"
+  },
+  "show_notification": true
+}

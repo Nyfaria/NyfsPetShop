@@ -1,0 +1,51 @@
+plugins {
+    id 'multiloader-common'
+    alias(libs.plugins.mdg.forge)
+    alias(libs.plugins.regutils.loader)
+}
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor(1, "seconds")
+}
+
+legacyForge {
+    mcpVersion = minecraft_version
+    def at = file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformers = [at]
+    }
+    parchment {
+        minecraftVersion = libs.versions.parchment.minecraft.get()
+        mappingsVersion = libs.versions.parchment.version.get()
+    }
+}
+repositories {
+    maven { url "https://maven.fabricmc.net/" }
+}
+dependencies {
+    compileOnly(libs.bundles.mixin.common)
+    annotationProcessor libs.mixin.extras
+    compileOnly libs.common.config.api
+    modImplementation(libs.geckolib.forge)
+    modImplementation(libs.sbl.common)
+    modImplementation(libs.commonnetwork.common)
+}
+
+configurations {
+    commonJava {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+    commonResources {
+        canBeResolved = false
+        canBeConsumed = true
+    }
+}
+
+artifacts {
+    commonJava sourceSets.main.java.sourceDirectories.singleFile
+    commonResources sourceSets.main.resources.sourceDirectories.singleFile
+}
+
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor(1, "seconds")
+}
