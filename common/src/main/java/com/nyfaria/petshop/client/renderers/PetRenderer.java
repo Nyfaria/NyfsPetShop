@@ -3,12 +3,22 @@ package com.nyfaria.petshop.client.renderers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.nyfaria.petshop.entity.BasePet;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import software.bernie.geckolib.cache.object.GeoBone;
+import net.minecraft.client.*;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.entity.*;
+import net.minecraft.client.renderer.entity.player.*;
+import net.minecraft.core.*;
+import net.minecraft.util.*;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.*;
+import net.minecraft.world.level.*;
+import net.minecraft.world.phys.*;
+import org.joml.*;
+import software.bernie.geckolib.cache.object.*;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
+
+import java.lang.Math;
 
 public class PetRenderer<T extends BasePet> extends GeoEntityRenderer<T> {
     public PetRenderer(EntityRendererProvider.Context renderManager, GeoModel<T> model) {
@@ -50,7 +60,72 @@ public class PetRenderer<T extends BasePet> extends GeoEntityRenderer<T> {
 
     }
 
+    @Override
+    public void renderFinal(PoseStack poseStack, T animatable, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        super.renderFinal(poseStack, animatable, model, bufferSource, buffer, partialTick, packedLight, packedOverlay, red, green, blue, alpha);
+        animatable.getCustomLeashHolder().ifPresent(
+                leashHolder -> this.renderCustomLeash(animatable, partialTick, poseStack, bufferSource, Minecraft.getInstance().level.getPlayerByUUID(leashHolder), animatable.getLeashColor())
+        );
+    }
+
     public void renderOnShoulder(BasePet pet, PoseStack pMatrixStack, VertexConsumer vertexconsumer, int pPackedLight, int noOverlay, float pLimbSwing, float pLimbSwingAmount, float pNetHeadYaw, float pHeadPitch, int tickCount) {
 
     }
+
+
+
+    public <E extends Entity> void renderCustomLeash(T mob, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, E leashHolder, int color) {
+        double lerpBodyAngle = (double)(Mth.lerp(partialTick, mob.yBodyRotO, mob.yBodyRot) * ((float)Math.PI / 180F) + ((float)Math.PI / 2F));
+        Vec3 leashOffset = mob.getLeashOffset();
+        double xAngleOffset = Math.cos(lerpBodyAngle) * leashOffset.z + Math.sin(lerpBodyAngle) * leashOffset.x;
+        double zAngleOffset = Math.sin(lerpBodyAngle) * leashOffset.z - Math.cos(lerpBodyAngle) * leashOffset.x;
+        double lerpOriginX = Mth.lerp((double)partialTick, mob.xo, mob.getX()) + xAngleOffset;
+        double lerpOriginY = Mth.lerp((double)partialTick, mob.yo, mob.getY()) + leashOffset.y;
+        double lerpOriginZ = Mth.lerp((double)partialTick, mob.zo, mob.getZ()) + zAngleOffset;
+        Vec3 ropeGripPosition = leashHolder.getRopeHoldPosition(partialTick);
+        float xDif = (float)(ropeGripPosition.x - lerpOriginX);
+        float yDif = (float)(ropeGripPosition.y - lerpOriginY);
+        float zDif = (float)(ropeGripPosition.z - lerpOriginZ);
+        float offsetMod = Mth.invSqrt(xDif * xDif + zDif * zDif) * 0.025F / 2.0F;
+        float xOffset = zDif * offsetMod;
+        float zOffset = xDif * offsetMod;
+        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.leash());
+        BlockPos entityEyePos = BlockPos.containing(mob.getEyePosition(partialTick));
+        BlockPos holderEyePos = BlockPos.containing(leashHolder.getEyePosition(partialTick));
+        int entityBlockLight = this.getBlockLightLevel(mob, entityEyePos);
+        int holderBlockLight = leashHolder.isOnFire() ? 15 : leashHolder.level().getBrightness(LightLayer.BLOCK, holderEyePos);
+        int entitySkyLight = mob.level().getBrightness(LightLayer.SKY, entityEyePos);
+        int holderSkyLight = mob.level().getBrightness(LightLayer.SKY, holderEyePos);
+        poseStack.pushPose();
+        poseStack.translate(xAngleOffset, leashOffset.y, zAngleOffset);
+        Matrix4f posMatrix = new Matrix4f(poseStack.last().pose());
+
+        for(int segment = 0; segment <= 24; ++segment) {
+            renderCustomLeashPiece(vertexConsumer, posMatrix, xDif, yDif, zDif, entityBlockLight, holderBlockLight, entitySkyLight, holderSkyLight, 0.025F, 0.025F, xOffset, zOffset, segment, false, color);
+        }
+
+        for(int segment = 24; segment >= 0; --segment) {
+            renderCustomLeashPiece(vertexConsumer, posMatrix, xDif, yDif, zDif, entityBlockLight, holderBlockLight, entitySkyLight, holderSkyLight, 0.025F, 0.0F, xOffset, zOffset, segment, true, color);
+        }
+
+        poseStack.popPose();
+    }
+
+    private static void renderCustomLeashPiece(VertexConsumer buffer, Matrix4f positionMatrix, float xDif, float yDif, float zDif, int entityBlockLight, int holderBlockLight, int entitySkyLight, int holderSkyLight, float width, float yOffset, float xOffset, float zOffset, int segment, boolean isLeashKnot, int color) {
+        float piecePosPercent = (float)segment / 24.0F;
+        int lerpBlockLight = (int)Mth.lerp(piecePosPercent, (float)entityBlockLight, (float)holderBlockLight);
+        int lerpSkyLight = (int)Mth.lerp(piecePosPercent, (float)entitySkyLight, (float)holderSkyLight);
+        int packedLight = LightTexture.pack(lerpBlockLight, lerpSkyLight);
+        float knotColourMod = segment % 2 == (isLeashKnot ? 1 : 0) ? 0.7F : 1.0F;
+        float red = ((color >> 16) & 0xFF) / 255.0F * knotColourMod;
+        float green = ((color >> 8) & 0xFF) / 255.0F * knotColourMod;
+        float blue = (color & 0xFF) / 255.0F * knotColourMod;
+        float x = xDif * piecePosPercent;
+        float y = yDif > 0.0F ? yDif * piecePosPercent * piecePosPercent : yDif - yDif * (1.0F - piecePosPercent) * (1.0F - piecePosPercent);
+        float z = zDif * piecePosPercent;
+        buffer.vertex(positionMatrix, x - xOffset, y + yOffset, z + zOffset).color(red, green, blue, 1.0F).uv2(packedLight).endVertex();
+        buffer.vertex(positionMatrix, x + xOffset, y + width - yOffset, z - zOffset).color(red, green, blue, 1.0F).uv2(packedLight).endVertex();
+    }
+
+
 }

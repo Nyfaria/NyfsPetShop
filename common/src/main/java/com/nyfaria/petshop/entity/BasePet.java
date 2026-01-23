@@ -5,6 +5,7 @@ import com.nyfaria.petshop.Constants;
 import com.nyfaria.petshop.block.PetBowl;
 import com.nyfaria.petshop.entity.enums.MovementType;
 import com.nyfaria.petshop.init.MemoryModuleTypeInit;
+import com.nyfaria.petshop.item.LeashItem;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -15,17 +16,16 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.AgeableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.*;
 import net.tslat.smartbrainlib.api.SmartBrainOwner;
 import net.tslat.smartbrainlib.util.BrainUtils;
 import org.jetbrains.annotations.NotNull;
@@ -46,6 +46,10 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     public static final EntityDataAccessor<Vector3f> BOOTS_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.VECTOR3);
     public static final EntityDataAccessor<Boolean> BEGGING = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<ItemStack> PET_ITEM = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.ITEM_STACK);
+    public static final EntityDataAccessor<ItemStack> LEASH_ITEM = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.ITEM_STACK);
+    public static final EntityDataAccessor<Integer> LEASH_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Optional<UUID>> LEASH_HOLDER = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.OPTIONAL_UUID);
+
     protected final EntityType<? extends BasePet> type;
     public Optional<ItemStack> itemStack = Optional.of(ItemStack.EMPTY);
 
@@ -84,6 +88,9 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         this.entityData.define(BOOTS_COLOR, new Vector3f(1, 1, 1));
         this.entityData.define(BEGGING, false);
         this.entityData.define(PET_ITEM, ItemStack.EMPTY);
+        this.entityData.define(LEASH_ITEM, ItemStack.EMPTY);
+        this.entityData.define(LEASH_COLOR, -1);
+        this.entityData.define(LEASH_HOLDER, Optional.empty());
     }
 
     @Override
@@ -98,6 +105,14 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
             } else if (!level().isClientSide && interactingPlayer.getItemInHand(hand).getItem() instanceof DyeItem dyeItem) {
                 setHatColor(new Vector3f(dyeItem.getDyeColor().getTextureDiffuseColors()));
 
+            } else if (interactingPlayer.getItemInHand(hand).getItem() instanceof LeashItem leashItem) {
+                if (!level().isClientSide && isOwnedBy(interactingPlayer)) {
+                    ItemStack leashStack = interactingPlayer.getItemInHand(hand);
+                    if (!LeashItem.hasLeashedPet(leashStack)) {
+                        attachCustomLeash(interactingPlayer, leashStack, leashItem);
+                        return InteractionResult.sidedSuccess(level().isClientSide);
+                    }
+                }
             } else if (isTreat(interactingPlayer.getMainHandItem())) {
                 if (!level().isClientSide) {
                     doTreatStuff(interactingPlayer, hand);
@@ -121,6 +136,43 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
 
     public void doPetStuff(Player player, InteractionHand hand) {
 
+    }
+
+    @Override
+    protected void tickLeash() {
+        super.tickLeash();
+        if(level().isClientSide) return;
+        this.getCustomLeashHolder().ifPresent(holderUUID -> {
+            Entity entity = ((ServerLevel) this.level()).getEntity(holderUUID);
+            if (entity != null && entity.level() == this.level()) {
+                this.restrictTo(entity.blockPosition(), 5);
+                float f = this.distanceTo(entity);
+                if (this.isInSittingPose()) {
+                    if (f > 10.0F) {
+                        this.clearCustomLeash();
+                    }
+
+                    return;
+                }
+
+                this.onLeashDistance(f);
+                if (f > 10.0F) {
+                    this.clearCustomLeash();
+                    this.goalSelector.disableControlFlag(Goal.Flag.MOVE);
+                } else if (f > 6.0F) {
+                    double d0 = (entity.getX() - this.getX()) / (double) f;
+                    double d1 = (entity.getY() - this.getY()) / (double) f;
+                    double d2 = (entity.getZ() - this.getZ()) / (double) f;
+                    this.setDeltaMovement(this.getDeltaMovement().add(Math.copySign(d0 * d0 * 0.4, d0), Math.copySign(d1 * d1 * 0.4, d1), Math.copySign(d2 * d2 * 0.4, d2)));
+                    this.checkSlowFallDistance();
+                } else if (this.shouldStayCloseToLeashHolder()) {
+                    this.goalSelector.enableControlFlag(Goal.Flag.MOVE);
+                    float f1 = 2.0F;
+                    Vec3 vec3 = (new Vec3(entity.getX() - this.getX(), entity.getY() - this.getY(), entity.getZ() - this.getZ())).normalize().scale((double) Math.max(f - 2.0F, 0.0F));
+                    this.getNavigation().moveTo(this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z, this.followLeashSpeed());
+                }
+            }
+        });
     }
 
     public void doTreatStuff(Player player, InteractionHand hand) {
@@ -303,4 +355,79 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         return BrainUtils.hasMemory(this, MemoryModuleTypeInit.SLEEPING.get());
     }
 
+    @Override
+    public Vec3 getLeashOffset(float partialTick) {
+        return super.getLeashOffset(partialTick);
+    }
+
+    @Override
+    public Vec3 getLeashOffset() {
+        return super.getLeashOffset();
+    }
+
+    public int getLeashColor() {
+        return this.entityData.get(LEASH_COLOR);
+    }
+
+    public void setLeashColor(int color) {
+        this.entityData.set(LEASH_COLOR, color);
+    }
+
+    public Optional<UUID> getCustomLeashHolder() {
+        return this.entityData.get(LEASH_HOLDER);
+    }
+
+    public void setCustomLeashHolder(UUID uuid) {
+        this.entityData.set(LEASH_HOLDER, Optional.of(uuid));
+    }
+
+    public void clearCustomLeashHolder() {
+        this.entityData.set(LEASH_HOLDER, Optional.empty());
+    }
+
+    public void setLeashItem(ItemStack leashItem) {
+        this.entityData.set(LEASH_ITEM, leashItem);
+    }
+
+    public ItemStack getLeashItem() {
+        return this.entityData.get(LEASH_ITEM);
+    }
+
+    public void attachCustomLeash(Player player, ItemStack leashStack, LeashItem leashItem) {
+        setCustomLeashHolder(player.getUUID());
+        setLeashColor(leashItem.getColorValue());
+        setLeashItem(leashStack.copy());
+        LeashItem.setLeashedPet(leashStack, this.getUUID());
+    }
+
+    public void clearCustomLeash() {
+        clearCustomLeashHolder();
+        setLeashColor(-1);
+        setLeashItem(ItemStack.EMPTY);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        if (!level().isClientSide) {
+            getCustomLeashHolder().ifPresent(holderUUID -> {
+                Player player = level().getPlayerByUUID(holderUUID);
+                if (player == null || !isPlayerHoldingLeash(player)) {
+                    clearCustomLeash();
+                }
+            });
+        }
+    }
+
+    private boolean isPlayerHoldingLeash(Player player) {
+        for (ItemStack stack : player.getInventory().items) {
+            if (stack.getItem() instanceof LeashItem) {
+                Optional<UUID> leashedPet = LeashItem.getLeashedPetUUID(stack);
+                if (leashedPet.isPresent() && leashedPet.get().equals(this.getUUID())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
