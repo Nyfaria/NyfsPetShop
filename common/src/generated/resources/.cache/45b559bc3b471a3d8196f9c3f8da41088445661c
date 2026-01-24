@@ -1,10 +1,21 @@
-// 1.20.1	2026-01-23T02:59:23.2967834	Item Models: petshop
+// 1.20.1	2026-01-23T19:08:07.895844	Item Models: petshop
 83989266f79e7882a483f0a3a18c322c5b5538b5 assets/petshop/models/item/bag_of_kibble.json
 a82e0f15822e736cc5fe5c025605d5043f9f25dd assets/petshop/models/item/big_pet_bed.json
 4fd35c4ff263dcd66508b1c8fa579840dcdd815b assets/petshop/models/item/bird_cage.json
+ee28bfe7cc5a939407fc6835363607dd69227744 assets/petshop/models/item/black_leash.json
+a41ce7737d97c5e24a50bbf8f53dbd6db59e1033 assets/petshop/models/item/blue_leash.json
+21eacd6da4b8c75b573984b47d746106a4d731c7 assets/petshop/models/item/brown_leash.json
 733ffa4c8692c83774a6557b316f537387986745 assets/petshop/models/item/crate.json
+ca5b9dbb064ccc9f4d4a685d6fd95fe304d617d5 assets/petshop/models/item/cyan_leash.json
 7eed3f811606480ca348f777796381f2bbf933d1 assets/petshop/models/item/dog_treat.json
+260fb502b0f94895717ac524368bf8d112b1e8d7 assets/petshop/models/item/gray_leash.json
+15f31fc737a111decabd3336d66e9ba7ee2acfce assets/petshop/models/item/green_leash.json
 716bb6d7774d9541d783d7a2af11ca5a701ac36f assets/petshop/models/item/grooming_station.json
+c53c953d753897bee58915cf94373f2add34f764 assets/petshop/models/item/light_blue_leash.json
+1498948f558cb5353141d967cb66a5a0c8612883 assets/petshop/models/item/light_gray_leash.json
+25af670247ec418dcc37d81cd0f07f918aaa3fbc assets/petshop/models/item/lime_leash.json
+02f98b09aa30ab5d493b2f492537f6069bab3a26 assets/petshop/models/item/magenta_leash.json
+acac0e009d7d629bc15a2e0ad174f0fd81125e92 assets/petshop/models/item/orange_leash.json
 f2e39492cbc208ba9989085feaddb455c997db4d assets/petshop/models/item/peanut.json
 dd662196d5ea573e77418237520e766aeda05ef5 assets/petshop/models/item/pet_bed.json
 366a761eb88f065f5d3fbfeb2eff076291f4d0d9 assets/petshop/models/item/pet_bowl.json
@@ -28,6 +39,11 @@ dc1888527ed349e3991e9d45387ef9fcb0432660 assets/petshop/models/item/pet_item.jso
 a724b078198ca13513b2175a07a7f1e1f97d3ce5 assets/petshop/models/item/pet_item_bone.json
 afe989a4623565ad01421912c257f0391303d474 assets/petshop/models/item/pet_item_fish.json
 45b68591bc15aaa00d14dbd9a5733fdfda55801a assets/petshop/models/item/pet_item_seed.json
+07a6d4ead05405bef736c43360aabd27bb065daf assets/petshop/models/item/pink_leash.json
+77eaea2d9ff7d1f141d3352f4fb69ad19ef5fdc1 assets/petshop/models/item/purple_leash.json
+ceb2bdb201b7e715c477cc93ab01f6c26b0516a0 assets/petshop/models/item/red_leash.json
 e3bb76d2c46ffe23fe5b142822359ef750374272 assets/petshop/models/item/tennis_ball.json
 bb19f95784c1c97a18404ac9cba9134b72ea7b93 assets/petshop/models/item/tuna_treat.json
+178c0c063b6428d316fd5831c016e5344b9fd1c6 assets/petshop/models/item/white_leash.json
 de42bdc9ab7aa3ec0240504f8e797687e3b09f42 assets/petshop/models/item/yarn_ball.json
+aa2460b82c9fb58fa4ff1716498d41ac49725ea5 assets/petshop/models/item/yellow_leash.json
