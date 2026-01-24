@@ -3,7 +3,9 @@ package com.nyfaria.petshop.entity.data;
 public enum Species {
     DOG("dog"),
     CAT("cat"),
-    BIRD("bird");
+    BIRD("bird"),
+    DRAGON("dragon"),
+    ;
     final String name;
 
     Species(String name) {

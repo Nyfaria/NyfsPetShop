@@ -3,9 +3,7 @@ package com.nyfaria.petshop.client;
 import com.nyfaria.petshop.Constants;
 import com.nyfaria.petshop.block.PetBowl;
 import com.nyfaria.petshop.client.renderers.PetRenderer;
-import com.nyfaria.petshop.entity.BaseBird;
-import com.nyfaria.petshop.entity.BaseCat;
-import com.nyfaria.petshop.entity.BaseDog;
+import com.nyfaria.petshop.entity.*;
 import com.nyfaria.petshop.init.BlockInit;
 import com.nyfaria.petshop.init.EntityInit;
 import com.nyfaria.petshop.init.ItemInit;
@@ -62,7 +60,8 @@ public class CommonClientClass {
                 new Renderers(EntityInit.GOLD_DASHED_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "gold_dashed_parrot")))),
                 new Renderers(EntityInit.WHITE_STRIPED_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "white_striped_parrot")))),
                 new Renderers(EntityInit.RED_ACCENT_ALBINO_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "red_accent_albino_parrot")))),
-                new Renderers(EntityInit.TROPICAL_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "tropical_parrot"))))
+                new Renderers<>(EntityInit.TROPICAL_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "tropical_parrot")))),
+                new Renderers<>(EntityInit.PURPLE_DRAGON, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDragon>(new ResourceLocation(Constants.MODID, "base_dragon"), true).withAltTexture(new ResourceLocation(Constants.MODID, "purple_dragon"))))
         );
     }
 

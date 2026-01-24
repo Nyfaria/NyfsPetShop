@@ -3,10 +3,7 @@ package com.nyfaria.petshop.init;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.nyfaria.petshop.Constants;
-import com.nyfaria.petshop.entity.BaseBird;
-import com.nyfaria.petshop.entity.BaseCat;
-import com.nyfaria.petshop.entity.BaseDog;
-import com.nyfaria.petshop.entity.ThrownBall;
+import com.nyfaria.petshop.entity.*;
 import com.nyfaria.petshop.entity.data.Species;
 import com.nyfaria.petshop.registration.RegistrationProvider;
 import com.nyfaria.petshop.registration.RegistryObject;
@@ -45,6 +42,12 @@ public class EntityInit {
     public static final RegistryObject<EntityType<BaseBird>> WHITE_STRIPED_PARROT = registerEntity(Species.BIRD, "white_striped_parrot", () -> EntityType.Builder.of(BaseBird::new, MobCategory.CREATURE).sized(0.5f, 0.8f), BaseBird::createAttributes);
     public static final RegistryObject<EntityType<BaseBird>> RED_ACCENT_ALBINO_PARROT = registerEntity(Species.BIRD, "red_accent_albino_parrot", () -> EntityType.Builder.of(BaseBird::new, MobCategory.CREATURE).sized(0.5f, 0.8f), BaseBird::createAttributes);
     public static final RegistryObject<EntityType<BaseBird>> TROPICAL_PARROT = registerEntity(Species.BIRD, "tropical_parrot", () -> EntityType.Builder.of(BaseBird::new, MobCategory.CREATURE).sized(0.5f, 0.8f), BaseBird::createAttributes);
+
+    // MYTHICAL
+
+    //  DRAGONS
+    public static final RegistryObject<EntityType<BaseDragon>> PURPLE_DRAGON = registerEntity(Species.DRAGON, "purple_dragon", () -> EntityType.Builder.of(BaseDragon::new, MobCategory.CREATURE).sized(1.4f, 1.0f), BaseDragon::createAttributes);
+
 
     // OTHER
     public static final RegistryObject<EntityType<ThrownBall>> BALL = registerEntity("ball", () -> EntityType.Builder.<ThrownBall>of(ThrownBall::new, MobCategory.MISC).sized(0.25F, 0.25F));
