@@ -52,6 +52,9 @@ public class ModItemModelProvider extends ItemModelProvider {
                 ).map(Supplier::get)
                 .forEach(this::simpleBlockItemModel);
         petItem(ItemInit.PET_ITEM.get());
+        ItemInit.LEASH_ITEMS.stream()
+                .map(Supplier::get)
+                .forEach(this::simpleGeneratedModel);
     }
 
     protected ItemModelBuilder simpleBlockItemModel(Block block) {
