@@ -1,4 +1,4 @@
-// 1.20.1	2026-01-23T19:04:30.7544626	Item Models: petshop
+// 1.20.1	2026-01-23T19:08:07.895844	Item Models: petshop
 83989266f79e7882a483f0a3a18c322c5b5538b5 assets/petshop/models/item/bag_of_kibble.json
 a82e0f15822e736cc5fe5c025605d5043f9f25dd assets/petshop/models/item/big_pet_bed.json
 4fd35c4ff263dcd66508b1c8fa579840dcdd815b assets/petshop/models/item/bird_cage.json
@@ -9,9 +9,11 @@ a41ce7737d97c5e24a50bbf8f53dbd6db59e1033 assets/petshop/models/item/blue_leash.j
 ca5b9dbb064ccc9f4d4a685d6fd95fe304d617d5 assets/petshop/models/item/cyan_leash.json
 7eed3f811606480ca348f777796381f2bbf933d1 assets/petshop/models/item/dog_treat.json
 260fb502b0f94895717ac524368bf8d112b1e8d7 assets/petshop/models/item/gray_leash.json
+15f31fc737a111decabd3336d66e9ba7ee2acfce assets/petshop/models/item/green_leash.json
 716bb6d7774d9541d783d7a2af11ca5a701ac36f assets/petshop/models/item/grooming_station.json
 c53c953d753897bee58915cf94373f2add34f764 assets/petshop/models/item/light_blue_leash.json
 1498948f558cb5353141d967cb66a5a0c8612883 assets/petshop/models/item/light_gray_leash.json
+25af670247ec418dcc37d81cd0f07f918aaa3fbc assets/petshop/models/item/lime_leash.json
 02f98b09aa30ab5d493b2f492537f6069bab3a26 assets/petshop/models/item/magenta_leash.json
 acac0e009d7d629bc15a2e0ad174f0fd81125e92 assets/petshop/models/item/orange_leash.json
 f2e39492cbc208ba9989085feaddb455c997db4d assets/petshop/models/item/peanut.json
