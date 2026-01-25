@@ -18,6 +18,12 @@
       "predicate": {
         "petshop:type": 0.3
       }
+    },
+    {
+      "model": "petshop:item/pet_item_fabric",
+      "predicate": {
+        "petshop:type": 0.4
+      }
     }
   ]
 }

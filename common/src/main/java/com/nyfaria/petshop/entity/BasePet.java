@@ -41,9 +41,11 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     public static final EntityDataAccessor<Boolean> HAS_HAT = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> HAS_COLLAR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> HAS_BOOTS = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> HAS_EYE_PATCH = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Vector3f> HAT_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.VECTOR3);
     public static final EntityDataAccessor<Vector3f> COLLAR_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.VECTOR3);
     public static final EntityDataAccessor<Vector3f> BOOTS_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.VECTOR3);
+    public static final EntityDataAccessor<Vector3f> EYE_PATCH_COLOR = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.VECTOR3);
     public static final EntityDataAccessor<Boolean> BEGGING = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<ItemStack> PET_ITEM = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.ITEM_STACK);
     public static final EntityDataAccessor<ItemStack> LEASH_ITEM = SynchedEntityData.defineId(BasePet.class, EntityDataSerializers.ITEM_STACK);
@@ -83,9 +85,11 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         this.entityData.define(HAS_HAT, false);
         this.entityData.define(HAS_COLLAR, false);
         this.entityData.define(HAS_BOOTS, false);
+        this.entityData.define(HAS_EYE_PATCH, false);
         this.entityData.define(HAT_COLOR, new Vector3f(1, 1, 1));
         this.entityData.define(COLLAR_COLOR, new Vector3f(1, 1, 1));
         this.entityData.define(BOOTS_COLOR, new Vector3f(1, 1, 1));
+        this.entityData.define(EYE_PATCH_COLOR, new Vector3f(1, 1, 1));
         this.entityData.define(BEGGING, false);
         this.entityData.define(PET_ITEM, ItemStack.EMPTY);
         this.entityData.define(LEASH_ITEM, ItemStack.EMPTY);
@@ -209,32 +213,15 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         tag.putBoolean("has_hat", hasHat());
         tag.putBoolean("has_collar", hasCollar());
         tag.putBoolean("has_boots", hasBoots());
-        CompoundTag hatColor = new CompoundTag();
-        hatColor.putFloat("r", getHatColor().x());
-        hatColor.putFloat("g", getHatColor().y());
-        hatColor.putFloat("b", getHatColor().z());
-        tag.put("hat_color", hatColor);
-        CompoundTag collarColor = new CompoundTag();
-        collarColor.putFloat("r", getCollarColor().x());
-        collarColor.putFloat("g", getCollarColor().y());
-        collarColor.putFloat("b", getCollarColor().z());
-        tag.put("collar_color", collarColor);
-        CompoundTag bootsColor = new CompoundTag();
-        bootsColor.putFloat("r", getBootsColor().x());
-        bootsColor.putFloat("g", getBootsColor().y());
-        bootsColor.putFloat("b", getBootsColor().z());
-        tag.put("boots_color", bootsColor);
+        tag.put("hat_color", writeColor(getHatColor()));
+        tag.put("collar_color", writeColor(getCollarColor()));
+        tag.put("boots_color", writeColor(getBootsColor()));
+        tag.put("eye_patch_color", writeColor(getEyePatchColor()));
         if (!getPetItemStack().isEmpty()) {
             CompoundTag petItemStack = new CompoundTag();
             getPetItemStack().save(petItemStack);
             tag.put("pet_item_stack", petItemStack);
         }
-    }
-
-    @Nullable
-    @Override
-    public ItemStack getPickResult() {
-        return getPetItemStack();
     }
 
     @Override
@@ -244,16 +231,35 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         setHasHat(tag.getBoolean("has_hat"));
         setHasCollar(tag.getBoolean("has_collar"));
         setHasBoots(tag.getBoolean("has_boots"));
-        CompoundTag hatColor = tag.getCompound("hat_color");
-        setHatColor(hatColor.getFloat("r"), hatColor.getFloat("g"), hatColor.getFloat("b"));
-        CompoundTag collarColor = tag.getCompound("collar_color");
-        setCollarColor(collarColor.getFloat("r"), collarColor.getFloat("g"), collarColor.getFloat("b"));
-        CompoundTag bootsColor = tag.getCompound("boots_color");
-        setBootsColor(bootsColor.getFloat("r"), bootsColor.getFloat("g"), bootsColor.getFloat("b"));
+        setHatColor(readColor(tag.getCompound("hat_color")));
+        setCollarColor(readColor(tag.getCompound("collar_color")));
+        setBootsColor(readColor(tag.getCompound("boots_color")));
+        setEyePatchColor(readColor(tag.getCompound("eye_patch_color")));
         if (tag.contains("pet_item_stack")) {
             setPetItemStack(ItemStack.of(tag.getCompound("pet_item_stack")));
         }
 
+    }
+
+    public CompoundTag writeColor(Vector3f color) {
+        CompoundTag colorTag = new CompoundTag();
+        colorTag.putFloat("r", color.x());
+        colorTag.putFloat("g", color.y());
+        colorTag.putFloat("b", color.z());
+        return colorTag;
+    }
+
+    public Vector3f readColor(CompoundTag colorTag) {
+        float r = colorTag.getFloat("r");
+        float g = colorTag.getFloat("g");
+        float b = colorTag.getFloat("b");
+        return new Vector3f(r, g, b);
+    }
+
+    @Nullable
+    @Override
+    public ItemStack getPickResult() {
+        return getPetItemStack();
     }
 
     @NotNull
@@ -266,6 +272,7 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
     public void setHasHat(boolean hasHat) {
         this.entityData.set(HAS_HAT, hasHat);
     }
+
 
     public boolean hasHat() {
         return this.entityData.get(HAS_HAT);
@@ -285,6 +292,14 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
 
     public boolean hasBoots() {
         return this.entityData.get(HAS_BOOTS);
+    }
+
+    public void setHasEyePatch(boolean hasEyePatch) {
+        this.entityData.set(HAS_EYE_PATCH, hasEyePatch);
+    }
+
+    public boolean hasEyePatch() {
+        return this.entityData.get(HAS_EYE_PATCH);
     }
 
     public Vector3f getHatColor() {
@@ -311,17 +326,13 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
         this.entityData.set(BOOTS_COLOR, color);
     }
 
-    public void setHatColor(int r, int g, int b) {
-        this.entityData.set(HAT_COLOR, new Vector3f(r, g, b));
+    public Vector3f getEyePatchColor() {
+        return this.entityData.get(EYE_PATCH_COLOR);
+    }
+    public void setEyePatchColor(Vector3f color) {
+        this.entityData.set(EYE_PATCH_COLOR, color);
     }
 
-    public void setCollarColor(int r, int g, int b) {
-        this.entityData.set(COLLAR_COLOR, new Vector3f(r, g, b));
-    }
-
-    public void setBootsColor(int r, int g, int b) {
-        this.entityData.set(BOOTS_COLOR, new Vector3f(r, g, b));
-    }
 
     public void setHatColor(float r, float g, float b) {
         this.entityData.set(HAT_COLOR, new Vector3f(r, g, b));
@@ -333,6 +344,10 @@ public abstract class BasePet extends TamableAnimal implements SmartBrainOwner<B
 
     public void setBootsColor(float r, float g, float b) {
         this.entityData.set(BOOTS_COLOR, new Vector3f(r, g, b));
+    }
+
+    public void setEyePatchColor(float r, float g, float b) {
+        this.entityData.set(EYE_PATCH_COLOR, new Vector3f(r, g, b));
     }
 
     public boolean isBegging() {

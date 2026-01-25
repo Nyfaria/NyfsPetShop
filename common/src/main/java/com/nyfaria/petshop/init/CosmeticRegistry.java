@@ -21,14 +21,16 @@ public class CosmeticRegistry {
             new AbstractMap.SimpleEntry<>(EntityInit.GOLD_DASHED_PARROT.get(), List.of(Type.HAT, Type.BOOTS)),
             new AbstractMap.SimpleEntry<>(EntityInit.WHITE_STRIPED_PARROT.get(), List.of(Type.HAT, Type.BOOTS)),
             new AbstractMap.SimpleEntry<>(EntityInit.TROPICAL_PARROT.get(), List.of(Type.HAT, Type.BOOTS)),
-            new AbstractMap.SimpleEntry<>(EntityInit.RED_ACCENT_ALBINO_PARROT.get(), List.of(Type.HAT, Type.BOOTS))
+            new AbstractMap.SimpleEntry<>(EntityInit.RED_ACCENT_ALBINO_PARROT.get(), List.of(Type.HAT, Type.BOOTS)),
+            new AbstractMap.SimpleEntry<>(EntityInit.DERPY_GHOST.get(), List.of(Type.HAT))
     );
 
 
     public enum Type {
         HAT("hat", 3),
         COLLAR("collar", 1),
-        BOOTS("boots", 4);
+        BOOTS("boots", 4),
+        EYE_PATCH("eye_patch",2);
         private final String name;
         private final int woolCost;
 

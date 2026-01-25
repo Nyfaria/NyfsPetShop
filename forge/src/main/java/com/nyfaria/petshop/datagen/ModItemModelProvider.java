@@ -36,6 +36,7 @@ public class ModItemModelProvider extends ItemModelProvider {
                         BlockInit.BIRD_CAGE,
                         ItemInit.PEANUT,
                         ItemInit.TUNA_TREAT,
+                        ItemInit.PANCAKES,
                         BlockInit.PET_BED,
                         BlockInit.BIG_PET_BED
                 )
@@ -99,6 +100,9 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.2f)
                 .model(singleTexture(getName(item) + "_fish", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_fish"))).end()
                 .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.3f)
-                .model(singleTexture(getName(item) + "_seed", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_seed"))).end();
+                .model(singleTexture(getName(item) + "_seed", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_seed"))).end()
+                .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.4f)
+                .model(singleTexture(getName(item) + "_fabric", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_ghost"))).end()
+                ;
     }
 }

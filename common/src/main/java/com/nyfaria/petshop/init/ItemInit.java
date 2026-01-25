@@ -63,6 +63,7 @@ public class ItemInit {
     public static final RegistryObject<Item> DOG_TREAT = ITEMS.register("dog_treat", () -> new Item(getItemProperties(Rarity.COMMON)));
     public static final RegistryObject<Item> TUNA_TREAT = ITEMS.register("tuna_treat", () -> new Item(getItemProperties(Rarity.COMMON)));
     public static final RegistryObject<Item> PEANUT = ITEMS.register("peanut", () -> new Item(getItemProperties(Rarity.COMMON)));
+    public static final RegistryObject<Item> PANCAKES = ITEMS.register("pancakes", () -> new Item(getItemProperties(Rarity.COMMON)));
 
     public static final RegistryObject<Item> WHITE_LEASH = registerLeash("white_leash", DyeColor.WHITE);
     public static final RegistryObject<Item> ORANGE_LEASH = registerLeash("orange_leash", DyeColor.ORANGE);

@@ -5,6 +5,7 @@ public enum Species {
     CAT("cat"),
     BIRD("bird"),
     DRAGON("dragon"),
+    GHOST("ghost")
     ;
     final String name;
 

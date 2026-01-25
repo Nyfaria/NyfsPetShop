@@ -10,6 +10,7 @@ import com.nyfaria.petshop.init.ItemInit;
 import com.nyfaria.petshop.registration.RegistryObject;
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
@@ -19,6 +20,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.*;
+import software.bernie.geckolib.core.animatable.*;
 import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 
 import java.util.List;
@@ -45,23 +48,30 @@ public class CommonClientClass {
 
     public static <T extends Entity> List<Renderers<?>> getRenderers() {
         return List.of(
-                new Renderers(EntityInit.BALL, ThrownItemRenderer::new),
-                new Renderers(EntityInit.SHELTIE, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "sheltie"), true))),
-                new Renderers(EntityInit.ENGLISH_COCKER_SPANIEL, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "english_cocker_spaniel"), true))),
-                new Renderers(EntityInit.SUPER_MUTT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "super_mutt"), true))),
-                new Renderers(EntityInit.SABLE_HUSKY, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDog>(new ResourceLocation(Constants.MODID, "husky"), true).withAltTexture(new ResourceLocation(Constants.MODID, "sable_husky")))),
-                new Renderers(EntityInit.BLACK_AND_WHITE_HUSKY, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDog>(new ResourceLocation(Constants.MODID, "husky"), true).withAltTexture(new ResourceLocation(Constants.MODID, "black_and_white_husky")))),
+                new Renderers<>(EntityInit.BALL, ThrownItemRenderer::new),
 
-                new Renderers(EntityInit.CALICO, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseCat>(new ResourceLocation(Constants.MODID, "base_cat"), true).withAltTexture(new ResourceLocation(Constants.MODID, "calico")))),
-                new Renderers(EntityInit.AMERICAN_SHORTHAIR, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseCat>(new ResourceLocation(Constants.MODID, "base_cat"), true).withAltTexture(new ResourceLocation(Constants.MODID, "american_shorthair")))),
-                new Renderers(EntityInit.BLACK_TUXEDO, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseCat>(new ResourceLocation(Constants.MODID, "base_cat"), true).withAltTexture(new ResourceLocation(Constants.MODID, "black_tuxedo")))),
-                new Renderers(EntityInit.BROWN_TUXEDO_MUNCHKIN, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseCat>(new ResourceLocation(Constants.MODID, "munchkin"), true).withAltTexture(new ResourceLocation(Constants.MODID, "brown_tuxedo_munchkin")))),
+                new Renderers<>(EntityInit.SHELTIE, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "sheltie"), true))),
+                new Renderers<>(EntityInit.ENGLISH_COCKER_SPANIEL, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "english_cocker_spaniel"), true))),
+                new Renderers<>(EntityInit.SUPER_MUTT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "super_mutt"), true))),
+                new Renderers<>(EntityInit.SABLE_HUSKY, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDog>(new ResourceLocation(Constants.MODID, "husky"), true).withAltTexture(new ResourceLocation(Constants.MODID, "sable_husky")))),
+                new Renderers<>(EntityInit.BLACK_AND_WHITE_HUSKY, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDog>(new ResourceLocation(Constants.MODID, "husky"), true).withAltTexture(new ResourceLocation(Constants.MODID, "black_and_white_husky")))),
 
-                new Renderers(EntityInit.GOLD_DASHED_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "gold_dashed_parrot")))),
-                new Renderers(EntityInit.WHITE_STRIPED_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "white_striped_parrot")))),
-                new Renderers(EntityInit.RED_ACCENT_ALBINO_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "red_accent_albino_parrot")))),
+                new Renderers<>(EntityInit.CALICO, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseCat>(new ResourceLocation(Constants.MODID, "base_cat"), true).withAltTexture(new ResourceLocation(Constants.MODID, "calico")))),
+                new Renderers<>(EntityInit.AMERICAN_SHORTHAIR, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseCat>(new ResourceLocation(Constants.MODID, "base_cat"), true).withAltTexture(new ResourceLocation(Constants.MODID, "american_shorthair")))),
+                new Renderers<>(EntityInit.BLACK_TUXEDO, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseCat>(new ResourceLocation(Constants.MODID, "base_cat"), true).withAltTexture(new ResourceLocation(Constants.MODID, "black_tuxedo")))),
+                new Renderers<>(EntityInit.BROWN_TUXEDO_MUNCHKIN, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseCat>(new ResourceLocation(Constants.MODID, "munchkin"), true).withAltTexture(new ResourceLocation(Constants.MODID, "brown_tuxedo_munchkin")))),
+
+                new Renderers<>(EntityInit.GOLD_DASHED_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "gold_dashed_parrot")))),
+                new Renderers<>(EntityInit.WHITE_STRIPED_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "white_striped_parrot")))),
+                new Renderers<>(EntityInit.RED_ACCENT_ALBINO_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "red_accent_albino_parrot")))),
                 new Renderers<>(EntityInit.TROPICAL_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "tropical_parrot")))),
-                new Renderers<>(EntityInit.PURPLE_DRAGON, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDragon>(new ResourceLocation(Constants.MODID, "base_dragon"), true).withAltTexture(new ResourceLocation(Constants.MODID, "purple_dragon"))))
+                new Renderers<>(EntityInit.PURPLE_DRAGON, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDragon>(new ResourceLocation(Constants.MODID, "base_dragon"), true).withAltTexture(new ResourceLocation(Constants.MODID, "purple_dragon")))),
+                new Renderers<>(EntityInit.DERPY_GHOST, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "derpy_ghost"), false)){
+                    @Override
+                    public RenderType getRenderType(BaseGhost animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {
+                        return RenderType.entityTranslucent(texture);
+                    }
+                })
         );
     }
 
@@ -74,6 +84,10 @@ public class CommonClientClass {
                     return 0.2F;
                 } else if (itemStack.getTag().getString("pet_type").equals("bird")) {
                     return 0.3F;
+                } else if (itemStack.getTag().getString("pet_type").equals("ghost")) {
+                    return 0.4F;
+                } else if (itemStack.getTag().getString("pet_type").equals("dragon")) {
+                    return 0.5F;
                 }
             }
             return 0.1f;

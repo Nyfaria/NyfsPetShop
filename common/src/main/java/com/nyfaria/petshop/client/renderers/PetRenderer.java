@@ -55,6 +55,12 @@ public class PetRenderer<T extends BasePet> extends GeoEntityRenderer<T> {
             r = animatable.getBootsColor().x();
             g = animatable.getBootsColor().y();
             b = animatable.getBootsColor().z();
+        } else if (bone.getName().contains("eye_patch")) {
+            bone.setHidden(!animatable.hasEyePatch());
+            useColor = animatable.hasEyePatch();
+            r = animatable.getEyePatchColor().x();
+            g = animatable.getEyePatchColor().y();
+            b = animatable.getEyePatchColor().z();
         }
 
         if (useColor) {

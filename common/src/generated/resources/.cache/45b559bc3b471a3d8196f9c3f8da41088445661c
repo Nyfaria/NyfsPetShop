@@ -1,4 +1,4 @@
-// 1.20.1	2026-01-23T19:08:07.895844	Item Models: petshop
+// 1.20.1	2026-01-25T14:08:13.4823732	Item Models: petshop
 83989266f79e7882a483f0a3a18c322c5b5538b5 assets/petshop/models/item/bag_of_kibble.json
 a82e0f15822e736cc5fe5c025605d5043f9f25dd assets/petshop/models/item/big_pet_bed.json
 4fd35c4ff263dcd66508b1c8fa579840dcdd815b assets/petshop/models/item/bird_cage.json
@@ -16,6 +16,7 @@ c53c953d753897bee58915cf94373f2add34f764 assets/petshop/models/item/light_blue_l
 25af670247ec418dcc37d81cd0f07f918aaa3fbc assets/petshop/models/item/lime_leash.json
 02f98b09aa30ab5d493b2f492537f6069bab3a26 assets/petshop/models/item/magenta_leash.json
 acac0e009d7d629bc15a2e0ad174f0fd81125e92 assets/petshop/models/item/orange_leash.json
+a9efc3ea61bb3def21327716e36d73f0bf1e1f1e assets/petshop/models/item/pancakes.json
 f2e39492cbc208ba9989085feaddb455c997db4d assets/petshop/models/item/peanut.json
 dd662196d5ea573e77418237520e766aeda05ef5 assets/petshop/models/item/pet_bed.json
 366a761eb88f065f5d3fbfeb2eff076291f4d0d9 assets/petshop/models/item/pet_bowl.json
@@ -35,8 +36,9 @@ dd662196d5ea573e77418237520e766aeda05ef5 assets/petshop/models/item/pet_bed.json
 366a761eb88f065f5d3fbfeb2eff076291f4d0d9 assets/petshop/models/item/pet_bowl_red.json
 366a761eb88f065f5d3fbfeb2eff076291f4d0d9 assets/petshop/models/item/pet_bowl_yellow.json
 d99f3444cf422a1280ca9511f253e87df456f8dc assets/petshop/models/item/pet_door.json
-dc1888527ed349e3991e9d45387ef9fcb0432660 assets/petshop/models/item/pet_item.json
+4596c1b9606fc271049519e3fb435707e9e78044 assets/petshop/models/item/pet_item.json
 a724b078198ca13513b2175a07a7f1e1f97d3ce5 assets/petshop/models/item/pet_item_bone.json
+fd448804f42f4b74194194387258813b8be22dce assets/petshop/models/item/pet_item_fabric.json
 afe989a4623565ad01421912c257f0391303d474 assets/petshop/models/item/pet_item_fish.json
 45b68591bc15aaa00d14dbd9a5733fdfda55801a assets/petshop/models/item/pet_item_seed.json
 07a6d4ead05405bef736c43360aabd27bb065daf assets/petshop/models/item/pink_leash.json

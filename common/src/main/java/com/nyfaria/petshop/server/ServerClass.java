@@ -17,15 +17,20 @@ import java.util.List;
 
 public class ServerClass {
     public static final ResourceLocation PET_SHOP = new ResourceLocation(Constants.MODID, "pet_shop");
+    public static final ResourceLocation PET_SHOP_TAIGA = new ResourceLocation(Constants.MODID, "pet_shop_taiga");
     public static final ResourceLocation PET_SHOP_ROAD = new ResourceLocation(Constants.MODID, "pet_shop_road");
+    public static final ResourceLocation PET_SHOP_ROAD_TAIGA = new ResourceLocation(Constants.MODID, "pet_shop_road_taiga");
 
     public static void addStructures(final MinecraftServer server) {
         Registry<StructureTemplatePool> templatePoolRegistry = server.registryAccess().registryOrThrow(Registries.TEMPLATE_POOL);
 
         SinglePoolElement petShop = StructurePoolElement.single(PET_SHOP.toString()).apply(StructureTemplatePool.Projection.RIGID);
+        SinglePoolElement petShopTaiga = StructurePoolElement.single(PET_SHOP_TAIGA.toString()).apply(StructureTemplatePool.Projection.RIGID);
         SinglePoolElement petShopRoad = StructurePoolElement.single(PET_SHOP_ROAD.toString()).apply(StructureTemplatePool.Projection.TERRAIN_MATCHING);
+        SinglePoolElement petShopRoadTaiga = StructurePoolElement.single(PET_SHOP_ROAD_TAIGA.toString()).apply(StructureTemplatePool.Projection.TERRAIN_MATCHING);
 
         addStructureToPool(templatePoolRegistry.get(new ResourceLocation("village/plains/streets")), petShopRoad, 5);
+        addStructureToPool(templatePoolRegistry.get(new ResourceLocation("village/taiga/streets")), petShopRoadTaiga, 5);
 //        addStructureToPool(templatePoolRegistry.get(new ResourceLocation("village/plains/houses")), petShop, 100);
     }
 
