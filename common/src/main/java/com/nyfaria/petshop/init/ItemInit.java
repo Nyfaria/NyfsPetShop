@@ -48,6 +48,7 @@ public class ItemInit {
                         output.accept(ItemInit.DOG_TREAT.get());
                         output.accept(ItemInit.TUNA_TREAT.get());
                         output.accept(ItemInit.PEANUT.get());
+                        output.accept(ItemInit.PANCAKES.get());
                         output.accept(BlockInit.PET_BED.get());
                         output.accept(BlockInit.BIG_PET_BED.get());
                         output.accept(BlockInit.PET_DOOR.get());
