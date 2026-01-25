@@ -1,15 +1,20 @@
 {
-  "type": "minecraft:crafting_shapeless",
+  "type": "minecraft:crafting_shaped",
   "category": "misc",
-  "ingredients": [
-    {
-      "tag": "petshop:pet_bowls"
-    },
-    {
+  "key": {
+    "D": {
       "item": "minecraft:orange_dye"
+    },
+    "W": {
+      "tag": "minecraft:wool"
     }
+  },
+  "pattern": [
+    "WDW",
+    "WWW"
   ],
   "result": {
     "item": "petshop:pet_bowl_orange"
-  }
+  },
+  "show_notification": true
 }

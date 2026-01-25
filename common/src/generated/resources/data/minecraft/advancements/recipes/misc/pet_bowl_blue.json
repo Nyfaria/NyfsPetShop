@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "petshop:pet_bowls"
+            "tag": "minecraft:wool"
           }
         ]
       },

@@ -22,8 +22,20 @@ public class ModRecipeProvider extends RecipeProvider {
                         .requires(TagInit.PET_BOWLS_ITEM)
                         .requires(DyeItem.byColor(((PetBowl) block.get()).getColor()))
                         .unlockedBy("has_item", has(TagInit.PET_BOWLS_ITEM))
+                        .save(recipeSaver, getItemName(block.get()) + "_dye")
+        );
+        BlockInit.pet_bowls.forEach(
+                block -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, block.get(), 1)
+                        .pattern("WDW")
+                        .pattern("WWW")
+                        .define('W', ItemTags.WOOL)
+                        .define('D', DyeItem.byColor(((PetBowl) block.get()).getColor()))
+                        .unlockedBy("has_item", has(ItemTags.WOOL))
                         .save(recipeSaver, getItemName(block.get()))
         );
+
+
+
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockInit.GROOMING_STATION.get())
                 .pattern("PWP")
                 .pattern("PSP")
