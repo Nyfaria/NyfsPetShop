@@ -38,7 +38,9 @@ public class ModItemModelProvider extends ItemModelProvider {
                         ItemInit.TUNA_TREAT,
                         ItemInit.PANCAKES,
                         BlockInit.PET_BED,
-                        BlockInit.BIG_PET_BED
+                        BlockInit.BIG_PET_BED,
+                        ItemInit.PANCAKES,
+                        ItemInit.CHICKEN_DRUMSTICK
                 )
                 .map(Supplier::get)
                 .forEach(this::simpleGeneratedModel);
@@ -46,7 +48,33 @@ public class ModItemModelProvider extends ItemModelProvider {
         BlockInit.pet_bowls.stream()
                 .map(Supplier::get)
                 .forEach(this::petBowl);
-        simpleBlockItemModel(BlockInit.PET_DOOR.get(),"_closed");
+        simpleBlockItemModel(BlockInit.OAK_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.SPRUCE_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.BIRCH_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.JUNGLE_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.ACACIA_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.DARK_OAK_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.MANGROVE_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.CHERRY_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.BAMBOO_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.CRIMSON_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.WARPED_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.WHITE_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.ORANGE_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.MAGENTA_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.LIGHT_BLUE_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.YELLOW_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.LIME_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.PINK_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.GRAY_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.LIGHT_GRAY_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.CYAN_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.PURPLE_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.BLUE_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.BROWN_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.GREEN_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.RED_PET_DOOR.get(), "_closed");
+        simpleBlockItemModel(BlockInit.BLACK_PET_DOOR.get(), "_closed");
         Stream.of(
                         BlockInit.GROOMING_STATION,
                         BlockInit.CRATE
@@ -62,6 +90,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         String name = getName(block);
         return withExistingParent(name, modLoc("block/" + name));
     }
+
     protected ItemModelBuilder simpleBlockItemModel(Block block, String modifier) {
         String name = getName(block);
         return withExistingParent(name, modLoc("block/" + name + modifier));
@@ -102,7 +131,9 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.3f)
                 .model(singleTexture(getName(item) + "_seed", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_seed"))).end()
                 .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.4f)
-                .model(singleTexture(getName(item) + "_fabric", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_ghost"))).end()
+                .model(singleTexture(getName(item) + "_ghost", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_ghost"))).end()
+                .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.5f)
+                .model(singleTexture(getName(item) + "_dragon_egg", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_ghost"))).end()
                 ;
     }
 }

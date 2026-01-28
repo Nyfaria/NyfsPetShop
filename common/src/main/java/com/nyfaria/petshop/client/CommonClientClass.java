@@ -21,7 +21,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.*;
-import software.bernie.geckolib.core.animatable.*;
 import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 
 import java.util.List;
@@ -65,7 +64,8 @@ public class CommonClientClass {
                 new Renderers<>(EntityInit.WHITE_STRIPED_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "white_striped_parrot")))),
                 new Renderers<>(EntityInit.RED_ACCENT_ALBINO_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "red_accent_albino_parrot")))),
                 new Renderers<>(EntityInit.TROPICAL_PARROT, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseBird>(new ResourceLocation(Constants.MODID, "base_bird"), true).withAltTexture(new ResourceLocation(Constants.MODID, "tropical_parrot")))),
-                new Renderers<>(EntityInit.PURPLE_DRAGON, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDragon>(new ResourceLocation(Constants.MODID, "base_dragon"), true).withAltTexture(new ResourceLocation(Constants.MODID, "purple_dragon")))),
+                new Renderers<>(EntityInit.AURORA_DRAGON, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDragon>(new ResourceLocation(Constants.MODID, "base_dragon"), true).withAltTexture(new ResourceLocation(Constants.MODID, "aurora_dragon")))),
+                new Renderers<>(EntityInit.MOSSFLARE_DRAGON, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<BaseDragon>(new ResourceLocation(Constants.MODID, "base_dragon"), true).withAltTexture(new ResourceLocation(Constants.MODID, "mossflare_dragon")))),
                 new Renderers<>(EntityInit.DERPY_GHOST, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "derpy_ghost"), false)){
                     @Override
                     public RenderType getRenderType(BaseGhost animatable, ResourceLocation texture, @Nullable MultiBufferSource bufferSource, float partialTick) {

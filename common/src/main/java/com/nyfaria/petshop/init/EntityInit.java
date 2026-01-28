@@ -46,7 +46,8 @@ public class EntityInit {
     // MYTHICAL
 
     //  DRAGONS
-    public static final RegistryObject<EntityType<BaseDragon>> PURPLE_DRAGON = registerEntity(Species.DRAGON, "purple_dragon", () -> EntityType.Builder.of(BaseDragon::new, MobCategory.CREATURE).sized(1.4f, 1.0f), BaseDragon::createAttributes);
+    public static final RegistryObject<EntityType<BaseDragon>> AURORA_DRAGON = registerEntity(Species.DRAGON, "aurora_dragon", () -> EntityType.Builder.of(BaseDragon::new, MobCategory.CREATURE).sized(1.4f, 1.0f), BaseDragon::createAttributes);
+    public static final RegistryObject<EntityType<BaseDragon>> MOSSFLARE_DRAGON = registerEntity(Species.DRAGON, "mossflare_dragon", () -> EntityType.Builder.of(BaseDragon::new, MobCategory.CREATURE).sized(1.4f, 1.0f), BaseDragon::createAttributes);
 
     // GHOSTS
     public static final RegistryObject<EntityType<BaseGhost>> DERPY_GHOST = registerEntity(Species.GHOST, "derpy_ghost", () -> EntityType.Builder.of(BaseGhost::new, MobCategory.CREATURE).sized(0.5f, 0.7f), BaseGhost::createAttributes);

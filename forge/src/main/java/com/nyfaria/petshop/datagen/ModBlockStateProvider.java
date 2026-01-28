@@ -51,14 +51,34 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         .build());
         customModelBlock(BlockInit.PET_BED.get());
 
-        getVariantBuilder(BlockInit.PET_DOOR.get()).forAllStates(state -> {
-            Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
-            boolean open = state.getValue(PetDoorBlock.OPEN);
-            return ConfiguredModel.builder()
-                    .modelFile(models().getExistingFile(modLoc("block/pet_door" + (open ? "_open" : "_closed"))))
-                    .rotationY(((int) facing.toYRot() + 180) % 360)
-                    .build();
-        });
+
+        petDoor(BlockInit.OAK_PET_DOOR.get());
+        petDoor(BlockInit.SPRUCE_PET_DOOR.get());
+        petDoor(BlockInit.BIRCH_PET_DOOR.get());
+        petDoor(BlockInit.JUNGLE_PET_DOOR.get());
+        petDoor(BlockInit.ACACIA_PET_DOOR.get());
+        petDoor(BlockInit.DARK_OAK_PET_DOOR.get());
+        petDoor(BlockInit.MANGROVE_PET_DOOR.get());
+        petDoor(BlockInit.CHERRY_PET_DOOR.get());
+        petDoor(BlockInit.BAMBOO_PET_DOOR.get());
+        petDoor(BlockInit.CRIMSON_PET_DOOR.get());
+        petDoor(BlockInit.WARPED_PET_DOOR.get());
+        petDoor(BlockInit.WHITE_PET_DOOR.get());
+        petDoor(BlockInit.ORANGE_PET_DOOR.get());
+        petDoor(BlockInit.MAGENTA_PET_DOOR.get());
+        petDoor(BlockInit.LIGHT_BLUE_PET_DOOR.get());
+        petDoor(BlockInit.YELLOW_PET_DOOR.get());
+        petDoor(BlockInit.LIME_PET_DOOR.get());
+        petDoor(BlockInit.PINK_PET_DOOR.get());
+        petDoor(BlockInit.GRAY_PET_DOOR.get());
+        petDoor(BlockInit.LIGHT_GRAY_PET_DOOR.get());
+        petDoor(BlockInit.CYAN_PET_DOOR.get());
+        petDoor(BlockInit.PURPLE_PET_DOOR.get());
+        petDoor(BlockInit.BLUE_PET_DOOR.get());
+        petDoor(BlockInit.BROWN_PET_DOOR.get());
+        petDoor(BlockInit.GREEN_PET_DOOR.get());
+        petDoor(BlockInit.RED_PET_DOOR.get());
+        petDoor(BlockInit.BLACK_PET_DOOR.get());
 
 
     }
@@ -105,6 +125,20 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 ConfiguredModel.builder()
                         .modelFile(models().getExistingFile(modLoc("block/" + ((state.getValue(BlockStateInit.FULLNESSITY) == 0 || state.getValue(BlockStateInit.BOWL_TYPE) == PetBowl.Type.EMPTY) ? "pet_bowl_empty" : "pet_bowl_" + state.getValue(BlockStateInit.BOWL_TYPE).getSerializedName() + "_" + state.getValue(BlockStateInit.FULLNESSITY)))))
                         .build());
+    }
+
+    protected void petDoor(Block block) {
+        getVariantBuilder(block).forAllStates(state -> {
+            Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+            boolean open = state.getValue(PetDoorBlock.OPEN);
+            return ConfiguredModel.builder()
+                    .modelFile(models().withExistingParent(getName(block) + (open ? "_open" : "_closed")  ,modLoc("block/pet_door" + (open ? "_open" : "_closed")))
+                            .texture("0", modLoc("block/" + getName(block)))
+                            .texture("particle", modLoc("block/" + getName(block)))
+                    )
+                    .rotationY(((int) facing.toYRot() + 180) % 360)
+                    .build();
+        });
     }
 
     protected String getName(Block item) {

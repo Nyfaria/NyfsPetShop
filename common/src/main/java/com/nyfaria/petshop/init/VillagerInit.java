@@ -71,6 +71,34 @@ public class VillagerInit {
         for (RegistryObject<? extends Block> petBowl : BlockInit.pet_bowls) {
             trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 5), ItemStack.EMPTY, new ItemStack(petBowl.get()), 4, 10, 1));
         }
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.OAK_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.SPRUCE_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.BIRCH_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.JUNGLE_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.ACACIA_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.DARK_OAK_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.MANGROVE_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.CHERRY_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.BAMBOO_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.CRIMSON_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.WARPED_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.WHITE_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.ORANGE_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.MAGENTA_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.LIGHT_BLUE_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.YELLOW_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.LIME_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.PINK_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.GRAY_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.LIGHT_GRAY_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.CYAN_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.PURPLE_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.BLUE_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.BROWN_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.GREEN_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.RED_PET_DOOR.get()), 4, 10, 1));
+        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.BLACK_PET_DOOR.get()), 4, 10, 1));
         Map<Integer, VillagerTrades.ItemListing[]> theSecondMap = Map.of(
                 1, trades2.toArray(new VillagerTrades.ItemListing[trades2.size()]),
                 2, trades2.toArray(new VillagerTrades.ItemListing[trades2.size()]),

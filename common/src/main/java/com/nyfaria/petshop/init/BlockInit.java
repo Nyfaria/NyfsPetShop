@@ -48,6 +48,35 @@ public class BlockInit {
 
     public static final RegistryObject<PetDoorBlock> PET_DOOR = registerBlock("pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
 
+    public static final RegistryObject<PetDoorBlock> OAK_PET_DOOR = registerBlock("oak_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> SPRUCE_PET_DOOR = registerBlock("spruce_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.SPRUCE_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> BIRCH_PET_DOOR = registerBlock("birch_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.BIRCH_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> JUNGLE_PET_DOOR = registerBlock("jungle_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.JUNGLE_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> ACACIA_PET_DOOR = registerBlock("acacia_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.ACACIA_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> DARK_OAK_PET_DOOR = registerBlock("dark_oak_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.DARK_OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> MANGROVE_PET_DOOR = registerBlock("mangrove_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.MANGROVE_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> CHERRY_PET_DOOR = registerBlock("cherry_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.CHERRY_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> BAMBOO_PET_DOOR = registerBlock("bamboo_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.BAMBOO_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> CRIMSON_PET_DOOR = registerBlock("crimson_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.CRIMSON_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> WARPED_PET_DOOR = registerBlock("warped_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.WARPED_DOOR).noOcclusion()));
+
+    public static final RegistryObject<PetDoorBlock> WHITE_PET_DOOR = registerBlock("white_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> ORANGE_PET_DOOR = registerBlock("orange_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> MAGENTA_PET_DOOR = registerBlock("magenta_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> LIGHT_BLUE_PET_DOOR = registerBlock("light_blue_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> YELLOW_PET_DOOR = registerBlock("yellow_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> LIME_PET_DOOR = registerBlock("lime_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> PINK_PET_DOOR = registerBlock("pink_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> GRAY_PET_DOOR = registerBlock("gray_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> LIGHT_GRAY_PET_DOOR = registerBlock("light_gray_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> CYAN_PET_DOOR = registerBlock("cyan_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> PURPLE_PET_DOOR = registerBlock("purple_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> BLUE_PET_DOOR = registerBlock("blue_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> BROWN_PET_DOOR = registerBlock("brown_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> GREEN_PET_DOOR = registerBlock("green_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> RED_PET_DOOR = registerBlock("red_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+    public static final RegistryObject<PetDoorBlock> BLACK_PET_DOOR = registerBlock("black_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
+
     public static <T extends Block> RegistryObject<T> registerPetBowl(String name, Supplier<T> block) {
         RegistryObject<T> reg = registerBlock(name, block, b -> () -> new BlockItem(b.get(), ItemInit.getItemProperties(Rarity.COMMON)));
         pet_bowls.add(reg);

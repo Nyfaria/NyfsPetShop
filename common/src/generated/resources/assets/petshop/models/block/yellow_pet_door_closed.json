@@ -1,0 +1,7 @@
+{
+  "parent": "petshop:block/pet_door_closed",
+  "textures": {
+    "0": "petshop:block/yellow_pet_door",
+    "particle": "petshop:block/yellow_pet_door"
+  }
+}

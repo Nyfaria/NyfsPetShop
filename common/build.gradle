@@ -18,9 +18,7 @@ legacyForge {
         mappingsVersion = libs.versions.parchment.version.get()
     }
 }
-repositories {
-    maven { url "https://maven.fabricmc.net/" }
-}
+
 dependencies {
     compileOnly(libs.bundles.mixin.common)
     annotationProcessor libs.mixin.extras

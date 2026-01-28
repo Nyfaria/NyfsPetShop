@@ -51,7 +51,34 @@ public class ItemInit {
                         output.accept(ItemInit.PANCAKES.get());
                         output.accept(BlockInit.PET_BED.get());
                         output.accept(BlockInit.BIG_PET_BED.get());
-                        output.accept(BlockInit.PET_DOOR.get());
+                        output.accept(BlockInit.OAK_PET_DOOR.get());
+                        output.accept(BlockInit.SPRUCE_PET_DOOR.get());
+                        output.accept(BlockInit.BIRCH_PET_DOOR.get());
+                        output.accept(BlockInit.JUNGLE_PET_DOOR.get());
+                        output.accept(BlockInit.ACACIA_PET_DOOR.get());
+                        output.accept(BlockInit.DARK_OAK_PET_DOOR.get());
+                        output.accept(BlockInit.MANGROVE_PET_DOOR.get());
+                        output.accept(BlockInit.CHERRY_PET_DOOR.get());
+                        output.accept(BlockInit.BAMBOO_PET_DOOR.get());
+                        output.accept(BlockInit.CRIMSON_PET_DOOR.get());
+                        output.accept(BlockInit.WARPED_PET_DOOR.get());
+                        output.accept(BlockInit.WHITE_PET_DOOR.get());
+                        output.accept(BlockInit.ORANGE_PET_DOOR.get());
+                        output.accept(BlockInit.MAGENTA_PET_DOOR.get());
+                        output.accept(BlockInit.LIGHT_BLUE_PET_DOOR.get());
+                        output.accept(BlockInit.YELLOW_PET_DOOR.get());
+                        output.accept(BlockInit.LIME_PET_DOOR.get());
+                        output.accept(BlockInit.PINK_PET_DOOR.get());
+                        output.accept(BlockInit.GRAY_PET_DOOR.get());
+                        output.accept(BlockInit.LIGHT_GRAY_PET_DOOR.get());
+                        output.accept(BlockInit.CYAN_PET_DOOR.get());
+                        output.accept(BlockInit.PURPLE_PET_DOOR.get());
+                        output.accept(BlockInit.BLUE_PET_DOOR.get());
+                        output.accept(BlockInit.BROWN_PET_DOOR.get());
+                        output.accept(BlockInit.GREEN_PET_DOOR.get());
+                        output.accept(BlockInit.RED_PET_DOOR.get());
+                        output.accept(BlockInit.BLACK_PET_DOOR.get());
+                        output.accept(ItemInit.CHICKEN_DRUMSTICK.get());
                         LEASH_ITEMS.forEach(item -> output.accept(item.get()));
 
 
@@ -65,6 +92,7 @@ public class ItemInit {
     public static final RegistryObject<Item> TUNA_TREAT = ITEMS.register("tuna_treat", () -> new Item(getItemProperties(Rarity.COMMON)));
     public static final RegistryObject<Item> PEANUT = ITEMS.register("peanut", () -> new Item(getItemProperties(Rarity.COMMON)));
     public static final RegistryObject<Item> PANCAKES = ITEMS.register("pancakes", () -> new Item(getItemProperties(Rarity.COMMON)));
+    public static final RegistryObject<Item> CHICKEN_DRUMSTICK = ITEMS.register("chicken_drumstick", () -> new Item(getItemProperties(Rarity.COMMON)));
 
     public static final RegistryObject<Item> WHITE_LEASH = registerLeash("white_leash", DyeColor.WHITE);
     public static final RegistryObject<Item> ORANGE_LEASH = registerLeash("orange_leash", DyeColor.ORANGE);

@@ -20,9 +20,15 @@
       }
     },
     {
-      "model": "petshop:item/pet_item_fabric",
+      "model": "petshop:item/pet_item_ghost",
       "predicate": {
         "petshop:type": 0.4
+      }
+    },
+    {
+      "model": "petshop:item/pet_item_dragon_egg",
+      "predicate": {
+        "petshop:type": 0.5
       }
     }
   ]
