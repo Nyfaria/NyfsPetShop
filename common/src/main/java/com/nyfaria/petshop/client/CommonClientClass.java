@@ -2,8 +2,10 @@ package com.nyfaria.petshop.client;
 
 import com.nyfaria.petshop.Constants;
 import com.nyfaria.petshop.block.PetBowl;
+import com.nyfaria.petshop.client.renderers.DragonFireballRenderer;
 import com.nyfaria.petshop.client.renderers.PetRenderer;
 import com.nyfaria.petshop.entity.*;
+import com.nyfaria.petshop.entity.data.*;
 import com.nyfaria.petshop.init.BlockInit;
 import com.nyfaria.petshop.init.EntityInit;
 import com.nyfaria.petshop.init.ItemInit;
@@ -23,8 +25,7 @@ import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.*;
 import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class CommonClientClass {
@@ -48,6 +49,7 @@ public class CommonClientClass {
     public static <T extends Entity> List<Renderers<?>> getRenderers() {
         return List.of(
                 new Renderers<>(EntityInit.BALL, ThrownItemRenderer::new),
+                new Renderers<>(EntityInit.DRAGON_FIREBALL, DragonFireballRenderer::new),
 
                 new Renderers<>(EntityInit.SHELTIE, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "sheltie"), true))),
                 new Renderers<>(EntityInit.ENGLISH_COCKER_SPANIEL, context -> new PetRenderer<>(context, new DefaultedEntityGeoModel<>(new ResourceLocation(Constants.MODID, "english_cocker_spaniel"), true))),
@@ -76,23 +78,17 @@ public class CommonClientClass {
     }
 
     public static void itemModelProperties() {
-        ClampedItemPropertyFunction clampeditempropertyfunction = (itemStack, level, livingEntity, i) -> {
-            if (itemStack.hasTag() && itemStack.getTag().contains("pet_type")) {
-                if (itemStack.getTag().getString("pet_type").equals("dog")) {
-                    return 0.1F;
-                } else if (itemStack.getTag().getString("pet_type").equals("cat")) {
-                    return 0.2F;
-                } else if (itemStack.getTag().getString("pet_type").equals("bird")) {
-                    return 0.3F;
-                } else if (itemStack.getTag().getString("pet_type").equals("ghost")) {
-                    return 0.4F;
-                } else if (itemStack.getTag().getString("pet_type").equals("dragon")) {
-                    return 0.5F;
+        Arrays.stream(Species.values()).forEach(species -> {
+            ClampedItemPropertyFunction clampeditempropertyfunction = (itemStack, level, livingEntity, i) -> {
+                if (itemStack.hasTag() && itemStack.getTag().contains("pet_type")) {
+                    if (itemStack.getTag().getString("pet_type").equals(species.getName())) {
+                        return 1F;
+                    }
                 }
-            }
-            return 0.1f;
-        };
-        ItemProperties.register(ItemInit.PET_ITEM.get(), new ResourceLocation(Constants.MODID, "type"), clampeditempropertyfunction);
+                return 0.0f;
+            };
+            ItemProperties.register(ItemInit.PET_ITEM.get(), new ResourceLocation(Constants.MODID, species.getName()), clampeditempropertyfunction);
+        });
     }
 
     public record Renderers<T extends Entity>(Supplier<EntityType<T>> type, EntityRendererProvider<T> renderer) {

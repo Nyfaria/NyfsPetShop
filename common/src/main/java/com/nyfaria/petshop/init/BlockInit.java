@@ -46,7 +46,6 @@ public class BlockInit {
     public static final RegistryObject<Block> PET_BOWL_RED = registerPetBowl("pet_bowl_red", () -> new PetBowl(DyeColor.RED, Block.Properties.copy(Blocks.RED_WOOL).noOcclusion()));
     public static final RegistryObject<Block> PET_BOWL_BLACK = registerPetBowl("pet_bowl_black", () -> new PetBowl(DyeColor.BLACK, Block.Properties.copy(Blocks.BLACK_WOOL).noOcclusion()));
 
-    public static final RegistryObject<PetDoorBlock> PET_DOOR = registerBlock("pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
 
     public static final RegistryObject<PetDoorBlock> OAK_PET_DOOR = registerBlock("oak_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.OAK_DOOR).noOcclusion()));
     public static final RegistryObject<PetDoorBlock> SPRUCE_PET_DOOR = registerBlock("spruce_pet_door", () -> new PetDoorBlock(Block.Properties.copy(Blocks.SPRUCE_DOOR).noOcclusion()));

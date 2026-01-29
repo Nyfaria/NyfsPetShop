@@ -11,6 +11,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
@@ -71,7 +72,9 @@ public class VillagerInit {
         for (RegistryObject<? extends Block> petBowl : BlockInit.pet_bowls) {
             trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 5), ItemStack.EMPTY, new ItemStack(petBowl.get()), 4, 10, 1));
         }
-        trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.PET_DOOR.get()), 4, 10, 1));
+        for (RegistryObject<Item> leash : ItemInit.LEASH_ITEMS) {
+            trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 3), ItemStack.EMPTY, new ItemStack(leash.get()), 4, 10, 1));
+        }
         trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.OAK_PET_DOOR.get()), 4, 10, 1));
         trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.SPRUCE_PET_DOOR.get()), 4, 10, 1));
         trades2.add(new ItemsForItems(new ItemStack(Items.EMERALD, 8), ItemStack.EMPTY, new ItemStack(BlockInit.BIRCH_PET_DOOR.get()), 4, 10, 1));

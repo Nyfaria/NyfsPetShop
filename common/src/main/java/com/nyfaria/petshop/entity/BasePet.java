@@ -28,11 +28,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.*;
 import net.tslat.smartbrainlib.api.SmartBrainOwner;
 import net.tslat.smartbrainlib.util.BrainUtils;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.*;
 import org.joml.Vector3f;
 import software.bernie.geckolib.animatable.GeoEntity;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 

@@ -16,6 +16,7 @@ import net.minecraft.world.entity.ai.*;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.ai.control.*;
 import net.minecraft.world.entity.ai.navigation.*;
+import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.player.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.*;
@@ -79,8 +80,7 @@ public class BaseDragon extends BasePet implements Thirsty, Hungry {
         return ObjectArrayList.of(
                 new ItemTemptingSensor<BaseDragon>().temptedWith((livingEntity, itemStack) -> itemStack == getPetItemStack()),
                 new NearbyPlayersSensor<BaseDragon>().setRadius(50).setPredicate((player, wolf) -> player.getMainHandItem().is(ItemInit.DOG_TREAT.get()) || player.getOffhandItem().is(ItemInit.DOG_TREAT.get()) || player.is(wolf.getOwner())),
-                new NearbyLivingEntitySensor<>()
-
+                new NearbyLivingEntitySensor<BaseDragon>().setPredicate((target, entity) -> target instanceof Monster)
         );
     }
 
@@ -160,7 +160,24 @@ public class BaseDragon extends BasePet implements Thirsty, Hungry {
                                 }
                         ).startCondition(e -> canDoStuff()),
                         new Idle<BaseDragon>().runFor(entity -> entity.getRandom().nextInt(30, 60)).startCondition(e -> e.getMovementType() == MovementType.WANDER && canDoStuff())
-                )
+                ),
+                new SetAttackTarget<BaseDragon>(false).targetFinder(entity -> {
+                    if (entity.getOwner() instanceof Player player) {
+                        LivingEntity lastHurt = player.getLastHurtMob();
+                        if (lastHurt instanceof Monster && lastHurt.isAlive()) {
+                            return lastHurt;
+                        }
+                    }
+                    return null;
+                })
+        );
+    }
+
+    @Override
+    public BrainActivityGroup<? extends BasePet> getFightTasks() {
+        return BrainActivityGroup.fightTasks(
+                new InvalidateAttackTarget<BaseDragon>().invalidateIf((entity, target) -> !(target instanceof Monster) || !target.isAlive()),
+                new DragonFireballAttack<BaseDragon>(10).cooldown(e -> e.getRandom().nextIntBetweenInclusive(1200, 2400)).attackRadius(16)
         );
     }
 
@@ -191,7 +208,7 @@ public class BaseDragon extends BasePet implements Thirsty, Hungry {
 //            return PlayState.STOP;
 //        }
 //        if (baseDogAnimationState.isMoving()) {
-            baseDogAnimationState.setAnimation(RawAnimation.begin().thenLoop("walk"));
+            baseDogAnimationState.setAnimation(RawAnimation.begin().thenLoop("idle"));
             return PlayState.CONTINUE;
 //        }
 //

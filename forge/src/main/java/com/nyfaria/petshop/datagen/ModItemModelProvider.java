@@ -1,6 +1,7 @@
 package com.nyfaria.petshop.datagen;
 
 import com.nyfaria.petshop.Constants;
+import com.nyfaria.petshop.entity.data.*;
 import com.nyfaria.petshop.init.BlockInit;
 import com.nyfaria.petshop.init.ItemInit;
 import net.minecraft.data.PackOutput;
@@ -13,6 +14,7 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -123,17 +125,11 @@ public class ModItemModelProvider extends ItemModelProvider {
     }
 
     protected ItemModelBuilder petItem(Item item) {
-        return withExistingParent(getName(item), mcLoc("item/generated"))
-                .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.1f)
-                .model(singleTexture(getName(item) + "_bone", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_bone"))).end()
-                .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.2f)
-                .model(singleTexture(getName(item) + "_fish", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_fish"))).end()
-                .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.3f)
-                .model(singleTexture(getName(item) + "_seed", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_seed"))).end()
-                .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.4f)
-                .model(singleTexture(getName(item) + "_ghost", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_ghost"))).end()
-                .override().predicate(new ResourceLocation(Constants.MODID, "type"), 0.5f)
-                .model(singleTexture(getName(item) + "_dragon_egg", mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_ghost"))).end()
-                ;
+        var model = withExistingParent(getName(item), mcLoc("item/generated"));
+        for(Species species : Species.values()) {
+            model.override().predicate(new ResourceLocation(Constants.MODID, species.getName()), 1f)
+                    .model(singleTexture(getName(item) + "_" + species.getName(), mcLoc("item/generated"), "layer0", modLoc("item/" + getName(item) + "_" + species.getName()))).end();
+        }
+        return model;
     }
 }

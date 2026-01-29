@@ -53,7 +53,7 @@ public class BirdCage extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    @javax.annotation.Nullable
+    @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         BlockPos blockpos = pContext.getClickedPos();
         Level level = pContext.getLevel();

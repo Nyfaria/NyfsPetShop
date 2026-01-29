@@ -2,33 +2,33 @@
   "parent": "minecraft:item/generated",
   "overrides": [
     {
-      "model": "petshop:item/pet_item_bone",
+      "model": "petshop:item/pet_item_dog",
       "predicate": {
-        "petshop:type": 0.1
+        "petshop:dog": 1.0
       }
     },
     {
-      "model": "petshop:item/pet_item_fish",
+      "model": "petshop:item/pet_item_cat",
       "predicate": {
-        "petshop:type": 0.2
+        "petshop:cat": 1.0
       }
     },
     {
-      "model": "petshop:item/pet_item_seed",
+      "model": "petshop:item/pet_item_bird",
       "predicate": {
-        "petshop:type": 0.3
+        "petshop:bird": 1.0
+      }
+    },
+    {
+      "model": "petshop:item/pet_item_dragon",
+      "predicate": {
+        "petshop:dragon": 1.0
       }
     },
     {
       "model": "petshop:item/pet_item_ghost",
       "predicate": {
-        "petshop:type": 0.4
-      }
-    },
-    {
-      "model": "petshop:item/pet_item_dragon_egg",
-      "predicate": {
-        "petshop:type": 0.5
+        "petshop:ghost": 1.0
       }
     }
   ]

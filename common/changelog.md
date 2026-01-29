@@ -4,6 +4,8 @@
 - Yarn Ball for cats to play with.
 - Pet Doors
 - Pets now visually carry picked up items.
+- Ghost Pet
+- Dragon Pet
 ### Version 0.1.3
 - implemented workaround for bug in common network mod.
 ### Version 0.1.2

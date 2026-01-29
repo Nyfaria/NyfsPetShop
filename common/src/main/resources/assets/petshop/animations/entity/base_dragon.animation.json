@@ -104,7 +104,7 @@
 				},
 				"bone2": {
 					"position": {
-						"vector": [0, "math.cos(-20+query.anim_time*180)*1", 0]
+						"vector": [0, "math.cos(-20+query.anim_time*180)", 0]
 					}
 				}
 			}

@@ -1,4 +1,4 @@
-// 1.20.1	2026-01-28T15:14:03.8687509	Loot Tables
+// 1.20.1	2026-01-28T21:07:07.418769	Loot Tables
 edf478fce9900dbed24563544240eca44f1c8a88 data/petshop/loot_tables/blocks/acacia_pet_door.json
 59fdb205398a2cd7b3fe7cbae5559638eab494fc data/petshop/loot_tables/blocks/bamboo_pet_door.json
 714c4454ea7205fe6171369d1470066667d225e8 data/petshop/loot_tables/blocks/big_pet_bed.json
@@ -40,7 +40,6 @@ bae9d3c3a7b2c2f20e4daf1f35d7d10b6b0090e2 data/petshop/loot_tables/blocks/pet_bow
 4091386dd3deb30a1c83073461fafb27e0ceded9 data/petshop/loot_tables/blocks/pet_bowl_purple.json
 4675d6574c4ec95cf46a8decbd5dd80cbbb07431 data/petshop/loot_tables/blocks/pet_bowl_red.json
 ae2fe314bb2ad5114acdf7db4c7a6ad779c4a6e7 data/petshop/loot_tables/blocks/pet_bowl_yellow.json
-e48c4fe442615313f85411e9cf4307c06c33d55c data/petshop/loot_tables/blocks/pet_door.json
 956d83bedb41b91fd009a5b96851c66389e950db data/petshop/loot_tables/blocks/pink_pet_door.json
 0bab9c7126dc8150eed1769de1f817e2b0b7e2f3 data/petshop/loot_tables/blocks/purple_pet_door.json
 9247ff3055ae1b5a4fe47b77ecffbddb0e9398ba data/petshop/loot_tables/blocks/red_pet_door.json
