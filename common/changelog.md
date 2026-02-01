@@ -1,3 +1,5 @@
+### Version 0.2.2
+- Fixed Treats for Ghost and Dragon.
 ### Version 0.2.1
 - Dragon Cosmetics
 ### Version 0.2.0

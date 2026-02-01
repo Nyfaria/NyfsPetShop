@@ -72,7 +72,7 @@ public class BaseGhost extends BasePet {
     public List<? extends ExtendedSensor<? extends BaseGhost>> getSensors() {
         return ObjectArrayList.of(
                 new ItemTemptingSensor<BaseGhost>().temptedWith((livingEntity, itemStack) -> itemStack == getPetItemStack()),
-                new NearbyPlayersSensor<BaseGhost>().setRadius(50).setPredicate((player, wolf) -> player.getMainHandItem().is(ItemInit.DOG_TREAT.get()) || player.getOffhandItem().is(ItemInit.DOG_TREAT.get()) || player.is(wolf.getOwner())),
+                new NearbyPlayersSensor<BaseGhost>().setRadius(50).setPredicate((player, wolf) -> player.getMainHandItem().is(ItemInit.PANCAKES.get()) || player.getOffhandItem().is(ItemInit.PANCAKES.get()) || player.is(wolf.getOwner())),
                 new NearbyLivingEntitySensor<>()
 
         );
@@ -92,7 +92,7 @@ public class BaseGhost extends BasePet {
     public BrainActivityGroup<? extends BasePet> getCoreTasks() {
         return BrainActivityGroup.coreTasks(
                 new FirstApplicableBehaviour<BaseGhost>(
-                        new Beg<>().setBegItem(ItemInit.PEANUT.get())
+                        new Beg<>().setBegItem(ItemInit.PANCAKES.get())
                                 .setController(MOVE_CONTROLLER),
                         new FollowTemptation<BaseGhost>().startCondition(e -> e.getMovementType() == MovementType.WANDER && canDoStuff()),
                         new FollowOwner<BasePet>().teleportToTargetAfter(50).startCondition(e -> e.getMainHandItem().isEmpty() && e.getMovementType() == MovementType.FOLLOW && canDoStuff())),

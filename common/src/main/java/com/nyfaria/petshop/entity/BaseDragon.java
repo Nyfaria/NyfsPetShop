@@ -79,7 +79,7 @@ public class BaseDragon extends BasePet implements Thirsty, Hungry {
     public List<? extends ExtendedSensor<? extends BaseDragon>> getSensors() {
         return ObjectArrayList.of(
                 new ItemTemptingSensor<BaseDragon>().temptedWith((livingEntity, itemStack) -> itemStack == getPetItemStack()),
-                new NearbyPlayersSensor<BaseDragon>().setRadius(50).setPredicate((player, wolf) -> player.getMainHandItem().is(ItemInit.DOG_TREAT.get()) || player.getOffhandItem().is(ItemInit.DOG_TREAT.get()) || player.is(wolf.getOwner())),
+                new NearbyPlayersSensor<BaseDragon>().setRadius(50).setPredicate((player, wolf) -> player.getMainHandItem().is(ItemInit.CHICKEN_DRUMSTICK.get()) || player.getOffhandItem().is(ItemInit.CHICKEN_DRUMSTICK.get()) || player.is(wolf.getOwner())),
                 new NearbyLivingEntitySensor<BaseDragon>().setPredicate((target, entity) -> target instanceof Monster)
         );
     }
@@ -95,7 +95,7 @@ public class BaseDragon extends BasePet implements Thirsty, Hungry {
     public BrainActivityGroup<? extends BasePet> getCoreTasks() {
         return BrainActivityGroup.coreTasks(
                 new FirstApplicableBehaviour<BaseDragon>(
-                        new Beg<>().setBegItem(ItemInit.PEANUT.get())
+                        new Beg<>().setBegItem(ItemInit.CHICKEN_DRUMSTICK.get())
                                 .setController(MOVE_CONTROLLER).setAnimation("walk"),
                         new FindPOI<BaseDragon>()
                                 .withMemory(MemoryModuleTypeInit.BOWL_POS.get())
@@ -240,7 +240,7 @@ public class BaseDragon extends BasePet implements Thirsty, Hungry {
 
     @Override
     public boolean isTreat(ItemStack stack) {
-        return stack.is(ItemInit.PEANUT.get());
+        return stack.is(ItemInit.CHICKEN_DRUMSTICK.get());
     }
 
     @Override
