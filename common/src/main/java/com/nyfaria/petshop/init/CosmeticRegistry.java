@@ -22,7 +22,9 @@ public class CosmeticRegistry {
             new AbstractMap.SimpleEntry<>(EntityInit.WHITE_STRIPED_PARROT.get(), List.of(Type.HAT, Type.BOOTS)),
             new AbstractMap.SimpleEntry<>(EntityInit.TROPICAL_PARROT.get(), List.of(Type.HAT, Type.BOOTS)),
             new AbstractMap.SimpleEntry<>(EntityInit.RED_ACCENT_ALBINO_PARROT.get(), List.of(Type.HAT, Type.BOOTS)),
-            new AbstractMap.SimpleEntry<>(EntityInit.DERPY_GHOST.get(), List.of(Type.HAT))
+            new AbstractMap.SimpleEntry<>(EntityInit.DERPY_GHOST.get(), List.of(Type.HAT)),
+            new AbstractMap.SimpleEntry<>(EntityInit.AURORA_DRAGON.get(), List.of(Type.HAT,Type.BOOTS)),
+            new AbstractMap.SimpleEntry<>(EntityInit.MOSSFLARE_DRAGON.get(), List.of(Type.HAT,Type.BOOTS))
     );
 
 
