@@ -1,3 +1,5 @@
+### Version 0.2.1
+- Dragon Cosmetics
 ### Version 0.2.0
 - recipes added for the villager workstations.
 - Leashes

@@ -87,6 +87,10 @@ publishMods {
             clientRequired = true
             serverRequired = true
             javaVersions.add(JavaVersion.VERSION_17)
+            requires("fabric-api")
+            requires("geckolib")
+            requires("smartbrainlib")
+            requires("common-network")
         }
     }
     if (modrinth_publishing_enabled.toBoolean()) {
@@ -94,6 +98,10 @@ publishMods {
             accessToken = modrinth_token
             projectId = modrinth_project_id
             minecraftVersions.add(minecraft_version)
+            requires("fabric-api")
+            requires("geckolib")
+            requires("smartbrainlib")
+            requires("common-network")
         }
     }
 }
