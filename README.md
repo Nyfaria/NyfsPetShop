@@ -1,3 +1,5 @@
+<img width="1000" height="500" alt="PetShopBanner" src="https://github.com/user-attachments/assets/7bec8d94-6f8e-40c1-a5ed-7f2a68e8a31b" />
+
 Do you love pets? Luckily, the Pet Shop mod allows you to fully experience having a pet in Minecraft!
 
 Currently, there are three species of pets that you can adopt - cats, dogs, and parrots. Each of these pets try to mimic exactly how pets act in real life. Besides having funny and cute animations, each pet also has extensive AI that allows you to have a full experience of having a pet.
