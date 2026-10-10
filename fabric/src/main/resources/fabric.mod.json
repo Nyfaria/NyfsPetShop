@@ -7,7 +7,7 @@
   "authors": [
     "${mod_author}"
   ],
-  "license": "ARR",
+  "license": "${license}",
   "icon": "assets/${mod_id}/icon.png",
   "environment": "*",
   "entrypoints": {
@@ -25,7 +25,7 @@
     "fabricloader": ">=${fabric_loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}",
-    "java": ">=17"
+    "java": ">=${java_version}"
   },
   "accessWidener" : "${mod_id}.accesswidener"
 }

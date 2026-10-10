@@ -1,0 +1,25 @@
+plugins {
+    id 'multiloader-loader'
+    alias(nyfs.plugins.mdg.loader)
+    alias(nyfs.plugins.regutils.loader)
+    id 'multiloader-moddev'
+    id 'com.nyfaria.moddingtools.publishing'
+    id("com.nyfaria.moddingtools.dependencies")
+}
+
+legacyForge {
+    runs {
+        data {
+            data()
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', rootProject.project(":common").file('src/generated/resources/').getAbsolutePath(), '--existing', rootProject.project(":common").file('src/main/resources/').getAbsolutePath()
+        }
+    }
+}
+
+dependencies {
+    modImplementation(nyfs.cap.syncer)
+    jarJar(nyfs.cap.syncer)
+    modDeps.requiredMod(nyfs.geckolib.forge, "geckolib", null)
+    modDeps.requiredMod(nyfs.sbl.forge, "smartbrainlib", null)
+    modDeps.requiredMod(nyfs.commonnetwork.forge, "commonnetwork", null)
+}
